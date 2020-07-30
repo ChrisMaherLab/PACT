@@ -3,7 +3,7 @@
 
 Standardized workflow, written in CWL, for the identification of somatic structural variants using cfDNA. Uses a variety of tools, including Lumpy, Manta, Delly, Survivor, svtools, and svtyper, to identify SVs that are detected in cfDNA, but that are not found in a (plasma-depleted) matched control or in any of the provided 'healthy' samples.
 
-The workflow consists of three basic steps:
+The workflow consists of three basic steps, which are contained in the `subworkflows` directory, and include:
  1. Perform SV calling. Given the provided bam files, the workflow uses Lumpy, Manta, and Delly to perform SV calling.
  2. Merging and filtering. Using the output from step 1, consensus calls are identified by requiring that an SV appear in the output of at least `x` of the three SV calling tools. Consensus calls are re-formatted and then genotyped and annotated. Only SV calls that appear in a plasma sample, but not in the matched control or in any of the healthy samples are kept. Region based filters are then optionally applied, and a single, cohort-wide bedpe is produced for all SVs that meet all filtering criteria.
  3. Basic visualizations are created using default parameters using SV-HotSpot. SV-HotSpot provides many options for enhanced visualizations, but users may not know the optimal parameters until they have seen what SVs are present in their cohort. After reviewing the output of the workflow, we suggest using the output bedpe with SV-HotSpot to further customize their visualizations. 
