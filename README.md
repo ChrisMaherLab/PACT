@@ -22,7 +22,7 @@ java -jar /path/to/cromwell.jar run -t cwl -i example/example.yml workflow/sv_pi
 
 We would highly recommend following Cromwell's [Configuration file tutorial](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/) to further customize how Cromwell runs the workflow, by specifying where Cromwell should save log files, output files, how it should integrate with your HPC platform (if used), to prioritize using copies instead of hard-links, etc. Other tools that can run CWL workflows are described [here](https://www.commonwl.org/).
 
-Though the workflow was written to be able to handle an entire cohort as input, users may find it useful to run samples one at a time or in smaller batches, as Cromwell and other CWL tools will attempt to localize input files either as copies or hard-links (depending on the tool and configuration). We advise against hard-links as a general rule, but note that creating copies of input files may take up a large amount of space, depending on the size of the cohort, the number of samples being run at a time, and sequencing depth.
+Though the workflow was written to be able to handle an entire cohort as input, users may find it useful to run samples one at a time or in smaller batches, as Cromwell and other CWL tools will attempt to localize input files either as copies or hard-links (depending on the tool and configuration), which may take up a large amount of space. We advise against hard-links as a general rule, but note that creating copies of input files may take up a large amount of space, depending on the size of the cohort, the number of samples being run at a time, and sequencing depth.
 
 ---
 
