@@ -9,7 +9,6 @@ baseCommand: ["svtools", "lmerge"]
 requirements:
     - class: DockerRequirement
       dockerPull: "halllab/svtools:v0.5.1"
-#      dockerPull: "ernfrid/svtools:develop"
 
 inputs:
  sorted_vcf:

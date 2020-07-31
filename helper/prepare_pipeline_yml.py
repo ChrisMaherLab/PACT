@@ -66,10 +66,6 @@ def generateFileInfo(args):
 	outstring += "ref_genome: " + args.genome + "\n"
 	outstring += tumor
 	outstring += control
-	outstring += "extractSplitReads_script:\n class: File\n path: helper/extractSplitReads_BwaMem\n"
-	outstring += "lumpy_prep_script:\n class: File\n path: helper/lumpy_prep.sh\n"
-	outstring += "manta_config:\n class: File\n path: helper/configManta.py\n"
-	outstring += "manta_config_ini:\n class: File\n path: helper/configManta.py.ini\n"
 	outstring += "max_distance_to_merge: " + str(args.max_distance) + "\n"
 	outstring += "minimum_sv_calls: " + str(args.num_callers) + "\n"
 	outstring += "minimum_sv_size: " + str(args.min_size) + "\n"
@@ -77,10 +73,6 @@ def generateFileInfo(args):
 	outstring += "same_type: " + str(args.same_type).lower() + "\n"
 	outstring += "estimate_sv_distance: " + str(args.est_dist).lower() + "\n"
 	outstring += createHealthyBamString(args)
-	outstring += "modify_vcf_script:\n class: File\n path: helper/modify_vcf.py\n"
-	outstring += "modify_survivor_script:\n class: File\n path: helper/modify_SURVIVOR.py\n"
-	outstring += "aggregate_bedpe_script:\n class: File\n path: helper/aggregate_bedpe.sh\n"
-	outstring += "aggregate_healthy_script:\n class: File\n path: helper/aggregate_healthy_bedpe.sh\n"
 	outstring += "target_regions:\n class: File\n path: " + args.target + "\n"
 	if args.neither is not None:
 		outstring += "neither_region:\n class: File\n path: " + args.neither + "\n"

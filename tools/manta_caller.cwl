@@ -7,7 +7,6 @@ label: "Set up and run manta for SV calling"
 requirements:
     - class: DockerRequirement
       dockerPull: "jbwebster/manta_docker"
-#      dockerPull: "mgibio/manta_somatic-cwl:1.5.0"
     - class: InlineJavascriptRequirement
     - class: ShellCommandRequirement
     - class: ResourceRequirement

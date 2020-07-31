@@ -58,10 +58,6 @@ steps:
   in:
    tumor_bam: tumor_bams
    control_bam: control_bams
-   extractSplitReads_script:
-    default:
-     class: File
-     path: ../helper/extractSplitReads_BwaMem  
   out: [tumor_split, control_split, tumor_discordant, control_discordant]
 
  merged_array_bams:

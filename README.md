@@ -8,7 +8,7 @@ The workflow consists of three basic steps, which are contained in the `subworkf
  2. Merging and filtering. Using the output from step 1, consensus calls are identified by requiring that an SV appear in the output of at least `x` of the three SV calling tools. Consensus calls are re-formatted and then genotyped and annotated. Only SV calls that appear in a plasma sample, but not in the matched control or in any of the healthy samples are kept. Region based filters are then optionally applied, and a single, cohort-wide bedpe is produced for all SVs that meet all filtering criteria.
  3. Basic visualizations are created using default parameters using SV-HotSpot. SV-HotSpot provides many options for enhanced visualizations, but users may not know the optimal parameters until they have seen what SVs are present in their cohort. After reviewing the output of the workflow, we suggest using the output bedpe with SV-HotSpot to further customize their visualizations. 
 
-To run, download the repository, cd into the repository, create a `.yml` file using the helper script described below, then pass the generated `.yml` file and the `workflow/sv_pipeline.cwl` to your preferred CWL runner. For example, using the command:
+To run, download the repository, cd into the repository, create a `.yml` file using the helper script described below, then pass the generated `.yml` file and the `workflow/sv_pipeline.cwl` to your preferred CWL runner. For example, if you are using the `cwl-runner` tool, you would use:
 
 ```
 cwl-runner workflow/sv_pipeline.cwl example/example.yml
@@ -32,4 +32,4 @@ A helper script has been provided to help create a properly formatted yaml file 
 python helper/prepare_pipeline_yml.py -s example/samples.tsv -n example/healthy.tsv -r /path/to/reference_hg19.fa -g hg19 -t /path/to/target_regions.bed --neither /path/to/blacklist.bed --notboth /path/to/low_complexity_regions.bed > example/example.yml
 ```
 
-The file passed using `-s` should be a tab-delimited file, where the first column is a path to a bam file, and the second column is a path a bam representing a matched control (in the case of a cfDNA analysis, this may be a plasma-depleted sample). The file passed with `-n` should contain a list of paths to bam files representing 'healthy' samples. For additional information, run `python helper/prepare_pipeline_yml.py -h`
+The file passed using `-s` should be a tab-delimited file, where the first column is a path to a bam file, and the second column is a path to a bam representing a matched control (in the case of a cfDNA analysis, this may be a plasma-depleted sample). The file passed with `-n` should contain a list of paths to bam files representing 'healthy' samples. For additional information, run `python helper/prepare_pipeline_yml.py -h`

@@ -1,6 +1,11 @@
 #!/usr/bin/env cwl-runner
 
 ##########################
+# Workflow for identifying somatic SVs from cfDNA
+# Compares cfDNA sample to a plasma-depleted matched control,
+# and to a list of provided healthy samples, to report SVs
+# that appear somatic and unique to non-healthy patients.
+##########################
 
 
 cwlVersion: v1.0

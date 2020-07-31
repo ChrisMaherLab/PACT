@@ -8,18 +8,17 @@ baseCommand: ["bash", "perform_prep.sh"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "biocontainers/samtools:v1.7.0_cv4"
+      dockerPull: "jbwebster/samtools_docker"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: "perform_prep.sh"
         entry: |
             tum=$1
             con=$2
-            splitReads=$3
-            outdir=$4
+            outdir=$3
 
             samtools view -b -F 1294 $tum | samtools sort > $outdir/tumor.discordant.bam
-            samtools view -h $tum | $splitReads -i stdin | samtools view -Sb | samtools sort > $outdir/tumor.split.bam
+            samtools view -h $tum | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/tumor.split.bam
             samtools index $outdir/tumor.discordant.bam
             samtools index $outdir/tumor.split.bam
             samtools flagstat $outdir/tumor.discordant.bam > $outdir/tumor.discordant.bam.flagstat
@@ -27,7 +26,7 @@ requirements:
             
             
             samtools view -b -F 1294 $con | samtools sort > $outdir/control.discordant.bam
-            samtools view -h $con | $splitReads -i stdin | samtools view -Sb | samtools sort > $outdir/control.split.bam
+            samtools view -h $con | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/control.split.bam
             samtools index $outdir/control.discordant.bam
             samtools index $outdir/control.split.bam
             samtools flagstat $outdir/control.discordant.bam > $outdir/control.discordant.bam.flagstat
@@ -42,14 +41,10 @@ inputs:
   type: File
   inputBinding:
    position: 2
- extractSplitReads_script:
-  type: File
-  inputBinding:
-   position: 3
 
 arguments:
  - valueFrom: $(runtime.outdir)
-   position: 4
+   position: 3
 
 outputs:
  tumor_split:

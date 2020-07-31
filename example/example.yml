@@ -8,18 +8,6 @@ tumor_bams:
 control_bams:
  [{class: File, path: /path/to/sample1_matched_control.bam},
  {class: File, path: /path/to/sample2_matched_control.bam}]
-extractSplitReads_script:
- class: File
- path: helper/extractSplitReads_BwaMem
-lumpy_prep_script:
- class: File
- path: helper/lumpy_prep.sh
-manta_config:
- class: File
- path: helper/configManta.py
-manta_config_ini:
- class: File
- path: helper/configManta.py.ini
 max_distance_to_merge: 1000
 minimum_sv_calls: 2
 minimum_sv_size: 30
@@ -29,18 +17,6 @@ estimate_sv_distance: false
 healthy_bams:
  [[{class: File, path: /path/to/healthy1.bam}],
  [{class: File, path: /path/to/healthy2.bam}]]
-modify_vcf_script:
- class: File
- path: helper/modify_vcf.py
-modify_survivor_script:
- class: File
- path: helper/modify_SURVIVOR.py
-aggregate_bedpe_script:
- class: File
- path: helper/aggregate_bedpe.sh
-aggregate_healthy_script:
- class: File
- path: helper/aggregate_healthy_bedpe.sh
 target_regions:
  class: File
  path: /path/to/target_regions.bed

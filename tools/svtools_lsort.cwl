@@ -9,7 +9,6 @@ baseCommand: ["svtools", "lsort"]
 requirements:
     - class: DockerRequirement
       dockerPull: "halllab/svtools:v0.5.1"
-#      dockerPull: ernfrid/svtools:develop
 
 inputs:
  filepath_file:
