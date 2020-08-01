@@ -4,6 +4,9 @@ cwlVersion: v1.0
 class: ExpressionTool
 label: "Merge three arrays into an array of arrays, where position i of the output = [array1[i], array2[i], array3[i]"
 
+requirements:
+ - class: InlineJavascriptRequirement
+
 inputs:
  array1:
   type: File[]

@@ -19,17 +19,23 @@ inputs:
     type: array
     items: File
  max_distance_to_merge:
-  type: int
+  type: int?
+  default: 1000
  minimum_sv_calls:
-  type: int
+  type: int?
+  default: 2
  minimum_sv_size:
-  type: int
+  type: int?
+  default: 30
  same_strand:
-  type: boolean
+  type: boolean?
+  default: false
  same_type:
-  type: boolean
+  type: boolean?
+  default: true
  estimate_sv_distance:
-  type: boolean
+  type: boolean?
+  default: false
  tumor_bams:
   type: File[]
  control_bams:
@@ -48,6 +54,15 @@ inputs:
   type: File? 
  ref_genome:
   type: string
+ first_string:
+  type: string
+  default: 'BEGIN{FS=OFS="\t"}{if($13>='
+ second_string:
+  type: string
+  default: '){print}}'
+ read_support:
+  type: string
+  default: "1"
 
 outputs:
  somatic_svs_bedpe:
@@ -333,12 +348,26 @@ steps:
    in_file: compare_to_healthy/filtered_bedpe
   out: [sed_out]
 
+ create_awk_string:
+  run: ../tools/create_string.cwl
+  in:
+   in_strings: [first_string, read_support, second_string]
+  out: [out_string]
+  
+ read_support_filter:
+  run: ../tools/awk.cwl
+  in:
+   pattern: create_awk_string/out_string
+   in_file: remove_dummy_variables/sed_out 
+  out: [awk_out]
+
  add_header_somatic:
   run: ../tools/sed.cwl
   in:
    command:
     default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2'
-   in_file: remove_dummy_variables/sed_out
+   #in_file: remove_dummy_variables/sed_out
+   in_file: read_support_filter/awk_out
   out: [sed_out]
 
 

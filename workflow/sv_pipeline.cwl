@@ -27,17 +27,23 @@ inputs:
  control_bams:
   type: File[]
  max_distance_to_merge:
-  type: int
+  type: int?
+  default: 1000
  minimum_sv_calls:
-  type: int
+  type: int?
+  default: 2
  minimum_sv_size:
-  type: int
+  type: int?
+  default: 30
  same_strand:
-  type: boolean
+  type: boolean?
+  default: false 
  same_type:
-  type: boolean
+  type: boolean?
+  default: true
  estimate_sv_distance:
-  type: boolean
+  type: boolean?
+  default: false
  healthy_bams:
   type:
    type: array
@@ -50,6 +56,9 @@ inputs:
   type: File?
  notboth_region:
   type: File?
+ read_support:
+  type: string
+  default: "1"
 
 
 outputs: 
@@ -94,6 +103,7 @@ steps:
    neither_region: neither_region
    notboth_region: notboth_region
    ref_genome: ref_genome
+   read_support: read_support
   out: 
    [somatic_svs_bedpe, samples_filtered_blacklist_bedpe, samples_filtered_blacklist_lowcomp_bedpe, samples_filtered_blacklist_lowcomp_targeted_bedpe, samples_filtered_blacklist_lowcomp_targeted_plasma_bedpe, healthy_svs_supported_bedpe]
    

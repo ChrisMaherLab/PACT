@@ -66,9 +66,12 @@ def generateFileInfo(args):
 	outstring += "ref_genome: " + args.genome + "\n"
 	outstring += tumor
 	outstring += control
-	outstring += "max_distance_to_merge: " + str(args.max_distance) + "\n"
-	outstring += "minimum_sv_calls: " + str(args.num_callers) + "\n"
-	outstring += "minimum_sv_size: " + str(args.min_size) + "\n"
+	if args.max_distance is not None:
+		outstring += "max_distance_to_merge: " + str(args.max_distance) + "\n"
+	if args.num_callers is not None:
+		outstring += "minimum_sv_calls: " + str(args.num_callers) + "\n"
+	if args.min_size is not None:
+		outstring += "minimum_sv_size: " + str(args.min_size) + "\n"
 	outstring += "same_strand: " + str(args.same_strand).lower() + "\n"
 	outstring += "same_type: " + str(args.same_type).lower() + "\n"
 	outstring += "estimate_sv_distance: " + str(args.est_dist).lower() + "\n"
@@ -78,6 +81,8 @@ def generateFileInfo(args):
 		outstring += "neither_region:\n class: File\n path: " + args.neither + "\n"
 	if args.notboth is not None:
 		outstring += "notboth_region:\n class: File\n path: " + args.notboth + "\n"
+	if args.read_support is not None:
+		outstring += 'read_support: "' + str(args.read_support) + '"\n'
 	return outstring
 
 def main(args):
@@ -89,14 +94,15 @@ def main(args):
 	required.add_argument("-r", "--reference", action="store", help="Path to reference genome .fa file")
 	required.add_argument("-t", "--target", action="store", help="Path to bed file describing target regions used for targeted sequencing")
 	required.add_argument("-g", "--genome", action="store", help="Name of reference genome (should correspond to file in -r). Ex: hg19. Should be a genome build supported by SV-HotSpot and SnpEff.")
-	parser.add_argument("--max_distance", action="store", default=1000, type=int, help="Max allowed distance between SVs for merging. See SURVIVOR documentation for more info. Default=1000")
-	parser.add_argument("--num_callers", action="store",  default=2, type=int, help="Number of tools that needed to call an SV for it to be considered a consensus call. See SURVIVOR documentation for more info. Default=2")
+	parser.add_argument("--max_distance", action="store", type=int, help="Max allowed distance between SVs for merging. See SURVIVOR documentation for more info. Default=1000")
+	parser.add_argument("--num_callers", action="store",  type=int, help="Number of tools that needed to call an SV for it to be considered a consensus call. See SURVIVOR documentation for more info. Default=2")
 	parser.add_argument("--neither", action="store", help="Path to a bed file for use with filtering SVs. Will be used as -b parameter for bedtools pairToBed --neither. Not required, but HIGHLY RECOMMENDED to supply a blacklist file.")
 	parser.add_argument("--notboth", action="store", help="Path to a bed file for use with filtering SVs. Will be used as -b parameter for bedtools pairToBed --notboth. Not required, but HIGHLY RECOMMENDED to supply a file of low complexity regions.")
 	parser.add_argument("--min_size", action="store", default=30, type=int, help="Minimun size of SV to be considered. See SURVIVOR documentation for more info. Default=30")
 	parser.add_argument("--same_strand", action="store_true", help="Flag requiring SVs to be on the same strand in order to be merged. See SURVIVOR documentation for more info. Default=false")
 	parser.add_argument("--same_type", action="store_false", help="Flag requiring SVs to be of the same type in order to be merged. Use the flag to turn off this requirement. Default=true")
 	parser.add_argument("--est_dist", action="store_true", help="Flag to estimate SV distance. See SURVIVOR for info. Default=false")
+	parser.add_argument("--read_support", action="store", help="Number of supporting reads required for a somatic SV. Default=1")
 
 	args = parser.parse_args()
 

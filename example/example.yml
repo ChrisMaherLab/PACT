@@ -8,8 +8,6 @@ tumor_bams:
 control_bams:
  [{class: File, path: /path/to/sample1_matched_control.bam},
  {class: File, path: /path/to/sample2_matched_control.bam}]
-max_distance_to_merge: 1000
-minimum_sv_calls: 2
 minimum_sv_size: 30
 same_strand: false
 same_type: true

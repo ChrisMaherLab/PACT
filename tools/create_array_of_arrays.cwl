@@ -4,6 +4,8 @@ cwlVersion: v1.0
 class: ExpressionTool
 label: "Merge two arrays into an array of arrays, where position i of the output = [array1[i], array2[i]]"
 
+requirements:
+ - class: InlineJavascriptRequirement
 
 inputs:
  array1:
