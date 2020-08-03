@@ -6,7 +6,7 @@ label: "egrep -v"
 
 baseCommand: ["egrep"]
 
-requirement:
+requirements:
     - class: DockerRequirement
       dockerPull: "ubuntu:xenial"
     - class: InlineJavascriptRequirement

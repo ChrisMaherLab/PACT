@@ -6,7 +6,7 @@ label: "Perform a sed command given a file and pattern"
 
 baseCommand: sed
 
-requirement:
+requirements:
     - class: DockerRequirement
       dockerPull: "ubuntu:xenial"
 

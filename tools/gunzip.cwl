@@ -6,7 +6,7 @@ label: "Unzip a zipped file"
 
 baseCommand: ["gunzip", "-c"]
 
-requirement:
+requirements:
     - class: DockerRequirement
       dockerPull: "ubuntu:xenial"
     - class: InlineJavascriptRequirement

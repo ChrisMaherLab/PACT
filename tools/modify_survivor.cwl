@@ -6,9 +6,9 @@ description: "Make modifications to VCF files so they work well with downstream 
 
 baseCommand: ["/usr/bin/python3.5", "/usr/bin/modify_SURVIVOR.py"]
 
-requirement:
-    - class: DockerRequirement
-      dockerPull: "jbwebster/sv_helper_docker"
+requirements:
+      - class: DockerRequirement
+        dockerPull: "jbwebster/sv_helper_docker"
 
 inputs:
  vcf:

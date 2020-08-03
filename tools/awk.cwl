@@ -6,7 +6,7 @@ label: "Perform an awk command given a file and pattern"
 
 baseCommand: ["awk"]
 
-requirement:
+requirements:
     - class: DockerRequirement
       dockerPull: "ubuntu:xenial"
 
