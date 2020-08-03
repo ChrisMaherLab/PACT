@@ -8,11 +8,11 @@ baseCommand: ["bash"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "ubuntu:xenial"
+      dockerPull: "jbwebster/sv_helper_docker"
 
 inputs:
- script:
-  type: File
+ command:
+  type: string
   inputBinding:
    position: 1
  bedpe:

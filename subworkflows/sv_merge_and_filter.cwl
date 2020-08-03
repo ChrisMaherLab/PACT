@@ -96,10 +96,6 @@ steps:
   scatter: vcfs
   in:
    vcfs: sv_vcfs
-   script:
-    default:
-     class: File
-     path: ../helper/modify_vcf.py
   out:
    [modified_vcfs]
 
@@ -123,10 +119,6 @@ steps:
   run: ../tools/modify_survivor.cwl
   scatter: vcf
   in:
-   script:
-    default:
-     class: File
-     path: ../helper/modify_SURVIVOR.py
    vcf: survivor_merge/merged_vcf
   out: [modified_vcf]
 
@@ -223,20 +215,16 @@ steps:
  aggregate_samples:
   run: ../tools/aggregate_bedpe.cwl
   in:
-   script:
-    default:
-     class: File
-     path: ../helper/aggregate_bedpe.sh
+   command:
+    default: "/usr/bin/aggregate_bedpe.sh"
    bedpe: vcf_to_bedpe/bedpe
   out: [aggregate_bedpe]
 
  aggregate_healthy:
   run: ../tools/aggregate_bedpe.cwl
   in:
-   script:
-    default:
-     class: File
-     path: ../helper/aggregate_healthy_bedpe.sh
+   command:
+    default: "/usr/bin/aggregate_healthy_bedpe.sh"
    bedpe: healthy_vcf_to_bedpe/bedpe
   out: [aggregate_bedpe]
  
