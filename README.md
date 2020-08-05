@@ -8,6 +8,8 @@ The workflow consists of three basic steps, which are contained in the `subworkf
  2. Merging and filtering. Using the output from step 1, consensus calls are identified by requiring that an SV appear in the output of at least `x` of the three SV calling tools. Consensus calls are re-formatted and then genotyped and annotated. Only SV calls that appear in a plasma sample, but not in the matched control or in any of the healthy samples are kept. Region based filters are then optionally applied, and a single, cohort-wide bedpe is produced for all SVs that meet all filtering criteria.
  3. Basic visualizations are created using default parameters using SV-HotSpot. SV-HotSpot provides many options for enhanced visualizations, but users may not know the optimal parameters until they have seen what SVs are present in their cohort. After reviewing the output of the workflow, we suggest using the output bedpe with SV-HotSpot to further customize their visualizations. 
 
+Requires installation of Docker.
+
 To run, download the repository, cd into the repository, create a `.yml` file using the helper script described below, then pass the generated `.yml` file and the `workflow/sv_pipeline.cwl` to your preferred CWL runner. For example, if you are using the `cwl-runner` tool, you would use:
 
 ```

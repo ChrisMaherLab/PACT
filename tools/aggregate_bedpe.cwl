@@ -9,6 +9,9 @@ baseCommand: ["bash"]
 requirements:
     - class: DockerRequirement
       dockerPull: "jbwebster/sv_helper_docker"
+    - class: ResourceRequirement
+      ramMin: 4000
+      coresMin: 1
 
 inputs:
  command:

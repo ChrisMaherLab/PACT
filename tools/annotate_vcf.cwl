@@ -4,15 +4,17 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Annotate SVs in VCF"
 
-baseCommand: ["snpEff"]
+baseCommand: ["java", "-jar", "/snpEff/snpEff.jar"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "biocontainers/snpeff:v4.1k_cv3"
+      dockerPull: "jbwebster/snpeff_docker"
     - class: InitialWorkDirRequirement
       listing:
        - $(inputs.genome)
     - class: InlineJavascriptRequirement
+    - class: ResourceRequirement
+      ramMin: 8000
 
 inputs:
  genome:

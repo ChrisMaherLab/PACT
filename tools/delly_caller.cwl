@@ -11,6 +11,9 @@ requirements:
     - class: DockerRequirement
       dockerPull: jbwebster/delly_docker
     - class: InlineJavascriptRequirement
+    - class: ResourceRequirement
+      coresMin: 8
+      ramMin: 24000
 
 inputs:
  ref:

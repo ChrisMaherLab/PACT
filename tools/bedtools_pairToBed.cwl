@@ -9,6 +9,8 @@ baseCommand: ["bash", "bedtools_script.sh"]
 requirements:
     - class: DockerRequirement
       dockerPull: "biocontainers/bedtools:v2.27.1dfsg-4-deb_cv1"
+    - class: ResourceRequirement
+      ramMin: 4000
     - class: InitialWorkDirRequirement
       listing:
       - entryname: "bedtools_script.sh"

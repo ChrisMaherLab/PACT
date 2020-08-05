@@ -9,6 +9,8 @@ baseCommand: ["bash", "run_sv_hotspot.sh"]
 requirements:
     - class: DockerRequirement
       dockerPull: "chrismaherlab/sv-hotspot"
+    - class: ResourceRequirement
+      ramMin: 12000
     - class: InitialWorkDirRequirement
       listing:
       - entryname: "run_sv_hotspot.sh"

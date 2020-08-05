@@ -9,6 +9,8 @@ baseCommand: ["pairToPair"]
 requirements:
     - class: DockerRequirement
       dockerPull: "biocontainers/bedtools:v2.27.1dfsg-4-deb_cv1"
+    - class: ResourceRequirement
+      ramMin: 6000
 
 inputs:
  type_parameter:

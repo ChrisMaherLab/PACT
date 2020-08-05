@@ -9,6 +9,8 @@ baseCommand: ["/opt/hall-lab/python-2.7.15/bin/svtyper"]
 requirements:
     - class: DockerRequirement
       dockerPull: "halllab/svtyper:v0.7.1-3c5218a"
+    - class: ResourceRequirement
+      ramMin: 12000
 
 inputs:
  vcf:

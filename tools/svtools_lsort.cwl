@@ -9,6 +9,8 @@ baseCommand: ["svtools", "lsort"]
 requirements:
     - class: DockerRequirement
       dockerPull: "halllab/svtools:v0.5.1"
+    - class: ResourceRequirement
+      ramMin: 6000
 
 inputs:
  filepath_file:

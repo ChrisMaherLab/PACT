@@ -10,6 +10,9 @@ requirements:
     - class: DockerRequirement
       dockerPull: "jbwebster/lumpy_docker"
     - class: InlineJavascriptRequirement
+    - class: ResourceRequirement
+      coresMin: 12
+      ramMin: 24000
 
 inputs:
  bams:

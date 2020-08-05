@@ -4,11 +4,13 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Download snpEff reference database"
 
-baseCommand: ["snpEff"]
+baseCommand: ["java", "-jar", "/snpEff/snpEff.jar"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: biocontainers/snpeff:v4.1k_cv3
+      dockerPull: "jbwebster/snpeff_docker"
+    - class: ResourceRequirement
+      outdirMin: 1000
 
 inputs:
  db:
