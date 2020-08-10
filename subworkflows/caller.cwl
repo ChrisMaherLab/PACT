@@ -118,7 +118,7 @@ steps:
   run: ../tools/three_way_merge.cwl
   in:
     array1: convert_delly_to_vcf/vcf
-    array2: lumpy_calls/vcf
-    array3: gunzip_manta/unzipped_file
+    array2: gunzip_manta/unzipped_file
+    array3: lumpy_calls/vcf
   out: [merged_array]
 

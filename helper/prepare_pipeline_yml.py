@@ -94,7 +94,7 @@ def main(args):
 	required.add_argument("-r", "--reference", action="store", help="Path to reference genome .fa file")
 	required.add_argument("-t", "--target", action="store", help="Path to bed file describing target regions used for targeted sequencing")
 	required.add_argument("-g", "--genome", action="store", help="Name of reference genome (should correspond to file in -r). Ex: hg19. Should be a genome build supported by SV-HotSpot and SnpEff.")
-	parser.add_argument("--max_distance", action="store", type=int, help="Max allowed distance between SVs for merging. See SURVIVOR documentation for more info. Default=1000")
+	parser.add_argument("--max_distance", action="store", type=int, help="Max allowed distance between SVs for merging. See SURVIVOR documentation for more info. Default=100")
 	parser.add_argument("--num_callers", action="store",  type=int, help="Number of tools that needed to call an SV for it to be considered a consensus call. See SURVIVOR documentation for more info. Default=2")
 	parser.add_argument("--neither", action="store", help="Path to a bed file for use with filtering SVs. Will be used as -b parameter for bedtools pairToBed --neither. Not required, but HIGHLY RECOMMENDED to supply a blacklist file.")
 	parser.add_argument("--notboth", action="store", help="Path to a bed file for use with filtering SVs. Will be used as -b parameter for bedtools pairToBed --notboth. Not required, but HIGHLY RECOMMENDED to supply a file of low complexity regions.")

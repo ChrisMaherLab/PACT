@@ -28,7 +28,7 @@ inputs:
   type: File[]
  max_distance_to_merge:
   type: int?
-  default: 1000
+  default: 100
  minimum_sv_calls:
   type: int?
   default: 2

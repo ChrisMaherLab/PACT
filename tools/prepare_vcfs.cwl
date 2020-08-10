@@ -9,6 +9,7 @@ baseCommand: ["/usr/bin/python3.5", "/usr/bin/modify_VCF.py"]
 requirements:
     - class: DockerRequirement
       dockerPull: "jbwebster/sv_helper_docker"
+#      dockerPull: "jbwebster/sv_helper_docker"
 
 inputs:
  vcfs:
