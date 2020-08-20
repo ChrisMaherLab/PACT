@@ -1,20 +1,18 @@
-reference:
- class: File
- path: /path/to/reference_hg19.fa
+reference: /path/to/reference_hg19.fa
 ref_genome: hg19
 tumor_bams:
- [{class: File, path: /path/to/sample1.bam},
- {class: File, path: /path/to/sample2.bam}]
+ - /path/to/sample1.bam
+ - /path/to/sample2.bam
 control_bams:
- [{class: File, path: /path/to/sample1_matched_control.bam},
- {class: File, path: /path/to/sample2_matched_control.bam}]
+ - /path/to/sample1_matched_control.bam
+ - /path/to/sample2_matched_control.bam
 minimum_sv_size: 30
 same_strand: false
 same_type: true
 estimate_sv_distance: false
 healthy_bams:
- [[{class: File, path: /path/to/healthy1.bam}],
- [{class: File, path: /path/to/healthy2.bam}]]
+ [[/path/to/healthy1.bam],
+ [/path/to/healthy2.bam]]
 target_regions:
  class: File
  path: /path/to/target_regions.bed

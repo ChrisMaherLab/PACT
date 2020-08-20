@@ -17,25 +17,23 @@ requirements:
 
 inputs:
  ref:
-  type: File
+  type: string
   inputBinding:
    prefix: -g
    position: 1
   doc: "Reference genome .fa"
  tumor_bam:
-  type: File
-  secondaryFiles: [".bai"]
+  type: string
   inputBinding:
    position: 3
  control_bam:
-  type: File
-  secondaryFiles: [".bai"]
+  type: string
   inputBinding:
    position: 4
 
 arguments:
  - prefix: -o
-   valueFrom: $(runtime.outdir)/$(inputs.tumor_bam.nameroot).bcf
+   valueFrom: $(runtime.outdir)/$(inputs.tumor_bam.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).bcf
    position: 2
 
 outputs:

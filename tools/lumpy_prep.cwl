@@ -34,11 +34,11 @@ requirements:
 
 inputs:
  tumor_bam:
-  type: File
+  type: string
   inputBinding:
    position: 1
  control_bam:
-  type: File
+  type: string
   inputBinding:
    position: 2
 

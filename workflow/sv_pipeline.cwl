@@ -19,13 +19,13 @@ requirements:
 
 inputs:
  reference:
-  type: File
+  type: string
  ref_genome:
   type: string
  tumor_bams:
-  type: File[]
+  type: string[]
  control_bams:
-  type: File[]
+  type: string[]
  max_distance_to_merge:
   type: int?
   default: 100
@@ -49,7 +49,7 @@ inputs:
    type: array
    items:
     type: array
-    items: File
+    items: string
  target_regions:
   type: File
  neither_region:

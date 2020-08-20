@@ -11,11 +11,11 @@ requirements:
 
 inputs:
  reference:
-  type: File
+  type: string
  tumor_bams:
-  type: File[]
+  type: string[]
  control_bams:
-  type: File[]
+  type: string[]
 
 outputs:
  vcf_files:
@@ -61,21 +61,21 @@ steps:
   out: [tumor_split, control_split, tumor_discordant, control_discordant]
 
  merged_array_bams:
-  run: ../tools/create_array_of_arrays.cwl
+  run: ../tools/create_array_of_string_arrays.cwl
   in:
    array1: tumor_bams
    array2: control_bams
   out: [array_of_arrays]
  
  merged_splitters:
-  run: ../tools/create_array_of_arrays.cwl
+  run: ../tools/create_array_of_file_arrays.cwl
   in:
    array1: lumpy_prep/tumor_split
    array2: lumpy_prep/control_split
   out: [array_of_arrays]
  
  merged_discordant:
-  run: ../tools/create_array_of_arrays.cwl
+  run: ../tools/create_array_of_file_arrays.cwl
   in:
    array1: lumpy_prep/tumor_discordant
    array2: lumpy_prep/control_discordant

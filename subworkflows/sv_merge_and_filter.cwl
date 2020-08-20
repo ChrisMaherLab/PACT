@@ -37,15 +37,15 @@ inputs:
   type: boolean?
   default: false
  tumor_bams:
-  type: File[]
+  type: string[]
  control_bams:
-  type: File[]
+  type: string[]
  healthy_bams:
   type:
    type: array
    items:
     type: array
-    items: File
+    items: string
  target_regions:
   type: File
  neither_region:
@@ -123,7 +123,7 @@ steps:
   out: [modified_vcf]
 
  merge_arrays:
-  run: ../tools/create_array_of_arrays.cwl
+  run: ../tools/create_array_of_string_arrays.cwl
   in:
    array1: tumor_bams
    array2: control_bams
@@ -165,11 +165,24 @@ steps:
     default: 20
   out: [merged_vcf]
 
+ # Ensures that the SVs that are genotyped against healthy/samples
+ # are the same SVs, while reducing the need to genotype (and annotate)
+ # SVs reported in "sample 2" against "sample 1". Saves space when running
+ # the pipeline with a cohort.
+ subset_to_current_sample:
+  run: ../tools/subset_merged_svs.cwl
+  scatter: sample_of_interest
+  in:
+   sample_of_interest: merge_arrays/array_of_arrays
+   vcf: merge_vcf/merged_vcf
+  out: [sv_subset]
+
  merged_sample_genotyping:
   run: ../tools/svtyper_genotyping.cwl
-  scatter: bams_to_genotype
+  scatter: [vcf, bams_to_genotype]
+  scatterMethod: "dotproduct"
   in:
-   vcf: merge_vcf/merged_vcf
+   vcf: subset_to_current_sample/sv_subset
    bams_to_genotype: merge_arrays/array_of_arrays
   out: [genotyped]
 

@@ -20,7 +20,7 @@ inputs:
    prefix: -i
   doc: "VCF file of SVs to genotype"
  bams_to_genotype:
-  type: File[]
+  type: string[]
   secondaryFiles: [".bai"]
   inputBinding:
    position: 2

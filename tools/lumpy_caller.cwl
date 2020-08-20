@@ -16,8 +16,7 @@ requirements:
 
 inputs:
  bams:
-  type: File[]
-  secondaryFiles: [".bai"]
+  type: string[]
   inputBinding:
    prefix: -B
    position: 1
@@ -42,7 +41,7 @@ arguments:
  - valueFrom: -P
    position: 0
  - prefix: -o
-   valueFrom: $(runtime.outdir)/$(inputs.bams[0].nameroot).vcf
+   valueFrom: $(runtime.outdir)/$(inputs.bams[0].split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).vcf
    position: 4
      
 

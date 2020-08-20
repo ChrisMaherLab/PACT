@@ -15,27 +15,13 @@ def createTumorAndSampleStrings(args):
 			bams = line.split("\t")
 			samples_and_controls.append(bams)
 	f.close()
-	tumor_string_total = "tumor_bams:\n"
-	control_string_total = "control_bams:\n"
+	tumor_string = "tumor_bams:\n"
+	control_string = "control_bams:\n"
 	for i in range(0, len(samples_and_controls)):
 		bams = samples_and_controls[i]
-		tumor_string = "{class: File, path: " + bams[0] + "}"
-		control_string = "{class: File, path: " + bams[1] + "}"
-		if i == 0:
-			tumor_string = " [" + tumor_string
-			control_string = " [" + control_string
-		else:
-			tumor_string = " " + tumor_string
-			control_string = " " + control_string
-		if i < len(samples_and_controls) - 1:
-			tumor_string += ",\n"
-			control_string += ",\n"
-		else:
-			tumor_string += "]\n"
-			control_string += "]\n"
-		tumor_string_total += tumor_string
-		control_string_total += control_string
-	return tumor_string_total, control_string_total
+		tumor_string += " - " + bams[0] + "\n"
+		control_string += " - " + bams[1] + "\n"
+	return tumor_string, control_string
 
 def createHealthyBamString(args):
 	healthy_file = args.healthy	
@@ -47,7 +33,7 @@ def createHealthyBamString(args):
 	healthy_string = "healthy_bams:\n"
 	for i in range(0, len(healthy_bams)):
 		bam = healthy_bams[i]
-		out = "[{class: File, path: " + bam + "}]"
+		out = "["+ bam + "]"
 		if i == 0:
 			out = " [" + out
 		else:
@@ -62,7 +48,7 @@ def createHealthyBamString(args):
 
 def generateFileInfo(args):
 	tumor, control = createTumorAndSampleStrings(args)
-	outstring = "reference:\n class: File\n path: " + args.reference + "\n"
+	outstring = "reference: " + args.reference + "\n"
 	outstring += "ref_genome: " + args.genome + "\n"
 	outstring += tumor
 	outstring += control
