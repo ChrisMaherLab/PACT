@@ -245,7 +245,7 @@ steps:
   run: ../tools/awk.cwl
   in:
    pattern:
-    default: 'BEGIN{FS=OFS="\t"}{if($13>=1){print}}'
+    default: 'BEGIN{FS=OFS="\t"}{if($8!=0.00){print}}'
    in_file: aggregate_healthy/aggregate_bedpe
   out: [awk_out]
 

@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Annotate SVs in VCF"
 
-baseCommand: ["java", "-jar", "/snpEff/snpEff.jar"]
+baseCommand: ["java", "-Xmx4G", "-jar", "/snpEff/snpEff.jar"]
 
 requirements:
     - class: DockerRequirement
