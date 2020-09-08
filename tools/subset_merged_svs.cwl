@@ -30,7 +30,7 @@ inputs:
    position: 2
 
 arguments:
- - valueFrom: $(inputs.sample_of_interest[0])
+ - valueFrom: $(inputs.sample_of_interest[1])
    position: 1
  - valueFrom: $(runtime.outdir)
    position: 3
@@ -39,5 +39,5 @@ outputs:
  sv_subset:
   type: File
   outputBinding:
-   glob: "$(inputs.sample_of_interest[0]..split('/').slice(-1)[0].split('.').slice(0,-1).join('.').vcf"
+   glob: "$(inputs.sample_of_interest[1].split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).vcf"
 
