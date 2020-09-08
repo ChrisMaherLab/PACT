@@ -125,8 +125,8 @@ steps:
  merge_arrays:
   run: ../tools/create_array_of_string_arrays.cwl
   in:
-   array1: tumor_bams
-   array2: control_bams
+   array1: control_bams
+   array2: tumor_bams
   out: [array_of_arrays]
 
  first_genotyping:
