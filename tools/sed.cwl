@@ -19,9 +19,11 @@ inputs:
   type: File
   inputBinding:
    position: 2
+ out_file:
+  type: string
 
 outputs:
  sed_out:
   type: stdout
 
-stdout: sed_out
+stdout: $(inputs.out_file).out

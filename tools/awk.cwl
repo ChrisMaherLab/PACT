@@ -20,10 +20,12 @@ inputs:
   type: File
   inputBinding:
    position: 2
+ out_file:
+  type: string
 
 
 outputs:
  awk_out:
   type: stdout
 
-stdout: awk_out
+stdout: $(inputs.out_file).out
