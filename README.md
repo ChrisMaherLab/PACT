@@ -5,7 +5,7 @@ Standardized workflow, written in CWL, for the identification of somatic structu
 
 The workflow consists of three basic steps, which are contained in the `subworkflows` directory, and include:
  1. Perform SV calling. Given the provided bam files, the workflow uses Lumpy, Manta, and Delly to perform SV calling.
- 2. Merging and filtering. Using the output from step 1, consensus calls are identified by requiring that an SV appear in the output of at least `x` of the three SV calling tools. Consensus calls are re-formatted and then genotyped and annotated. Only SV calls that appear in a plasma sample, but not in the matched control or in any of the healthy samples are kept. Region based filters are then optionally applied, and a single, cohort-wide bedpe is produced for all SVs that meet all filtering criteria.
+ 2. Merging and filtering. Using the output from step 1, consensus calls are identified by requiring that an SV appear in the output of at least `n` of the three SV calling tools. Consensus calls are re-formatted and then genotyped and annotated. Only SV calls that appear in a plasma sample, but not in the matched control or in any of the healthy samples are kept. Region based filters are then optionally applied, and a single, cohort-wide bedpe is produced for all SVs that meet all filtering criteria.
  3. Basic visualizations are created using default parameters using SV-HotSpot. SV-HotSpot provides many options for enhanced visualizations, but users may not know the optimal parameters until they have seen what SVs are present in their cohort. After reviewing the output of the workflow, we suggest using the output bedpe with SV-HotSpot to further customize their visualizations. 
 
 Requires installation of Docker.
@@ -28,7 +28,7 @@ Though the workflow was written to be able to handle an entire cohort as input, 
 
 ---
 
-A helper script has been provided to help create a properly formatted yaml file containing all values that can be passed to the workflow. It is recommended that all paths be absolute paths, since multiple implemenations of CWL runners exist, and may handle paths differently. The example.yml file provided in the example directory was produced by using the helper script with the following parameters:
+A helper script has been provided to help create a properly formatted yaml file containing all values that can be passed to the workflow. All paths be are required to be absolute paths (including those listed within files like example/samples.tsv). The example.yml file provided in the example directory was produced by using the helper script with the following parameters:
 
 ```
 python helper/prepare_pipeline_yml.py -s example/samples.tsv -n example/healthy.tsv -r /path/to/reference_hg19.fa -g hg19 -t /path/to/target_regions.bed --neither /path/to/blacklist.bed --notboth /path/to/low_complexity_regions.bed > example/example.yml

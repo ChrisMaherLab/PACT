@@ -29,6 +29,8 @@ steps:
    pattern:
     default: 'BEGIN{FS=OFS="\t"}{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10}'
    in_file: bedpe
+   out_file:
+    default: "aggregate.vis.bedpe"
   out: [awk_out]
 
  create_vis:

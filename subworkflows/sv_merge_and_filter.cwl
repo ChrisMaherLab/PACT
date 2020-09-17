@@ -247,7 +247,8 @@ steps:
    pattern:
     default: 'BEGIN{FS=OFS="\t"}{if($8!=0.00){print}}'
    in_file: aggregate_healthy/aggregate_bedpe
-   out_file: "healthy.removedUnsupported"
+   out_file:
+    default: "healthy.removedUnsupported.bedpe"
   out: [awk_out]
 
  remove_unknown_regions:
@@ -273,7 +274,8 @@ steps:
    command:
     default: '1s/.*/chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2/'
    in_file: neither_filter/filtered_bedpe
-   out_file: "aggregate.neither"
+   out_file:
+    default: "aggregate.neither.bedpe"
   out: [sed_out]
 
  notboth_filter:
@@ -291,7 +293,8 @@ steps:
    command:
     default: '1s/.*/chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2/'
    in_file: notboth_filter/filtered_bedpe
-   out_file: "aggregate.neither.notboth"
+   out_file:
+    default: "aggregate.neither.notboth.bedpe"
   out: [sed_out]
 
  modify_intervals:
@@ -300,7 +303,8 @@ steps:
    pattern:
     default: 'BEGIN{FS=OFS="\t"}{if($2==$3){$2=$2-1};if($5==$6){$5=$5-1};print}'
    in_file: notboth_filter/filtered_bedpe
-   out_file: "modifiedIntervals"
+   out_file:
+    default: "modifiedIntervals.bedpe"
   out: [awk_out]
    
  target_region_filter:
@@ -318,7 +322,8 @@ steps:
    command:
     default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2'
    in_file: target_region_filter/filtered_bedpe
-   out_file: "aggregate.neither.notboth.target"
+   out_file:
+    default: "aggregate.neither.notboth.target.bedpe"
   out: [sed_out]
 
  plasma_only:
@@ -327,7 +332,8 @@ steps:
    pattern:
     default: 'BEGIN{FS=OFS="\t"}{if($13>=1 && $16==0){print}}'
    in_file: target_region_filter/filtered_bedpe
-   out_file: "aggregate.neither.notboth.target.plasma.noHeader"
+   out_file:
+    default: "aggregate.neither.notboth.target.plasma.noHeader.bedpe"
   out: [awk_out]
 
  add_header_plasma_only:
@@ -336,7 +342,8 @@ steps:
    command:
     default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2'
    in_file: plasma_only/awk_out
-   out_file: "aggregate.neither.notboth.target.plasma"
+   out_file:
+    defualt: "aggregate.neither.notboth.target.plasma.bedpe"
   out: [sed_out]
 
  compare_to_healthy:
@@ -354,7 +361,8 @@ steps:
    command:
     default: 's/PRPOS.*CIPOS=[-0-9]*,[-0-9]*;//g'
    in_file: compare_to_healthy/filtered_bedpe
-   out_file: "aggregate.neither.notboth.target.plasma.cleaned"
+   out_file:
+    default: "aggregate.neither.notboth.target.plasma.cleaned.bedpe"
   out: [sed_out]
 
  create_awk_string:
@@ -368,7 +376,8 @@ steps:
   in:
    pattern: create_awk_string/out_string
    in_file: remove_dummy_variables/sed_out 
-   out_file: "aggregate.neither.notboth.target.plasma.cleaned.support.noHeader"
+   out_file:
+    default: "aggregate.neither.notboth.target.plasma.cleaned.support.noHeader.bedpe"
   out: [awk_out]
 
  add_header_somatic:
@@ -377,7 +386,8 @@ steps:
    command:
     default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2'
    in_file: read_support_filter/awk_out
-   out_file: "aggregate.final"
+   out_file:
+    default: "aggregate.final.bedpe"
   out: [sed_out]
 
 
