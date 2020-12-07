@@ -18,6 +18,12 @@ inputs:
    items:
     type: array
     items: File
+ tumor_vcfs:
+  type:
+   type: array
+   items:
+    type: array
+    items: File
  max_distance_to_merge:
   type: int?
   default: 100
@@ -36,9 +42,11 @@ inputs:
  estimate_sv_distance:
   type: boolean?
   default: false
- tumor_bams:
+ sample_bams:
   type: string[]
  control_bams:
+  type: string[]
+ tumor_bams:
   type: string[]
  healthy_bams:
   type:
@@ -54,48 +62,67 @@ inputs:
   type: File? 
  ref_genome:
   type: string
- first_string:
-  type: string
-  default: 'BEGIN{FS=OFS="\t"}{if($13>='
- second_string:
-  type: string
-  default: '){print}}'
  read_support:
-  type: string
-  default: "1"
+  type: int
+  default: 1
+ svtyper_helper:
+  type: File
+ subset_helper:
+  type: File
+ aggregate_sample_helper:
+  type: File
+ aggregate_healthy_helper:
+  type: File
+ modify_survivor_script:
+  type: File
+ prepare_vcf_script:
+  type: File
+ liftover_script:
+  type: File
 
 outputs:
  somatic_svs_bedpe:
   type: File
-  outputSource: add_header_somatic/sed_out
+  outputSource: add_header_final_output/sed_out
   doc: "SVs identified as somatic after applying all filters"
- samples_filtered_blacklist_bedpe:
-  type: File
-  outputSource: modify_header_blacklisted_outfile/sed_out
-  doc: "Sample SVs after removing those in blacklisted regions"
- samples_filtered_blacklist_lowcomp_bedpe:
-  type: File
-  outputSource: modify_header_complexity_filter/sed_out
-  doc: "Sample SVs after removing those in blacklisted regions and low complexity regions"
- samples_filtered_blacklist_lowcomp_targeted_bedpe:
-  type: File
-  outputSource: add_header_target_region/sed_out
-  doc: "Sample SVs after removing those in blacklisted regions, low complexity regions, and that have at least 1 breakend in a target region"
- samples_filtered_blacklist_lowcomp_targeted_plasma_bedpe:
-  type: File
-  outputSource: add_header_plasma_only/sed_out
-  doc: "Sample SVs after removing those in blacklisted regions, low complexity regions, that have at least 1 breakend in a target region, and that do not appear in the matched control"
- healthy_svs_supported_bedpe:
-  type: File
-  outputSource: remove_unsupported/awk_out
-  doc: "All SVs with read support in healthy samples"
+ consensus_vcf:
+  type: File[]
+  outputSource: survivor_merge/merged_vcf
+ tumor_consensus_vcf:
+  type: File[]
+  outputSource: tumor_survivor_merge/merged_vcf
+ prepared_vcf:
+  type:
+   type: array
+   items:
+    type: array
+    items: File
+  outputSource: prepare_vcfs/modified_vcfs
+ tumor_prepared_vcf:
+  type:
+   type: array
+   items:
+    type: array
+    items: File
+  outputSource: prepare_tumor_vcfs/modified_vcfs
+
 
 steps:
  prepare_vcfs:
   run: ../tools/prepare_vcfs.cwl
   scatter: vcfs
   in:
+   helper_script: prepare_vcf_script
    vcfs: sv_vcfs
+  out:
+   [modified_vcfs]
+
+ prepare_tumor_vcfs:
+  run: ../tools/prepare_vcfs.cwl
+  scatter: vcfs
+  in:
+   helper_script: prepare_vcf_script
+   vcfs: tumor_vcfs
   out:
    [modified_vcfs]
 
@@ -115,19 +142,79 @@ steps:
   out:
    [merged_vcf] 
 
+ tumor_survivor_merge:
+  run: ../tools/survivor-merge.cwl
+  scatter: vcfs
+  in:
+   vcfs: prepare_tumor_vcfs/modified_vcfs
+   max_distance_to_merge: max_distance_to_merge
+   minimum_sv_calls: minimum_sv_calls
+   same_type: same_type
+   same_strand: same_strand
+   estimate_sv_distance: estimate_sv_distance
+   minimum_sv_size: minimum_sv_size
+   cohort_name:
+    default: "SURVIVOR-sv-merged.vcf"
+  out:
+   [merged_vcf]
+
  correct_survivor:
   run: ../tools/modify_survivor.cwl
   scatter: vcf
   in:
+   helper_script: modify_survivor_script
    vcf: survivor_merge/merged_vcf
-  out: [modified_vcf]
+  out:
+   [modified_vcf]
+
+ extract_sample_names:
+  run: ../tools/extract_sample_names.cwl
+  scatter: vcf
+  in:
+   vcf: correct_survivor/modified_vcf
+  out:
+   [sample_name]
+
+ tumor_correct_survivor:
+  run: ../tools/modify_survivor.cwl
+  scatter: vcf
+  in:
+   helper_script: modify_survivor_script
+   vcf: tumor_survivor_merge/merged_vcf
+  out:
+   [modified_vcf]
+
+ extract_tumor_names:
+  run: ../tools/extract_sample_names.cwl
+  scatter: vcf
+  in:
+   vcf: tumor_correct_survivor/modified_vcf
+  out:
+   [sample_name]
 
  merge_arrays:
   run: ../tools/create_array_of_string_arrays.cwl
   in:
    array1: control_bams
-   array2: tumor_bams
-  out: [array_of_arrays]
+   array2: sample_bams
+  out:
+   [array_of_arrays]
+
+ create_tumor_subset:
+  run: ../tools/create_subset.cwl
+  in:
+   tumor_array: tumor_bams
+   control_array: control_bams
+  out:
+   [tumor_subset, control_subset]
+
+ merge_subset_arrays:
+  run: ../tools/create_array_of_string_arrays.cwl
+  in:
+   array1: create_tumor_subset/tumor_subset
+   array2: create_tumor_subset/control_subset
+  out:
+   [array_of_arrays]
 
  first_genotyping:
   run: ../tools/svtyper_genotyping.cwl
@@ -136,19 +223,48 @@ steps:
   in:
    vcf: correct_survivor/modified_vcf
    bams_to_genotype: merge_arrays/array_of_arrays
+   helper_script: svtyper_helper
   out: [genotyped] 
+
+ tumor_first_genotyping:
+  run: ../tools/svtyper_genotyping.cwl
+  scatter: [vcf, bams_to_genotype]
+  scatterMethod: "dotproduct"
+  in:
+   vcf: tumor_correct_survivor/modified_vcf
+   bams_to_genotype: merge_subset_arrays/array_of_arrays
+   helper_script: svtyper_helper
+  out:
+   [genotyped]
 
  modify_GT_in_vcf:
   run: ../tools/modify_vcf_GT.cwl
   scatter: vcf
   in:
    vcf: first_genotyping/genotyped
-  out: [modded_GT]
+  out:
+   [modded_GT]
+
+ tumor_modify_GT_in_vcf:
+  run: ../tools/modify_vcf_GT.cwl
+  scatter: vcf
+  in:
+   vcf: tumor_first_genotyping/genotyped
+  out: 
+   [modded_GT]
+
+ merged_list:
+  run: ../tools/append_to_array.cwl
+  in:
+   array1: modify_GT_in_vcf/modded_GT
+   array2: tumor_modify_GT_in_vcf/modded_GT
+  out:
+   [out_array]
 
  create_sort_infile:
   run: ../tools/create_file_list.cwl
   in:
-   infiles: modify_GT_in_vcf/modded_GT
+   infiles: merged_list/out_array
   out: [filepath_file]
 
  sort_vcf:
@@ -171,19 +287,36 @@ steps:
  # the pipeline with a cohort.
  subset_to_current_sample:
   run: ../tools/subset_merged_svs.cwl
-  scatter: sample_of_interest
+  scatter: [sample_file_of_interest]
   in:
-   sample_of_interest: merge_arrays/array_of_arrays
+   helper_script: subset_helper
    vcf: merge_vcf/merged_vcf
+   sample_file_of_interest: sample_bams
+   sample_bams: sample_bams
+   tumor_bams: tumor_bams
+   extracted_sample_names: extract_sample_names/sample_name
+   extracted_tumor_names: extract_tumor_names/sample_name
   out: [sv_subset]
 
+ array_with_tumor:
+  run: ../tools/append_to_array_of_arrays.cwl
+  in:
+   in_array_of_arrays: merge_arrays/array_of_arrays 
+   tumor_array: tumor_bams
+  out: [ array_of_arrays ]
+
+ # Genotype plasma sample, matched control and optionally, the solid tumor
  merged_sample_genotyping:
   run: ../tools/svtyper_genotyping.cwl
   scatter: [vcf, bams_to_genotype]
   scatterMethod: "dotproduct"
+  #scatter: bams_to_genotype
   in:
    vcf: subset_to_current_sample/sv_subset
-   bams_to_genotype: merge_arrays/array_of_arrays
+   # Check how not subsetting affects results
+   #vcf: merge_vcf/merged_vcf
+   bams_to_genotype: array_with_tumor/array_of_arrays
+   helper_script: svtyper_helper
   out: [genotyped]
 
  # Requires that healthy bams are in an array of arrays,
@@ -194,6 +327,7 @@ steps:
   in:
    vcf: merge_vcf/merged_vcf
    bams_to_genotype: healthy_bams 
+   helper_script: svtyper_helper
   out: [genotyped]
 
  download_db:
@@ -204,9 +338,10 @@ steps:
 
  annotate_samples:
   run: ../tools/annotate_vcf.cwl
-  scatter: vcf
+  #scatter: vcf
   in:
-   vcf: merged_sample_genotyping/genotyped
+   #vcf: merged_sample_genotyping/genotyped
+   vcf: merge_vcf/merged_vcf
    genome: download_db/database
    genome_name: ref_genome
   out: [annotated_vcf]
@@ -215,7 +350,8 @@ steps:
   run: ../tools/vcftobedpe.cwl
   scatter: vcf
   in:
-   vcf: annotate_samples/annotated_vcf
+   #vcf: annotate_samples/annotated_vcf
+   vcf: merged_sample_genotyping/genotyped
   out: [bedpe]
 
  healthy_vcf_to_bedpe:
@@ -228,34 +364,32 @@ steps:
  aggregate_samples:
   run: ../tools/aggregate_bedpe.cwl
   in:
-   command:
-    default: "/usr/bin/aggregate_bedpe.sh"
    bedpe: vcf_to_bedpe/bedpe
+   aggregate_helper: aggregate_sample_helper
   out: [aggregate_bedpe]
 
  aggregate_healthy:
   run: ../tools/aggregate_bedpe.cwl
   in:
-   command:
-    default: "/usr/bin/aggregate_healthy_bedpe.sh"
    bedpe: healthy_vcf_to_bedpe/bedpe
+   aggregate_helper: aggregate_healthy_helper
   out: [aggregate_bedpe]
  
  remove_unsupported:
   run: ../tools/awk.cwl
   in:
    pattern:
-    default: 'BEGIN{FS=OFS="\t"}{if($8!=0.00){print}}'
+    default: 'BEGIN{FS=OFS="\t"}{if($8!=0.00 && $13>=2){print}}'
    in_file: aggregate_healthy/aggregate_bedpe
    out_file:
-    default: "healthy.removedUnsupported.bedpe"
+    default:  "healthy.removedUnsupported"
   out: [awk_out]
 
  remove_unknown_regions:
   run: ../tools/egrep_v.cwl
   in:
    pattern:
-    default: "chrUn|random|CHRUN"
+    default: "chrUn|random|CHRUN|chrUN"
    in_file: aggregate_samples/aggregate_bedpe
   out: [egrep_v_file]
 
@@ -268,16 +402,6 @@ steps:
    bed: neither_region
   out: [filtered_bedpe]
 
- modify_header_blacklisted_outfile:
-  run: ../tools/sed.cwl
-  in:
-   command:
-    default: '1s/.*/chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2/'
-   in_file: neither_filter/filtered_bedpe
-   out_file:
-    default: "aggregate.neither.bedpe"
-  out: [sed_out]
-
  notboth_filter:
   run: ../tools/bedtools_pairToBed.cwl
   in:
@@ -287,16 +411,6 @@ steps:
    bed: notboth_region
   out: [filtered_bedpe]
 
- modify_header_complexity_filter:
-  run: ../tools/sed.cwl
-  in:
-   command:
-    default: '1s/.*/chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2/'
-   in_file: notboth_filter/filtered_bedpe
-   out_file:
-    default: "aggregate.neither.notboth.bedpe"
-  out: [sed_out]
-
  modify_intervals:
   run: ../tools/awk.cwl
   in:
@@ -304,7 +418,7 @@ steps:
     default: 'BEGIN{FS=OFS="\t"}{if($2==$3){$2=$2-1};if($5==$6){$5=$5-1};print}'
    in_file: notboth_filter/filtered_bedpe
    out_file:
-    default: "modifiedIntervals.bedpe"
+    default: "modifiedIntervals"
   out: [awk_out]
    
  target_region_filter:
@@ -316,35 +430,15 @@ steps:
    bed: target_regions
   out: [filtered_bedpe]
 
- add_header_target_region:
-  run: ../tools/sed.cwl
-  in:
-   command:
-    default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2'
-   in_file: target_region_filter/filtered_bedpe
-   out_file:
-    default: "aggregate.neither.notboth.target.bedpe"
-  out: [sed_out]
-
  plasma_only:
   run: ../tools/awk.cwl
   in:
    pattern:
-    default: 'BEGIN{FS=OFS="\t"}{if($13>=1 && $16==0){print}}'
+    default: 'BEGIN{FS=OFS="\t"}{if($16==0){print}}' 
    in_file: target_region_filter/filtered_bedpe
    out_file:
-    default: "aggregate.neither.notboth.target.plasma.noHeader.bedpe"
+    default: "aggregate.neither.notboth.target.plasma.noHeader"
   out: [awk_out]
-
- add_header_plasma_only:
-  run: ../tools/sed.cwl
-  in:
-   command:
-    default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2'
-   in_file: plasma_only/awk_out
-   out_file:
-    defualt: "aggregate.neither.notboth.target.plasma.bedpe"
-  out: [sed_out]
 
  compare_to_healthy:
   run: ../tools/bedtools_pairToPair.cwl
@@ -362,33 +456,35 @@ steps:
     default: 's/PRPOS.*CIPOS=[-0-9]*,[-0-9]*;//g'
    in_file: compare_to_healthy/filtered_bedpe
    out_file:
-    default: "aggregate.neither.notboth.target.plasma.cleaned.bedpe"
+    default: "aggregate.neither.notboth.target.plasma.cleaned"
   out: [sed_out]
 
- create_awk_string:
-  run: ../tools/create_string.cwl
-  in:
-   in_strings: [first_string, read_support, second_string]
-  out: [out_string]
-  
  read_support_filter:
-  run: ../tools/awk.cwl
+  run: ../tools/read_support_filter.cwl
   in:
-   pattern: create_awk_string/out_string
-   in_file: remove_dummy_variables/sed_out 
+   read_support: read_support
+   in_file: remove_dummy_variables/sed_out
    out_file:
-    default: "aggregate.neither.notboth.target.plasma.cleaned.support.noHeader.bedpe"
-  out: [awk_out]
+    default: "aggregate.neither.notboth.target.plasma.cleaned.readsupport"
+  out: [filtered]
 
- add_header_somatic:
+ liftover_annotations:
+  run: ../tools/liftover_annotations.cwl
+  in:
+   helper_script: liftover_script
+   annotated_vcf: annotate_samples/annotated_vcf
+   unannotated_bedpe: read_support_filter/filtered
+  out: [annotated]
+
+ add_header_final_output:
   run: ../tools/sed.cwl
   in:
    command:
-    default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tinfo1\tinfo2'
-   in_file: read_support_filter/awk_out
+    default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tsolid_tumor_pe_reads\tsolid_tumor_split_reads\tsolid_tumor_pe_sr_reads\tinfo1\tinfo2'
+   #in_file: read_support_filter/filtered
+   in_file: liftover_annotations/annotated
    out_file:
     default: "aggregate.final.bedpe"
   out: [sed_out]
-
-
+  
 

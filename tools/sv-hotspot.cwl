@@ -37,5 +37,9 @@ outputs:
   type: Directory
   outputBinding:
    glob: "OUTPUT_VIS"
+ annotated_peaks:
+  type: File
+  outputBinding:
+   glob: "OUTPUT_VIS/sv-hotspot-output/annotated_peaks_summary.tsv"
 
 

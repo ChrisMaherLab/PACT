@@ -2,30 +2,28 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-label: "Aggregate multiple bedpe files into a single file"
+label: "Create tumor/control list for filtering somatic Delly calls"
 
 baseCommand: ["bash"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "ubuntu:xenial"
+      dockerPull: "biocontainers/bcftools:v1.9-1-deb_cv1"
     - class: ResourceRequirement
-      ramMin: 4000
-      coresMin: 1
+      ramMin: 6000
 
 inputs:
- aggregate_helper:
+ helper:
   type: File
   inputBinding:
-   position: 1
- bedpe:
-  type: File[]
+   position: 1 
+ bcf:
+  type: File
   inputBinding:
    position: 2
-   itemSeparator: " "
 
 outputs:
- aggregate_bedpe:
+ samples:
   type: stdout
 
-stdout: aggregate.bedpe
+stdout: samples.tsv

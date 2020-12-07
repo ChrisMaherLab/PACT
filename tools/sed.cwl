@@ -21,10 +21,9 @@ inputs:
    position: 2
  out_file:
   type: string
-  default: "sed.out"
 
 outputs:
  sed_out:
   type: stdout
 
-stdout: $(inputs.out_file)
+stdout: $(inputs.out_file).out

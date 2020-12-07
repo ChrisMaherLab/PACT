@@ -1,11 +1,14 @@
 reference: /path/to/reference_hg19.fa
 ref_genome: hg19
-tumor_bams:
+sample_bams:
  - /path/to/sample1.bam
  - /path/to/sample2.bam
 control_bams:
  - /path/to/sample1_matched_control.bam
  - /path/to/sample2_matched_control.bam
+tumor_bams:
+ - NA
+ - NA
 minimum_sv_size: 30
 same_strand: false
 same_type: true

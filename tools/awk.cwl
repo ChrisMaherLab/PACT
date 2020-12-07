@@ -22,11 +22,10 @@ inputs:
    position: 2
  out_file:
   type: string
-  default: "awk.out"
 
 
 outputs:
  awk_out:
   type: stdout
 
-stdout: $(inputs.out_file)
+stdout: $(inputs.out_file).out

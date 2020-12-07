@@ -1,9 +1,8 @@
 #!/usr/bin/env cwl-runner
 
-
 cwlVersion: v1.0
 class: Workflow
-label: "Create basic visualizations using SV-HotSpot"
+label: "Create basic visualizations and detect SV hotspot regions using SV-HotSpot"
 requirements:
  - class: ScatterFeatureRequirement
  - class: SubworkflowFeatureRequirement
@@ -21,6 +20,9 @@ outputs:
  default_plots:
   type: Directory
   outputSource: create_vis/vis
+ annotated_peaks:
+  type: File
+  outputSource: create_vis/annotated_peaks
 
 steps:
  create_sv_hotspot_input:
@@ -30,7 +32,7 @@ steps:
     default: 'BEGIN{FS=OFS="\t"}{print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10}'
    in_file: bedpe
    out_file:
-    default: "aggregate.vis.bedpe"
+    default: 'aggregate.vis.bedpe'
   out: [awk_out]
 
  create_vis:
@@ -38,4 +40,4 @@ steps:
   in:
     genome: ref_genome
     bedpe: create_sv_hotspot_input/awk_out
-  out: [vis]
+  out: [vis, annotated_peaks]

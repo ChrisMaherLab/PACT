@@ -4,17 +4,21 @@ cwlVersion: v1.0
 class: CommandLineTool
 description: "Make modifications to VCF files so they work well with downstream tools"
 
-baseCommand: ["/usr/bin/python3.5", "/usr/bin/modify_SURVIVOR.py"]
+baseCommand: ["python"]
 
 requirements:
       - class: DockerRequirement
-        dockerPull: "jbwebster/sv_helper_docker"
+        dockerPull: "python"
 
 inputs:
- vcf:
+ helper_script:
   type: File
   inputBinding:
    position: 1
+ vcf:
+  type: File
+  inputBinding:
+   position: 2
    prefix: -i
 
 outputs:

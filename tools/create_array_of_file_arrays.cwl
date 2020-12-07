@@ -26,7 +26,7 @@ expression: >
  ${
   var out_array = [];
   for (var i = 0; i < inputs.array1.length; i++) {
-   tuple = [inputs.array1[i], inputs.array2[i]];
+   var tuple = [inputs.array1[i], inputs.array2[i]];
    out_array.push(tuple);
   }
   return { 'array_of_arrays' : out_array }

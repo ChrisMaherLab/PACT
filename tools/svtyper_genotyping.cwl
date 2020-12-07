@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Genotype SVs using svtyper"
 
-baseCommand: ["/opt/hall-lab/python-2.7.15/bin/svtyper"]
+baseCommand: ["bash"]
 
 requirements:
     - class: DockerRequirement
@@ -16,17 +16,21 @@ inputs:
  vcf:
   type: File
   inputBinding:
-   position: 1
-   prefix: -i
+   position: 2
+   #prefix: -i
   doc: "VCF file of SVs to genotype"
  bams_to_genotype:
   type: string[]
   secondaryFiles: [".bai"]
   inputBinding:
-   position: 2
-   prefix: -B
+   position: 3
+   #prefix: -B
    itemSeparator: ","
   doc: "Array of bams to use for genotyping"
+ helper_script:
+  type: File
+  inputBinding:
+   position: 1
 
 outputs:
  genotyped:

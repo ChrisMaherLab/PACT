@@ -5,42 +5,45 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Perform SV calling using Delly"
 
-baseCommand: ["delly", "call"]
+baseCommand: ["delly", "filter"]
 
 requirements:
     - class: DockerRequirement
       dockerPull: jbwebster/delly_docker
     - class: InlineJavascriptRequirement
     - class: ResourceRequirement
-      coresMin: 12
+      coresMin: 8
       ramMin: 15000
 
 inputs:
- ref:
-  type: string
+ samples:
+  type: File
   inputBinding:
-   prefix: -g
-   position: 1
-  doc: "Reference genome .fa"
- sample_bam:
-  type: string
-  inputBinding:
-   position: 3
- control_bam:
-  type: string
+   position: 2
+   prefix: -s
+ input_bcf:
+  type: File
   inputBinding:
    position: 4
+  secondaryFiles: .csi
+ command:
+  type: string
+  inputBinding:
+   position: 1
+   prefix: -f
+ 
 
 arguments:
  - prefix: -o
-   valueFrom: $(runtime.outdir)/$(inputs.sample_bam.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).bcf
-   position: 2
+   #valueFrom: $(runtime.outdir)/$(inputs.input_bcf.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).bcf
+   valueFrom: $(runtime.outdir)/$(inputs.input_bcf.basename).bcf
+   position: 3
+ 
 
 outputs:
  delly_output:
   type: File
-  secondaryFiles: .csi
   outputBinding:
-   glob: $(inputs.sample_bam.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).bcf
+   glob: "*.bcf"
 
 

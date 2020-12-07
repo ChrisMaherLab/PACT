@@ -12,7 +12,7 @@ requirements:
     - class: InlineJavascriptRequirement
     - class: ResourceRequirement
       coresMin: 12
-      ramMin: 24000
+      ramMin: 15000
 
 inputs:
  bams:

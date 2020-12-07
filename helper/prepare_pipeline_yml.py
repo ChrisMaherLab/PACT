@@ -4,8 +4,17 @@ import sys
 import re
 import argparse
 
+"""
+Generate an input yml file that can be used with the pipeline.
+"""
+
 
 def createTumorAndSampleStrings(args):
+	"""
+	Create strings containing filepath info to sample, matched_control, 
+	and solid tumor bam files (optional).
+	Each set of bams will be formatted as a File[] in the yml
+	"""
 	sample_file = args.samples_file
 	samples_and_controls = []
 	# Throws unhandled error if file does not exist
@@ -15,15 +24,31 @@ def createTumorAndSampleStrings(args):
 			bams = line.split("\t")
 			samples_and_controls.append(bams)
 	f.close()
-	tumor_string = "tumor_bams:\n"
+	sample_string = "sample_bams:\n"
 	control_string = "control_bams:\n"
+	tumor_string = "tumor_bams:\n"
 	for i in range(0, len(samples_and_controls)):
 		bams = samples_and_controls[i]
-		tumor_string += " - " + bams[0] + "\n"
+		sample_string += " - " + bams[0] + "\n"
 		control_string += " - " + bams[1] + "\n"
-	return tumor_string, control_string
+		if len(bams) >=3:
+			tumor = bams[2]
+			if tumor.lower() != "na" and tumor.lower() != "nan" and tumor.lower() != "none" and len(tumor.lower()) > 1:
+				tumor_string += " - " + bams[2] + "\n"
+			else:
+				tumor_string += " - " + "NA" + "\n"
+		else:
+			tumor_string += " - " + "NA" + "\n"
+			
+	return sample_string, control_string, tumor_string
 
 def createHealthyBamString(args):
+	"""
+	Create string containing filepath info to healthy normal samples.
+	The list will be formatted as a list of lists, with each inner list
+	containing a single sample. This formatting is required so that they
+	are compatible with some of the tools/*.cwl that expect that structure.
+	"""
 	healthy_file = args.healthy	
 	healthy_bams = []
 	with open(healthy_file, "r") as f:
@@ -47,11 +72,12 @@ def createHealthyBamString(args):
 	
 
 def generateFileInfo(args):
-	tumor, control = createTumorAndSampleStrings(args)
+	sample, control, tumor = createTumorAndSampleStrings(args)
 	outstring = "reference: " + args.reference + "\n"
 	outstring += "ref_genome: " + args.genome + "\n"
-	outstring += tumor
+	outstring += sample
 	outstring += control
+	outstring += tumor
 	if args.max_distance is not None:
 		outstring += "max_distance_to_merge: " + str(args.max_distance) + "\n"
 	if args.num_callers is not None:
@@ -68,27 +94,27 @@ def generateFileInfo(args):
 	if args.notboth is not None:
 		outstring += "notboth_region:\n class: File\n path: " + args.notboth + "\n"
 	if args.read_support is not None:
-		outstring += 'read_support: "' + str(args.read_support) + '"\n'
+		outstring += "read_support: " + str(args.read_support) + "\n"
 	return outstring
 
 def main(args):
 	
 	parser = argparse.ArgumentParser(description="Prepare input yml")
 	required = parser.add_argument_group('required arguments')
-	required.add_argument("-s", "--samples_file", action="store", help="Tab-delimited file with absolute paths to sample bams in first column, and their matched control in the second column", required=True)
-	required.add_argument("-n", "--healthy", action="store", help="File with a list of absolute paths to healthy bam files", required=True)
-	required.add_argument("-r", "--reference", action="store", help="Absolute path to reference genome .fa file")
-	required.add_argument("-t", "--target", action="store", help="Absolute path to bed file describing target regions used for targeted sequencing")
-	required.add_argument("-g", "--genome", action="store", help="Name of reference genome (should correspond to file in -r). Ex: hg19. Should be a genome build supported by SV-HotSpot and SnpEff.")
+	required.add_argument("-s", "--samples_file", action="store", help="Tab-delimited file with absolute paths to sample bams in first column, and their matched control in the second column. Optionally, a bam from a solid tumor sample may be in the third column. If not present, the third column should not exist, or be NA. No header lines are expected.", required=True)
+	required.add_argument("-n", "--healthy", action="store", help="File with a list of absolute paths to healthy bam files in a single column. No header lines are expected.", required=True)
+	required.add_argument("-r", "--reference", action="store", help="Absolute path to reference genome .fa file", required=True)
+	required.add_argument("-t", "--target", action="store", help="Absolute path to bed file describing target regions used for targeted sequencing", required=True)
+	required.add_argument("-g", "--genome", action="store", help="Name of reference genome (should correspond to file in -r). Ex: hg19. Should be a genome build supported by SV-HotSpot and SnpEff, since those tools use this name for internal use.", required=True)
 	parser.add_argument("--max_distance", action="store", type=int, help="Max allowed distance between SVs for merging. See SURVIVOR documentation for more info. Default=100")
-	parser.add_argument("--num_callers", action="store",  type=int, help="Number of tools that needed to call an SV for it to be considered a consensus call. See SURVIVOR documentation for more info. Default=2")
+	parser.add_argument("--num_callers", action="store",  type=int, help="Number of tools that need to call an SV for it to be considered a consensus call. See SURVIVOR documentation for more info. Default=2")
 	parser.add_argument("--neither", action="store", help="Absolute path to a bed file for use with filtering SVs. Will be used as -b parameter for bedtools pairToBed --neither. Not required, but HIGHLY RECOMMENDED to supply a blacklist file.")
 	parser.add_argument("--notboth", action="store", help="Absolute path to a bed file for use with filtering SVs. Will be used as -b parameter for bedtools pairToBed --notboth. Not required, but HIGHLY RECOMMENDED to supply a file of low complexity regions.")
 	parser.add_argument("--min_size", action="store", default=30, type=int, help="Minimun size of SV to be considered. See SURVIVOR documentation for more info. Default=30")
 	parser.add_argument("--same_strand", action="store_true", help="Flag requiring SVs to be on the same strand in order to be merged. See SURVIVOR documentation for more info. Default=false")
 	parser.add_argument("--same_type", action="store_false", help="Flag requiring SVs to be of the same type in order to be merged. Use the flag to turn off this requirement. Default=true")
 	parser.add_argument("--est_dist", action="store_true", help="Flag to estimate SV distance. See SURVIVOR for info. Default=false")
-	parser.add_argument("--read_support", action="store", help="Number of supporting reads required for a somatic SV. Default=1")
+	parser.add_argument("--read_support", action="store", type=int, help="Number of supporting reads required for a somatic SV. Default=1")
 
 	args = parser.parse_args()
 

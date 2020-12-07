@@ -11,7 +11,7 @@ requirements:
     - class: ShellCommandRequirement
     - class: ResourceRequirement
       coresMin: 12
-      ramMin: 24000
+      ramMin: 15000
       tmpdirMin: 10000
 
 baseCommand: ["/usr/bin/python", "/usr/bin/manta/bin/configManta.py"]
@@ -22,7 +22,7 @@ inputs:
         inputBinding:
             position: -2
             prefix: "--normalBam"
-    tumor_bam:
+    sample_bam:
         type: string
         inputBinding:
             position: -3
@@ -70,7 +70,7 @@ outputs:
         outputBinding:
             glob: results/variants/candidateSmallIndels.vcf.gz
         secondaryFiles: [.tbi]
-    tumor_only_variants:
+    sample_only_variants:
         type: File?
         outputBinding:
             glob: results/variants/tumorSV.vcf.gz
