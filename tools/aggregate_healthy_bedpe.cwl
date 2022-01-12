@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Aggregate multiple bedpe files into a single file"
 
-baseCommand: ["bash", "/usr/bin/aggregate_bedpe.sh"]
+baseCommand: ["bash", "/usr/bin/aggregate_healthy_bedpe.sh"]
 
 requirements:
     - class: DockerRequirement
