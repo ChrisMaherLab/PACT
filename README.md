@@ -1,37 +1,19 @@
 # Jacesbestrepoever
 (WIP)
 
-Standardized workflow, written in CWL, for the identification of somatic structural variants using cfDNA. Uses a variety of tools, including Lumpy, Manta, Delly, Survivor, svtools, and svtyper, to identify SVs that are detected in cfDNA, but that are not found in a (plasma-depleted) matched control or in any of the provided 'healthy' samples.
+Standardized workflow, written in the Common Workflow Language (CWL), for the identification of somatic variants using cfDNA. Uses a variety of open-source tools to identify variants that are detected in cfDNA plasma samples. The workflow applies best-practice protocols for calling mutations of multiple classes across a cohort of samples (though it can be used on single samples as well).
 
-The workflow consists of three basic steps, which are contained in the `subworkflows` directory, and include:
- 1. Perform SV calling. Given the provided bam files, the workflow uses Lumpy, Manta, and Delly to perform SV calling.
- 2. Merging and filtering. Using the output from step 1, consensus calls are identified by requiring that an SV appear in the output of at least `n` of the three SV calling tools. Consensus calls are re-formatted and then genotyped and annotated. Only SV calls that appear in a plasma sample, but not in the matched control or in any of the healthy samples are kept. Region based filters are then optionally applied, and a single, cohort-wide bedpe is produced for all SVs that meet all filtering criteria.
- 3. Basic visualizations are created using default parameters using SV-HotSpot. SV-HotSpot provides many options for enhanced visualizations, but users may not know the optimal parameters until they have seen what SVs are present in their cohort. After reviewing the output of the workflow, we suggest using the output bedpe with SV-HotSpot to further customize their visualizations. 
 
-Requires installation of Docker.
+CWL is meant to be a language for creating standardized scientific workflows and can be run using a variety of methods. We have tested the workflows here using Cromwell's CWL interpreter, configured to work with the IBM's Load Sharing Facility (LSF) for high-performance computing environments.
 
-To run, download the repository, cd into the repository, create a `.yml` file using the helper script described below, then pass the generated `.yml` file and the `workflow/sv_pipeline.cwl` to your preferred CWL runner. For example, if you are using the `cwl-runner` tool, you would use:
+
+If using Cromwell to run the CWL pipeline, download the latest version of Cromwell from their [release page](https://github.com/broadinstitute/cromwell/releases), and then run the workflow using the command:
 
 ```
-cwl-runner workflow/sv_pipeline.cwl example/example.yml
+java -jar /path/to/cromwell.jar run -t cwl -i example/example.yml pipelines/sv_pipeline.cwl
 ```
 
-We recommend using Cromwell's CWL runner, if it is compatible with your system, because it is what the workflow was originally tested on and it can integrate with multiple HPC platforms. To do so, download the latest version of Cromwell from their [release page](https://github.com/broadinstitute/cromwell/releases), and then run the workflow using the command:
-
-```
-java -jar /path/to/cromwell.jar run -t cwl -i example/example.yml workflow/sv_pipeline.cwl
-```
-
-We would highly recommend following Cromwell's [Configuration file tutorial](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/) to further customize how Cromwell runs the workflow, by specifying where Cromwell should save log files, output files, how it should integrate with your HPC platform (if used), to prioritize using copies instead of hard-links, etc. Other tools that can run CWL workflows are described [here](https://www.commonwl.org/).
-
-Though the workflow was written to be able to handle an entire cohort as input, users may find it useful to run samples one at a time or in smaller batches, as Cromwell and other CWL tools will attempt to localize input files either as copies or hard-links (depending on the tool and configuration), which may take up a large amount of space. We advise against hard-links as a general rule, but note that creating copies of input files may take up a large amount of space, depending on the size of the cohort, the number of samples being run at a time, and sequencing depth.
+We would highly recommend following Cromwell's [Configuration file tutorial](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/) to further customize how Cromwell runs the workflow, by specifying where Cromwell should save log files, output files, how it should integrate with your HPC platform (if used), to prioritize using copies/soft-links instead of hard-links, etc. A non-exhaustive list of other tools that can run CWL workflows is described [here](https://www.commonwl.org/).
 
 ---
 
-A helper script has been provided to help create a properly formatted yaml file containing all values that can be passed to the workflow. All paths be are required to be absolute paths (including those listed within files like example/samples.tsv). The example.yml file provided in the example directory was produced by using the helper script with the following parameters:
-
-```
-python helper/prepare_pipeline_yml.py -s example/samples.tsv -n example/healthy.tsv -r /path/to/reference_hg19.fa -g hg19 -t /path/to/target_regions.bed --neither /path/to/blacklist.bed --notboth /path/to/low_complexity_regions.bed > example/example.yml
-```
-
-The file passed using `-s` should be a tab-delimited file, where the first column is a path to a bam file, and the second column is a path to a bam representing a matched control (in the case of a cfDNA analysis, this may be a plasma-depleted sample). The file passed with `-n` should contain a list of paths to bam files representing 'healthy' samples. For additional information, run `python helper/prepare_pipeline_yml.py -h`

@@ -10,15 +10,12 @@ requirements:
  - class: StepInputExpressionRequirement
  - class: InlineJavascriptRequirement
  - class: MultipleInputFeatureRequirement
+ - class: SchemaDefRequirement
+   types:
+       - $import: ../types/bam_record.yml
 
 inputs:
  sv_vcfs:
-  type:
-   type: array
-   items:
-    type: array
-    items: File
- tumor_vcfs:
   type:
    type: array
    items:
@@ -32,97 +29,55 @@ inputs:
   default: 2
  minimum_sv_size:
   type: int?
-  default: 30
+  default: 100
  same_strand:
   type: boolean?
   default: false
  same_type:
   type: boolean?
   default: true
- estimate_sv_distance:
-  type: boolean?
-  default: false
  sample_bams:
-  type: string[]
- control_bams:
-  type: string[]
- tumor_bams:
-  type: string[]
- healthy_bams:
-  type:
-   type: array
-   items:
-    type: array
-    items: string
+   type: ../types/bam_record.yml#bam_input[]
+   secondaryFiles: [.bai]
+ matched_control_bams:
+   type: ../types/bam_record.yml#bam_input[]
+   secondaryFiles: [.bai]
+ panel_of_normal_bams:
+   type: ../types/bam_record.yml#bam_input[]
+   secondaryFiles: [.bai]
  target_regions:
   type: File
  neither_region:
   type: File?
  notboth_region:
-  type: File? 
+  type: File?
  ref_genome:
   type: string
+ snpEff_data:
+  type: Directory
  read_support:
   type: int
-  default: 1
+  default: 2
+ sv_whitelist:
+  type: File?
  svtyper_helper:
   type: File
- subset_helper:
-  type: File
- aggregate_sample_helper:
-  type: File
- aggregate_healthy_helper:
-  type: File
- modify_survivor_script:
-  type: File
- prepare_vcf_script:
-  type: File
- liftover_script:
-  type: File
+  default:
+   class: File
+   path: ../helper/svtyper_helper.sh
 
 outputs:
  somatic_svs_bedpe:
   type: File
-  outputSource: add_header_final_output/sed_out
+  outputSource: clean_output/cleaned_out
   doc: "SVs identified as somatic after applying all filters"
- consensus_vcf:
-  type: File[]
-  outputSource: survivor_merge/merged_vcf
- tumor_consensus_vcf:
-  type: File[]
-  outputSource: tumor_survivor_merge/merged_vcf
- prepared_vcf:
-  type:
-   type: array
-   items:
-    type: array
-    items: File
-  outputSource: prepare_vcfs/modified_vcfs
- tumor_prepared_vcf:
-  type:
-   type: array
-   items:
-    type: array
-    items: File
-  outputSource: prepare_tumor_vcfs/modified_vcfs
-
 
 steps:
  prepare_vcfs:
   run: ../tools/prepare_vcfs.cwl
   scatter: vcfs
   in:
-   helper_script: prepare_vcf_script
    vcfs: sv_vcfs
-  out:
-   [modified_vcfs]
-
- prepare_tumor_vcfs:
-  run: ../tools/prepare_vcfs.cwl
-  scatter: vcfs
-  in:
-   helper_script: prepare_vcf_script
-   vcfs: tumor_vcfs
   out:
    [modified_vcfs]
 
@@ -135,107 +90,56 @@ steps:
    minimum_sv_calls: minimum_sv_calls
    same_type: same_type
    same_strand: same_strand
-   estimate_sv_distance: estimate_sv_distance
+   estimate_sv_distance:
+    default: false
    minimum_sv_size: minimum_sv_size
    cohort_name:
     default: "SURVIVOR-sv-merged.vcf"
   out:
    [merged_vcf] 
 
- tumor_survivor_merge:
-  run: ../tools/survivor-merge.cwl
-  scatter: vcfs
-  in:
-   vcfs: prepare_tumor_vcfs/modified_vcfs
-   max_distance_to_merge: max_distance_to_merge
-   minimum_sv_calls: minimum_sv_calls
-   same_type: same_type
-   same_strand: same_strand
-   estimate_sv_distance: estimate_sv_distance
-   minimum_sv_size: minimum_sv_size
-   cohort_name:
-    default: "SURVIVOR-sv-merged.vcf"
-  out:
-   [merged_vcf]
-
  correct_survivor:
   run: ../tools/modify_survivor.cwl
   scatter: vcf
   in:
-   helper_script: modify_survivor_script
    vcf: survivor_merge/merged_vcf
   out:
    [modified_vcf]
 
  extract_sample_names:
-  run: ../tools/extract_sample_names.cwl
+  run: ../tools/extract_sample_name_from_vcf.cwl
   scatter: vcf
   in:
    vcf: correct_survivor/modified_vcf
   out:
    [sample_name]
-
- tumor_correct_survivor:
-  run: ../tools/modify_survivor.cwl
-  scatter: vcf
-  in:
-   helper_script: modify_survivor_script
-   vcf: tumor_survivor_merge/merged_vcf
-  out:
-   [modified_vcf]
-
- extract_tumor_names:
-  run: ../tools/extract_sample_names.cwl
-  scatter: vcf
-  in:
-   vcf: tumor_correct_survivor/modified_vcf
-  out:
-   [sample_name]
-
- merge_arrays:
-  run: ../tools/create_array_of_string_arrays.cwl
-  in:
-   array1: control_bams
-   array2: sample_bams
-  out:
-   [array_of_arrays]
-
- create_tumor_subset:
-  run: ../tools/create_subset.cwl
-  in:
-   tumor_array: tumor_bams
-   control_array: control_bams
-  out:
-   [tumor_subset, control_subset]
-
- merge_subset_arrays:
-  run: ../tools/create_array_of_string_arrays.cwl
-  in:
-   array1: create_tumor_subset/tumor_subset
-   array2: create_tumor_subset/control_subset
-  out:
-   [array_of_arrays]
 
  first_genotyping:
   run: ../tools/svtyper_genotyping.cwl
-  scatter: [vcf, bams_to_genotype]
+  scatter: [vcf, bam_one, bam_two]
   scatterMethod: "dotproduct"
   in:
+   helper: svtyper_helper
    vcf: correct_survivor/modified_vcf
-   bams_to_genotype: merge_arrays/array_of_arrays
-   helper_script: svtyper_helper
+   bam_one:
+     source: matched_control_bams
+     valueFrom: |
+       ${
+          if(self.as_string) {
+              return(self.as_string);
+          }
+          return(self.as_file)
+       }
+   bam_two:
+     source: sample_bams
+     valueFrom: |
+       ${
+          if(self.as_string) {
+              return(self.as_string);
+          }
+          return(self.as_file)
+       }
   out: [genotyped] 
-
- tumor_first_genotyping:
-  run: ../tools/svtyper_genotyping.cwl
-  scatter: [vcf, bams_to_genotype]
-  scatterMethod: "dotproduct"
-  in:
-   vcf: tumor_correct_survivor/modified_vcf
-   bams_to_genotype: merge_subset_arrays/array_of_arrays
-   helper_script: svtyper_helper
-  out:
-   [genotyped]
 
  modify_GT_in_vcf:
   run: ../tools/modify_vcf_GT.cwl
@@ -245,26 +149,10 @@ steps:
   out:
    [modded_GT]
 
- tumor_modify_GT_in_vcf:
-  run: ../tools/modify_vcf_GT.cwl
-  scatter: vcf
-  in:
-   vcf: tumor_first_genotyping/genotyped
-  out: 
-   [modded_GT]
-
- merged_list:
-  run: ../tools/append_to_array.cwl
-  in:
-   array1: modify_GT_in_vcf/modded_GT
-   array2: tumor_modify_GT_in_vcf/modded_GT
-  out:
-   [out_array]
-
  create_sort_infile:
   run: ../tools/create_file_list.cwl
   in:
-   infiles: merged_list/out_array
+   infiles: modify_GT_in_vcf/modded_GT
   out: [filepath_file]
 
  sort_vcf:
@@ -281,68 +169,55 @@ steps:
     default: 20
   out: [merged_vcf]
 
- # Ensures that the SVs that are genotyped against healthy/samples
- # are the same SVs, while reducing the need to genotype (and annotate)
- # SVs reported in "sample 2" against "sample 1". Saves space when running
- # the pipeline with a cohort.
- subset_to_current_sample:
-  run: ../tools/subset_merged_svs.cwl
-  scatter: [sample_file_of_interest]
-  in:
-   helper_script: subset_helper
-   vcf: merge_vcf/merged_vcf
-   sample_file_of_interest: sample_bams
-   sample_bams: sample_bams
-   tumor_bams: tumor_bams
-   extracted_sample_names: extract_sample_names/sample_name
-   extracted_tumor_names: extract_tumor_names/sample_name
-  out: [sv_subset]
-
- array_with_tumor:
-  run: ../tools/append_to_array_of_arrays.cwl
-  in:
-   in_array_of_arrays: merge_arrays/array_of_arrays 
-   tumor_array: tumor_bams
-  out: [ array_of_arrays ]
-
- # Genotype plasma sample, matched control and optionally, the solid tumor
  merged_sample_genotyping:
   run: ../tools/svtyper_genotyping.cwl
-  scatter: [vcf, bams_to_genotype]
+  scatter: [bam_one, bam_two]
   scatterMethod: "dotproduct"
-  #scatter: bams_to_genotype
   in:
-   vcf: subset_to_current_sample/sv_subset
-   # Check how not subsetting affects results
-   #vcf: merge_vcf/merged_vcf
-   bams_to_genotype: array_with_tumor/array_of_arrays
-   helper_script: svtyper_helper
-  out: [genotyped]
-
- # Requires that healthy bams are in an array of arrays,
- # though the inner arrays are expected to just contain 1 file
- healthy_genotyping:
-  run: ../tools/svtyper_genotyping.cwl
-  scatter: bams_to_genotype
-  in:
+   helper: svtyper_helper
    vcf: merge_vcf/merged_vcf
-   bams_to_genotype: healthy_bams 
-   helper_script: svtyper_helper
+   bam_one:
+     source: matched_control_bams
+     valueFrom: |
+       ${ 
+          if(self.as_string) {
+              return(self.as_string);
+          }
+          return(self.as_file)
+       }
+   bam_two:
+     source: sample_bams
+     valueFrom: |
+       ${ 
+          if(self.as_string) {
+              return(self.as_string);
+          }
+          return(self.as_file)
+       }
   out: [genotyped]
 
- download_db:
-  run: ../tools/download_snpEff_db.cwl
+ healthy_genotyping:
+  run: ../tools/single_svtyper_genotyping.cwl
+  scatter: bam
   in:
-   db: ref_genome
-  out: [database]
+   helper: svtyper_helper
+   vcf: merge_vcf/merged_vcf
+   bam:
+     source: panel_of_normal_bams 
+     valueFrom: |
+       ${
+          if(self.as_string) {
+              return(self.as_string);
+          }
+          return(self.as_file)
+       }
+  out: [genotyped]
 
  annotate_samples:
-  run: ../tools/annotate_vcf.cwl
-  #scatter: vcf
+  run: ../tools/annotate_sv_vcf.cwl
   in:
-   #vcf: merged_sample_genotyping/genotyped
    vcf: merge_vcf/merged_vcf
-   genome: download_db/database
+   genome: snpEff_data
    genome_name: ref_genome
   out: [annotated_vcf]
 
@@ -350,7 +225,6 @@ steps:
   run: ../tools/vcftobedpe.cwl
   scatter: vcf
   in:
-   #vcf: annotate_samples/annotated_vcf
    vcf: merged_sample_genotyping/genotyped
   out: [bedpe]
 
@@ -365,22 +239,30 @@ steps:
   run: ../tools/aggregate_bedpe.cwl
   in:
    bedpe: vcf_to_bedpe/bedpe
-   aggregate_helper: aggregate_sample_helper
   out: [aggregate_bedpe]
 
  aggregate_healthy:
-  run: ../tools/aggregate_bedpe.cwl
+  run: ../tools/aggregate_healthy_bedpe.cwl
   in:
    bedpe: healthy_vcf_to_bedpe/bedpe
-   aggregate_helper: aggregate_healthy_helper
   out: [aggregate_bedpe]
  
+ modify_healthy_intervals:
+  run: ../tools/awk.cwl
+  in:
+   pattern:
+    default: 'BEGIN{FS=OFS="\t"} {if(FNR>1){$2=$2-10;$5=$5-10; print $0} else print $0}'
+   in_file: aggregate_healthy/aggregate_bedpe
+   out_file:
+    default: "modifiedIntervals"
+  out: [awk_out]
+
  remove_unsupported:
   run: ../tools/awk.cwl
   in:
    pattern:
-    default: 'BEGIN{FS=OFS="\t"}{if($8!=0.00 && $13>=2){print}}'
-   in_file: aggregate_healthy/aggregate_bedpe
+    default: 'BEGIN{FS=OFS="\t"}{if($13>=1){print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22}}'
+   in_file: modify_healthy_intervals/awk_out
    out_file:
     default:  "healthy.removedUnsupported"
   out: [awk_out]
@@ -415,7 +297,7 @@ steps:
   run: ../tools/awk.cwl
   in:
    pattern:
-    default: 'BEGIN{FS=OFS="\t"}{if($2==$3){$2=$2-1};if($5==$6){$5=$5-1};print}'
+    default: 'BEGIN{FS=OFS="\t"}{if($2==$3){$2=$2-1};if($5==$6){$5=$5-1};print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22}'
    in_file: notboth_filter/filtered_bedpe
    out_file:
     default: "modifiedIntervals"
@@ -430,22 +312,12 @@ steps:
    bed: target_regions
   out: [filtered_bedpe]
 
- plasma_only:
-  run: ../tools/awk.cwl
-  in:
-   pattern:
-    default: 'BEGIN{FS=OFS="\t"}{if($16==0){print}}' 
-   in_file: target_region_filter/filtered_bedpe
-   out_file:
-    default: "aggregate.neither.notboth.target.plasma.noHeader"
-  out: [awk_out]
-
  compare_to_healthy:
   run: ../tools/bedtools_pairToPair.cwl
   in:
    type_parameter:
-    default: "neither"
-   in_file: plasma_only/awk_out
+    default: "notboth" 
+   in_file: target_region_filter/filtered_bedpe
    comparison_file: remove_unsupported/awk_out
   out: [filtered_bedpe] 
 
@@ -459,11 +331,18 @@ steps:
     default: "aggregate.neither.notboth.target.plasma.cleaned"
   out: [sed_out]
 
+ label_whitelisted_calls:
+  run: ../tools/label_whitelisted_svs.cwl
+  in:
+   sv_whitelist: sv_whitelist
+   bedpe: remove_dummy_variables/sed_out
+  out: [labeled_bedpe]
+
  read_support_filter:
   run: ../tools/read_support_filter.cwl
   in:
    read_support: read_support
-   in_file: remove_dummy_variables/sed_out
+   in_file: label_whitelisted_calls/labeled_bedpe
    out_file:
     default: "aggregate.neither.notboth.target.plasma.cleaned.readsupport"
   out: [filtered]
@@ -471,20 +350,14 @@ steps:
  liftover_annotations:
   run: ../tools/liftover_annotations.cwl
   in:
-   helper_script: liftover_script
    annotated_vcf: annotate_samples/annotated_vcf
    unannotated_bedpe: read_support_filter/filtered
   out: [annotated]
 
- add_header_final_output:
-  run: ../tools/sed.cwl
+ clean_output:
+  run: ../tools/cleanup.cwl
   in:
-   command:
-    default: '1 i\chrom1\tstart1\tend1\tchrom2\tstart2\tend2\tname\tscore\tstrand1\tstrand2\tplasma_pe_reads\tplasma_split_reads\tplasma_pe_sr_reads\tnormal_pe_reads\tnormal_split_reads\tnormal_pe_sr_reads\tsolid_tumor_pe_reads\tsolid_tumor_split_reads\tsolid_tumor_pe_sr_reads\tinfo1\tinfo2'
-   #in_file: read_support_filter/filtered
    in_file: liftover_annotations/annotated
-   out_file:
-    default: "aggregate.final.bedpe"
-  out: [sed_out]
-  
+  out: [cleaned_out]
 
+  

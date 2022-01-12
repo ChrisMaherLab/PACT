@@ -15,34 +15,64 @@ requirements:
       ramMin: 15000
 
 inputs:
- bams:
-  type: string[]
-  inputBinding:
-   prefix: -B
-   position: 1
-   itemSeparator: ","
- splitters:
-  type: File[]
-  secondaryFiles: [".bai"]
-  inputBinding:
-   prefix: -S
-   position: 2
-   itemSeparator: ","
- discordants:
-  type: File[]
-  secondaryFiles: [".bai"]
-  inputBinding:
-   prefix: -D
-   position: 3
-   itemSeparator: ","
+  sample_bam:
+   type:
+       - string
+       - File
+   secondaryFiles: [".bai"]
+  normal_bam:
+   type:
+       - string
+       - File
+   secondaryFiles: [".bai"]
+  splitters:
+   type: File[]
+   secondaryFiles: [".bai"]
+   inputBinding:
+    prefix: -S
+    position: 3
+    itemSeparator: ","
+  discordants:
+   type: File[]
+   secondaryFiles: [".bai"]
+   inputBinding:
+    prefix: -D
+    position: 4
+    itemSeparator: ","
   
 
 arguments:
+ - valueFrom: |
+    ${
+      var x = "";
+      if (inputs.sample_bam.path) {
+         x = x + String(inputs.sample_bam.path);
+      } else {
+         x = x + inputs.sample_bam;
+      }
+      if (inputs.normal_bam.path) {
+        x = x + "," + String(inputs.normal_bam.path);
+      } else {
+        x = x + "," + inputs.normal_bam;
+      }
+      return(x)
+    }
+   position: 2
+   prefix: -B
  - valueFrom: -P
-   position: 0
+   position: 1
  - prefix: -o
-   valueFrom: $(runtime.outdir)/$(inputs.bams[0].split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).vcf
-   position: 4
+   valueFrom: |
+    ${
+      var x = "";
+      if (inputs.sample_bam.path) {
+         x = String(runtime.outdir) + "/" + String(inputs.sample_bam.path).split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ".vcf";
+      } else {
+         x = String(runtime.outdir) + "/" + String(inputs.sample_bam).split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ".vcf";
+      }
+      return(x)
+    }
+   position: 5
      
 
 outputs:

@@ -2,7 +2,7 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-label: "Use bedtools pairToBed to compare a bedpe file to a bed file"
+label: "Use bedtools pairToBed to compare a bedpe file to a bed file. If no bed file is provide, just output the unedited bedpe."
 
 baseCommand: ["bash", "bedtools_script.sh"]
 
@@ -15,8 +15,8 @@ requirements:
       listing:
       - entryname: "bedtools_script.sh"
         entry: |
-            if [$# -eq 3]; then
-             pairToBed $1 -a $2 -b $3
+            if [ $# -eq 3 ]; then
+             pairToBed -type $1 -a $2 -b $3
             else
              cat $2
             fi

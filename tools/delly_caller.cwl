@@ -17,19 +17,28 @@ requirements:
 
 inputs:
  ref:
-  type: string
+  type: 
+      - string
+      - File
+  secondaryFiles: [.fai]
   inputBinding:
    prefix: -g
    position: 1
   doc: "Reference genome .fa"
  sample_bam:
-  type: string
+  type:
+      - string
+      - File
   inputBinding:
    position: 3
- control_bam:
-  type: string
+  secondaryFiles: [.bai]
+ normal_bam:
+  type:
+      - string
+      - File
   inputBinding:
    position: 4
+  secondaryFiles: [.bai]
 
 arguments:
  - prefix: -o

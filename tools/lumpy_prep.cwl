@@ -18,8 +18,7 @@ requirements:
         entry: |
             sam=$1
             con=$2
-            tum=$3
-            outdir=$4
+            outdir=$3
 
             samtools view -b -F 1294 $sam | samtools sort > $outdir/sample.discordant.bam
             samtools view -h $sam | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/sample.split.bam
@@ -29,67 +28,50 @@ requirements:
             samtools flagstat $outdir/sample.split.bam > $outdir/sample.split.bam.flagstat
             
             
-            samtools view -b -F 1294 $con | samtools sort > $outdir/control.discordant.bam
-            samtools view -h $con | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/control.split.bam
-            samtools index $outdir/control.discordant.bam
-            samtools index $outdir/control.split.bam
-            samtools flagstat $outdir/control.discordant.bam > $outdir/control.discordant.bam.flagstat
-            samtools flagstat $outdir/control.split.bam > $outdir/control.split.bam.flagstat
+            samtools view -b -F 1294 $con | samtools sort > $outdir/normal.discordant.bam
+            samtools view -h $con | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/normal.split.bam
+            samtools index $outdir/normal.discordant.bam
+            samtools index $outdir/normal.split.bam
+            samtools flagstat $outdir/normal.discordant.bam > $outdir/normal.discordant.bam.flagstat
+            samtools flagstat $outdir/normal.split.bam > $outdir/normal.split.bam.flagstat
 
-            if [ $tum != "NA" ]; then
-             samtools view -b -F 1294 $tum | samtools sort > $outdir/tumor.discordant.bam
-             samtools view -h $tum | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/tumor.split.bam
-             samtools index $outdir/tumor.discordant.bam
-             samtools index $outdir/tumor.split.bam
-             samtools flagstat $outdir/tumor.discordant.bam > $outdir/tumor.discordant.bam.flagstat
-             samtools flagstat $outdir/tumor.split.bam > $outdir/tumor.split.bam.flagstat
-            else
-             echo "" > $outdir/tumor.discordant.bam
-             echo "" > $outdir/tumor.split.bam
-            fi
 
 inputs:
  sample_bam:
-  type: string
+  type:
+      - string
+      - File
   inputBinding:
    position: 1
- control_bam:
-  type: string
+  secondaryFiles: [.bai]
+ normal_bam:
+  type:
+      - string
+      - File
   inputBinding:
    position: 2
- tumor_bam:
-  type: string
-  inputBinding:
-   position: 3
+  secondaryFiles: [.bai]
 
 arguments:
  - valueFrom: $(runtime.outdir)
-   position: 4
+   position: 3
 
 outputs:
  sample_split:
   type: File
   outputBinding:
    glob: "sample.split.bam"
- control_split:
+ normal_split:
   type: File
   outputBinding:
-   glob: "control.split.bam"
- tumor_split:
-  type: File
-  outputBinding:
-   glob: "tumor.split.bam"
+   glob: "normal.split.bam"
  sample_discordant:
   type: File
   outputBinding:
    glob: "sample.discordant.bam"
- control_discordant:
+ normal_discordant:
   type: File
   outputBinding:
-   glob: "control.discordant.bam"
- tumor_discordant:
-  type: File
-  outputBinding:
-   glob: "tumor.discordant.bam"
+   glob: "normal.discordant.bam"
 
 
