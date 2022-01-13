@@ -11,4 +11,8 @@ If using Cromwell to run the CWL pipeline, the latest version of Cromwell from t
 
 
 ---
+Output
 
+SV pipeline output includes a cohort-wide bedpe file that includes read support and annotation information. The format is compatible with SV-HotSpot for easy visualization, as well as other standard bedpe tools.
+
+SNV pipeline output includes a tsv files for each sample that include read suppor and annotation information.
