@@ -4,28 +4,24 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Make modifications to VCF files so they work well with downstream tools"
 
-baseCommand: ["python"]
+baseCommand: ["/usr/bin/python3.5", "/usr/bin/modify_VCF.py"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "python"
+      dockerPull: "jbwebster/helper_docker"
 
 inputs:
- helper_script:
-  type: File
-  inputBinding:
-   position: 1
  vcfs:
   type: File[]
   inputBinding:
-   position: 2
+   position: 1
    itemSeparator: ","
    prefix: -i
 
 arguments:
  - valueFrom: $(runtime.outdir)
    prefix: -o
-   position: 3
+   position: 2
 
 outputs:
  modified_vcfs:
