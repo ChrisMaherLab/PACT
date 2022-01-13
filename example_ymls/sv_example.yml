@@ -1,0 +1,44 @@
+# For use with pipelines/sv_pipeline.cwl
+# Reference should have .dict and .fai files in same directory
+reference: /path/to/hg19.fa
+ref_genome: hg19
+# snpEff database. These can be downloaded using java -jar snpEff.jar download <database>.
+# Should correspond to reference genome
+snpEff_data:
+ class: Directory
+ path: /path/to/snpEff/data/hg19
+# Paths to cfDNA samples
+sample_bams:
+ - as_string: /path/to/patient1_cfDNA_sample.bam
+ - as_string: /path/to/patient2_cfDNA_sample.bam
+# Paths to matched control samples (ex:plasma depleted whole blood)
+# Should be in same order as sample_bams
+matched_control_bams:
+ - as_string: /path/to/patient1_matched_control.bam
+ - as_string: /path/to/patient2_matched_control.bam
+# Paths to bams that make up the panel of normals.
+panel_of_normal_bams:
+ - as_string: /path/to/healthy1_sample.bam
+ - as_string: /path/to/healthy2_sample.bam
+ - as_string: /path/to/healthy3_sample.bam
+# Standard bed file of targeted regions during sequencing
+target_regions:
+ class: File
+ path: /path/to/targets.bed
+# Neither breakend of SVs should fall in the blacklisted regions in this bed file
+# We recommend the blacklist regions provided by 10xgenomics. Their hg19 bed file is at
+# http://cf.10xgenomics.com/supp/genome/hg19/sv_blacklist.bed
+neither_region:
+ class: File
+ path: /path/to/hg19_longranger-blacklist.bed
+# A maximum of one breakend for SVs may fall in the regions in this bed file
+# We recommend Heng Li's low complexity regions found here
+# https://github.com/lh3/varcmp/raw/master/scripts
+notboth_region:
+ class: File
+ path: /path/to/LCR-hg19.cleaned.bed
+# SVs that have a breakend in the regions described by this bed file will
+# have relaxed read support filters applied to them
+sv_whitelist:
+ class: File
+ path: /path/to/sv_whitelist.bed
