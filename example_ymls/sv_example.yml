@@ -11,7 +11,7 @@ snpEff_data:
 sample_bams:
  - as_string: /path/to/patient1_cfDNA_sample.bam
  - as_string: /path/to/patient2_cfDNA_sample.bam
-# Paths to matched control samples (ex:plasma depleted whole blood)
+# Paths to matched control samples (ex: plasma depleted whole blood)
 # Should be in same order as sample_bams
 matched_control_bams:
  - as_string: /path/to/patient1_matched_control.bam
