@@ -6,7 +6,7 @@ label: "Add FILTER column info to INFO column"
 baseCommand: ["bash", "add_filter_to_info.sh"]
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/helper_docker"
+      dockerPull: "ubuntu:xenial"
     - class: ResourceRequirement
       ramMin: 4000
     - class: StepInputExpressionRequirement

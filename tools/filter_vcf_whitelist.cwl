@@ -6,7 +6,7 @@ label: "Filter variants from the whitelist detector"
 baseCommand: ["/usr/bin/perl", "whitelist_filter.pl"]
 requirements:
     - class: DockerRequirement
-      dockerPull: "mgibio/cle:v1.4.2"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
     - class: StepInputExpressionRequirement
@@ -24,7 +24,7 @@ requirements:
             die("Wrong number of arguments. Provide min_coverage, var_freq, whitelist_vcf, normal_cram, tumor_cram, output_vcf_file, set_filter_flag") unless scalar(@ARGV) == 7;
             my ($min_cov, $var_freq, $whitelist_vcf, $normal_cram, $tumor_cram, $output_vcf_file, $set_filter_flag) = @ARGV;
 
-            my $samtools = '/opt/samtools/bin/samtools';
+            my $samtools = '/usr/bin/samtools';
             my $normal_header_str = `$samtools view -H $normal_cram`;
             my $tumor_header_str  = `$samtools view -H $tumor_cram`;
 
@@ -70,6 +70,7 @@ requirements:
                 }
                 else {
                     my @columns = split /\t/, $_;
+                    my $quality = $columns[5]; #QualityScore. Error in parsing when "inf"
                     my @tumor_info = split /:/, $columns[$tumor_index];
                     my ($AD, $DP) = ($tumor_info[1], $tumor_info[2]);
                     next unless $AD;
@@ -77,7 +78,7 @@ requirements:
                     shift @AD; #the first one is ref count
                     
                     for my $ad (@AD) {
-                        if ($ad > $min_cov and $ad/$DP > $var_freq) {
+                        if ($ad > $min_cov and $ad/$DP > $var_freq and $quality != "inf") {
                             my ($normal_col, $tumor_col) = map{$columns[$_]}($normal_index, $tumor_index);
                             $columns[9]  = $normal_col;
                             $columns[10] = $tumor_col;
@@ -108,14 +109,12 @@ inputs:
         inputBinding:
             position: -4
     normal_bam:
-        #type: File
         type: 
             - string
             - File
         inputBinding:
             position: -3
     tumor_bam:
-        #type: File
         type:
             - string
             - File

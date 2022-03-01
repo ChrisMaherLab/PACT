@@ -3,12 +3,12 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "HaplotypeCaller (GATK4)"
-baseCommand: ["/gatk/gatk", "HaplotypeCaller", "--java-options", "-Xmx16g"]
+baseCommand: ["gatk", "HaplotypeCaller", "--java-options", "-Xmx16g"]
 requirements:
     - class: ResourceRequirement
       ramMin: 18000
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.2.0"
+      dockerPull: "jbwebster/snv_pipeline_docker"
 
 inputs:
     reference:
@@ -20,7 +20,6 @@ inputs:
             position: 1
             prefix: "-R"
     bams:
-# This works
         type:
             - type: array
               items: string
@@ -44,11 +43,6 @@ inputs:
         inputBinding:
             position: 4
             prefix: "-L"
-    mode:
-        type: string
-        inputBinding:
-            position: 5
-            prefix: "--genotyping-mode"
     output:
         type: string
         inputBinding:

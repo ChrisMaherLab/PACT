@@ -20,7 +20,6 @@ requirements:
        - $import: ../types/bam_record.yml
 
 inputs:
-# General inputs
  reference:
   type: 
       - string
@@ -134,7 +133,6 @@ inputs:
  known_variants:
   type: File?
   secondaryFiles: [.tbi]
- # Not recommended to modify the following
  variants_to_table_fields:
   type: string[]
   default: [CHROM,POS,ID,REF,ALT,FILTER,set,SPV,SSC]
@@ -189,7 +187,7 @@ steps:
   run: ../tools/bed_to_interval.cwl
   in:
     bed: target_regions
-    sd: reference # requires .dict in same directory. Update pipeline helper to have requirements like that, putting out warnings when files are missing
+    sd: reference # requires .dict in same directory.
   out:
    [roi_intervals]
 

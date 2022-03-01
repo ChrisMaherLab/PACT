@@ -3,10 +3,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "Apply vaf and alt support filters and set all whitelisted SNVs to PASS (--keep)"
-baseCommand: ["/usr/bin/python3.5", "/usr/bin/fp_threshold.py"]
+baseCommand: ["/usr/bin/python3", "/usr/bin/fp_threshold.py"]
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/helper_docker"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
     - class: StepInputExpressionRequirement

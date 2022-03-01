@@ -8,12 +8,12 @@ requirements:
     - class: ShellCommandRequirement
     - class: InlineJavascriptRequirement
     - class: DockerRequirement
-      dockerPull: "mgibio/bcftools-cwl:1.9"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 8000
     - class: StepInputExpressionRequirement
 
-baseCommand: ["/opt/bcftools/bin/bcftools", "annotate"]
+baseCommand: ["/usr/bin/bcftools", "annotate"]
 arguments:
     [ "-Oz", "-o", "known_variants_filtered.vcf.gz" ]  
 

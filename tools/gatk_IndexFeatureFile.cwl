@@ -8,12 +8,12 @@ requirements:
       ramMin: 9000
     - class: ShellCommandRequirement
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.2.0"
+      dockerPull: "jbwebster/snv_pipeline_docker"
 
 arguments: [
     "cp", $(inputs.vcf.path), "$(runtime.outdir)/$(inputs.vcf.basename)",
     { valueFrom: " && ", shellQuote: false },
-    "/gatk/gatk", "IndexFeatureFile"
+    "gatk", "IndexFeatureFile"
 ]
 
 inputs:
@@ -23,7 +23,7 @@ inputs:
             valueFrom:
                 $(runtime.outdir)/$(inputs.vcf.basename)
             position: 1
-            prefix: "-F"
+            prefix: "--input"
 
 outputs:
     indexed_vcf:

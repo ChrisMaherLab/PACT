@@ -8,7 +8,7 @@ baseCommand: ["svtools", "vcftobedpe"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "halllab/svtools:v0.5.1"
+      dockerPull: "jbwebster/pipeline_docker"
 
 inputs:
  vcf:

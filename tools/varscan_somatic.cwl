@@ -3,13 +3,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "varscan v2.4.2 somatic"
-baseCommand: "varscan_helper.sh"
+baseCommand: ["/bin/bash", "varscan_helper.sh"]
 requirements:
     - class: ResourceRequirement
       ramMin: 18000
       coresMin: 4
     - class: DockerRequirement
-      dockerPull: "mgibio/cle:v1.3.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: 'varscan_helper.sh'
@@ -37,8 +37,8 @@ requirements:
             if [ -z ${8+x} ]
             then
                 #run without ROI
-                java -jar /opt/varscan/VarScan.jar somatic \
-                    <(/opt/samtools/bin/samtools mpileup --no-baq -f "$REFERENCE" "$NORMAL_BAM" "$TUMOR_BAM") \
+                java -jar /usr/local/bin/Varscan.jar somatic \
+                    <(/usr/bin/samtools mpileup --no-baq -f "$REFERENCE" "$NORMAL_BAM" "$TUMOR_BAM") \
                     $OUTPUT \
                     --strand-filter $STRAND_FILTER \
                     --min-coverage $MIN_COVERAGE \
@@ -48,8 +48,8 @@ requirements:
                     --output-vcf
             else
                 ROI_BED="$8"
-                java -jar /opt/varscan/VarScan.jar somatic \
-                    <(/opt/samtools/bin/samtools mpileup --no-baq -l "$ROI_BED" -f "$REFERENCE" "$NORMAL_BAM" "$TUMOR_BAM") \
+                java -jar /usr/local/bin/Varscan.jar somatic \
+                    <(/usr/bin/samtools mpileup --no-baq -l "$ROI_BED" -f "$REFERENCE" "$NORMAL_BAM" "$TUMOR_BAM") \
                     $OUTPUT \
                     --strand-filter $STRAND_FILTER \
                     --min-coverage $MIN_COVERAGE \
@@ -65,19 +65,15 @@ inputs:
             - string
             - File
         secondaryFiles: [.bai]
-        #type: File
         inputBinding:
             position: 1
-        #secondaryFiles: [^.bai]
     normal_bam:
         type:
             - string
             - File
         secondaryFiles: [.bai]
-        #type: File
         inputBinding:
             position: 2
-        #secondaryFiles: [^.bai]
     reference:
         type:
             - string

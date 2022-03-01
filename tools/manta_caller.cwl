@@ -6,7 +6,7 @@ label: "Set up and run manta for SV calling"
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/manta_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: InlineJavascriptRequirement
     - class: ShellCommandRequirement
     - class: ResourceRequirement

@@ -53,8 +53,6 @@ steps:
             reference: reference
             bams: 
                source: panel_of_normal_bams
-               # This won't work if bams are supplied as a mixture of files and strings
-               # Convert from array of custom type to array of string or array of File
                valueFrom: |
                  ${
                    let s = [];
@@ -70,8 +68,6 @@ steps:
                    return s;
                  }
             intervals: prep/mod_interval_list
-            mode:
-             default: "GENOTYPE_GIVEN_ALLELES"
             output:
              default: "PoN.vcf"
         out:

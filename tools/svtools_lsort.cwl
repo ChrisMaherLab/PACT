@@ -8,7 +8,7 @@ baseCommand: ["svtools", "lsort"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "halllab/svtools:v0.5.1"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
       ramMin: 6000
 

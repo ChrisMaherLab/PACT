@@ -9,7 +9,7 @@ baseCommand: ["delly", "call"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: jbwebster/delly_docker
+      dockerPull: "jbwebster/pipeline_docker"
     - class: InlineJavascriptRequirement
     - class: ResourceRequirement
       coresMin: 12

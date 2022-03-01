@@ -9,7 +9,7 @@ requirements:
       ramMin: 4000
       coresMin: 1
     - class: DockerRequirement
-      dockerPull: ubuntu:bionic
+      dockerPull: "ubuntu:bionic"
     - class: InitialWorkDirRequirement
       listing:
           - $(inputs.original)

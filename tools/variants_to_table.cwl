@@ -3,19 +3,19 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "SelectVariants (GATK 4.1.8.1)"
-baseCommand: ["/gatk/gatk", "--java-options", "-Xmx4g", "VariantsToTable"]
+baseCommand: ["gatk", "--java-options", "-Xmx4g", "VariantsToTable"]
 requirements:
     - class: ResourceRequirement
       ramMin: 6000
       tmpdirMin: 25000
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.8.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
+
 arguments:
  - valueFrom: $(runtime.outdir)/variants.tsv
    prefix: -O
  - valueFrom: --show-filtered
 
-#    ["-O", { valueFrom: $(runtime.outdir)/variants.tsv }]
 
 inputs:
     reference:

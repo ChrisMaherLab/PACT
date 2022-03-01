@@ -7,7 +7,7 @@ label: "add bam_readcount info to vcf"
 baseCommand: ["vcf-readcount-annotator"]
 requirements:
     - class: DockerRequirement
-      dockerPull: "griffithlab/vatools:4.1.0"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
 arguments:

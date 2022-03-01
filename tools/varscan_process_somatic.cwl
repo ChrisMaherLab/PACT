@@ -6,12 +6,12 @@ label: "varscan v2.4.2 processSomatic"
 arguments: [
     "cp", $(inputs.variants.path), "$(runtime.outdir)/$(inputs.variants.basename)",
     { valueFrom: " && ", shellQuote: false },
-    "java", "-jar", "/opt/varscan/VarScan.jar", "processSomatic"
+    "java", "-jar", "/usr/local/bin/Varscan.jar", "processSomatic"
 ]
 requirements:
     - class: ShellCommandRequirement
     - class: DockerRequirement
-      dockerPull: "mgibio/cle:v1.3.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
     - class: StepInputExpressionRequirement

@@ -2,10 +2,10 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-label: "filter vcf for variants with high percentage of mapq0 reads"
+label: "filter vcf for variants with high percentage of mapq0 reads. Uses GATK 3.6"
 requirements:
     - class: DockerRequirement
-      dockerPull: mgibio/mapq0-filter:v0.3.1
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 8000
       tmpdirMin: 10000
@@ -24,7 +24,6 @@ inputs:
         secondaryFiles: [.bai] 
         inputBinding:
             position: 2
-        #secondaryFiles: [.bai]
     reference: 
         type:
             - string

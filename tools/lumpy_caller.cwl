@@ -8,7 +8,7 @@ baseCommand: ["lumpyexpress"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/lumpy_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: InlineJavascriptRequirement
     - class: ResourceRequirement
       coresMin: 12

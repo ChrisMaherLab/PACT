@@ -3,12 +3,12 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "Normalize variants"
-baseCommand: ["/gatk/gatk", "--java-options", "-Xmx8g", "LeftAlignAndTrimVariants"]
+baseCommand: ["gatk", "--java-options", "-Xmx8g", "LeftAlignAndTrimVariants"]
 requirements:
     - class: ResourceRequirement
       ramMin: 9000
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.8.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
 arguments:
     ["-O", { valueFrom: $(runtime.outdir)/normalized.vcf.gz }]
 inputs:

@@ -2,7 +2,7 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-label: "pindel somatic filter v1"
+label: "pindel somatic filter"
 arguments: [
     "/usr/bin/perl", "/usr/bin/write_pindel_filter_config.pl", $(inputs.pindel_output_summary.path), $(inputs.min_var_freq), $(inputs.reference), $(runtime.outdir),
     { valueFrom: " && ", shellQuote: false },
@@ -13,8 +13,8 @@ requirements:
       ramMin: 16000
     - class: ShellCommandRequirement
     - class: DockerRequirement
-      #dockerPull: mgibio/cle:v1.3.1
-      dockerPull: jbwebster/pindel_helper_docker
+      dockerPull: "jbwebster/snv_pipeline_docker"
+
 inputs:
     reference:
         type:

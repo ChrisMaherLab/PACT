@@ -4,19 +4,15 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Genotype SVs using svtyper"
 
-baseCommand: ["bash"]
+baseCommand: ["bash", "/usr/bin/svtyper_helper.sh"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "halllab/svtyper:v0.7.1-3c5218a"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
       ramMin: 12000
 
 inputs:
- helper:
-  type: File
-  inputBinding:
-   position: 1
  vcf:
   type: File
   inputBinding:

@@ -9,11 +9,10 @@ requirements:
       ramMin: 6000
       tmpdirMin: 25000
     - class: DockerRequirement
-      #dockerPull: "jbwebster/helper_docker"
-      dockerPull: "mgibio/fp_filter-cwl:1.0.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
 arguments:
-    ["--bam-readcount", "/usr/bin/bam-readcount",
-    "--samtools", "/opt/samtools/bin/samtools",
+    ["--bam-readcount", "/usr/local/bin/bam-readcount-1.0.1/build/bin/bam-readcount",
+    "--samtools", "/usr/bin/samtools",
     "--output", { valueFrom: $(runtime.outdir)/$(inputs.output_vcf_basename).vcf }]
 inputs:
     reference:
@@ -25,7 +24,6 @@ inputs:
             prefix: "--reference"
             position: 1
     bam:
-        #type: File
         type:
             - string
             - File
@@ -48,7 +46,6 @@ inputs:
             position: 4
     min_var_freq:
         type: float?
-        #default: 0.05
         default: 0.001
         inputBinding:
             prefix: "--min-var-freq"

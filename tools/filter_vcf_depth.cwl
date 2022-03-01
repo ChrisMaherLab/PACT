@@ -5,10 +5,10 @@ class: CommandLineTool
 label: "filter variants at sites below a given sequence depth in each sample"
 requirements:
     - class: DockerRequirement
-      dockerPull: mgibio/depth-filter:0.1.2
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
-baseCommand: ["/opt/conda/bin/python3","/usr/bin/depth_filter.py"]
+baseCommand: ["/usr/bin/python3", "/usr/bin/depth_filter.py"]
 arguments: 
     [{valueFrom: "$(runtime.outdir)/depth_filtered.vcf"}]
 inputs:

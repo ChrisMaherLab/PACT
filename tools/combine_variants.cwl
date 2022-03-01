@@ -2,59 +2,48 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-label: "CombineVariants (GATK 3.6)"
-baseCommand: ["/usr/bin/java", "-Xmx8g", "-jar", "/opt/GenomeAnalysisTK.jar", "-T", "CombineVariants"]
+label: "Combine variants from multiple vcfs"
+baseCommand: ["python", "/usr/bin/combine_variants.py"]
 requirements:
     - class: ResourceRequirement
       ramMin: 9000
       tmpdirMin: 25000
     - class: DockerRequirement
-      dockerPull: mgibio/gatk-cwl:3.6.0
-arguments:
-    ["-genotypeMergeOptions", "PRIORITIZE",
-     "--rod_priority_list", "mutect,varscan,strelka,pindel,whitelist",
-     "-o", { valueFrom: $(runtime.outdir)/combined.vcf.gz }]
+      dockerPull: "jbwebster/snv_pipeline_docker"
+arguments: ["-o", { valueFrom: $(runtime.outdir)/combined.vcf }]
 inputs:
-    reference:
-        type:
-            - string
-            - File
-        secondaryFiles: [.fai, ^.dict]
-        inputBinding:
-            prefix: "-R"
-            position: 1
     mutect_vcf:
         type: File
         inputBinding:
-            prefix: "--variant:mutect"
+            prefix: "-i"
             position: 2
         secondaryFiles: [.tbi]
     varscan_vcf:
         type: File
         inputBinding:
-            prefix: "--variant:varscan"
+            prefix: "-i"
             position: 3
         secondaryFiles: [.tbi]
     strelka_vcf:
         type: File
         inputBinding:
-            prefix: "--variant:strelka"
+            prefix: "-i"
             position: 4
         secondaryFiles: [.tbi]
     pindel_vcf:
         type: File
         inputBinding:
-            prefix: "--variant:pindel"
+            prefix: "-i"
             position: 5
         secondaryFiles: [.tbi]
     whitelist_vcf:
         type: File
         inputBinding:
-            prefix: "--variant:whitelist"
+            prefix: "-i"
             position: 6
 outputs:
     combined_vcf:
         type: File
         outputBinding:
-            glob: "combined.vcf.gz"
+            glob: "combined.vcf"
 

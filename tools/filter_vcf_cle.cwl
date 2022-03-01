@@ -6,8 +6,7 @@ label: "cle_annotated_vcf_filter"
 baseCommand: ["/usr/bin/perl", "/usr/bin/whitelist_and_coding_indel_selection.pl"]
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/helper_docker"
-#      dockerPull: "mgibio/cle:v1.3.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
 arguments: [$(inputs.vcf.path), $(runtime.outdir)]

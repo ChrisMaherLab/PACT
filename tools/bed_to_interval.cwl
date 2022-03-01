@@ -8,7 +8,7 @@ baseCommand: ["java", "-jar", "/opt/picard-2.18.1/picard.jar", "BedToIntervalLis
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "mgibio/picard-cwl:2.18.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 6000
 

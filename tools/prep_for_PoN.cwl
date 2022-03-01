@@ -8,7 +8,7 @@ requirements:
     - class: ResourceRequirement
       ramMin: 9000
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.2.0"
+      dockerPull: "ubuntu:xenial"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: 'helper.sh'

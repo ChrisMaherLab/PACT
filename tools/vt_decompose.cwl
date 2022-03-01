@@ -3,10 +3,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "run vt decompose"
-baseCommand: ["vt", "decompose"]
+baseCommand: ["/usr/local/bin/vt-0.57721/vt", "decompose"]
 requirements:
     - class: DockerRequirement
-      dockerPull: quay.io/biocontainers/vt:0.57721--hf74b74d_1
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
 arguments:

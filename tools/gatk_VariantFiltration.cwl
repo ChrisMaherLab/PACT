@@ -3,14 +3,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "Create VCF index using VariantFiltration (GATK)"
-baseCommand: ["/gatk/gatk", "VariantFiltration"]
+baseCommand: ["gatk", "VariantFiltration"]
 requirements:
     - class: ResourceRequirement
       ramMin: 9000
     - class: ShellCommandRequirement
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.2.0"
-
+      dockerPull: "jbwebster/snv_pipeline_docker"
 
 inputs:
     reference:
@@ -47,6 +46,5 @@ inputs:
 outputs:
     filtered:
         type: File
-#        secondaryFiles: [.tbi]
         outputBinding:
             glob: $(inputs.output)

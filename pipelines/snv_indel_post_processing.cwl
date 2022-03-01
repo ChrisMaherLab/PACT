@@ -30,7 +30,7 @@ inputs:
     panel_of_normal_bams:
         type: ../types/bam_record.yml#bam_input[]
         secondaryFiles: [.bai]
-    roi_intervals: # SV pipeline uses bed file. Swap this out for target_regions, then generate the interval file
+    roi_intervals: 
         type: File
         doc: "roi_intervals is a list of regions (in interval_list format) within which to call somatic variants"
     strelka_exome_mode: # True = Targeted
@@ -269,7 +269,6 @@ steps:
     combine:
         run: ../tools/combine_variants.cwl
         in:
-            reference: reference
             mutect_vcf: mutect/filtered_vcf
             strelka_vcf: strelka/filtered_vcf
             varscan_vcf: varscan/filtered_vcf
@@ -278,10 +277,24 @@ steps:
         out:
             [combined_vcf]
 
+    combined_bgzip:
+        run: ../tools/bgzip.cwl
+        in:
+            file: combine/combined_vcf
+        out:
+            [bgzipped_file]
+
+    combined_index:
+        run: ../tools/index_vcf.cwl
+        in:
+            vcf: combined_bgzip/bgzipped_file
+        out:
+            [indexed_vcf]
+
     decompose:
         run: ../tools/vt_decompose.cwl
         in:
-            vcf: combine/combined_vcf
+            vcf: combined_index/indexed_vcf
         out:
             [decomposed_vcf]
 

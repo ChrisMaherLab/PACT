@@ -6,7 +6,7 @@ label: "Add useful comments to table output"
 baseCommand: ["bash", "add_comments_to_table.sh"]
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/helper_docker"
+      dockerPull: "ubuntu:xenial"
     - class: ResourceRequirement
       ramMin: 4000
     - class: StepInputExpressionRequirement
@@ -19,8 +19,7 @@ requirements:
             vcf=$2
             outfile=$3
 
-            echo "##set=List of variant callers that reported the mutation. If the variant caller is preceeded by 'filterIn', the call made by that caller did not pass all initial filters. FilteredInAll means it was reported by call callers, but initially filtered by all of them." > $outfile          
-
+            echo '##INFO=<ID=set,Number=.,Type=String,Description="Orginal source of call. May include variant caller(s) or whitelist as a source"' > $outfile          
             zgrep "##FILTER=<ID=" $vcf >> $outfile
             head -n 1 $table | awk 'BEGIN{FS=OFS="\t"}{print "#"$0}' | tr -d $'\r' >> $outfile
             tail -n +2 $table | tr -d $'\r' >> $outfile

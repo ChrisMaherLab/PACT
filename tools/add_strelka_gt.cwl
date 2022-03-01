@@ -91,10 +91,6 @@ requirements:
                 return join '/', sort @gt_ids;
             }
 
-            #SNV example
-            #1       10231   .       C       A       .       QSS_ref NT=ref;QSS=1;QSS_NT=1;SGT=AC->AC;SOMATIC;TQSS=2;TQSS_NT=2       DP:FDP:SDP:SUBDP:AU:CU:GU:TU    32:4:8:0:0,3:28,60:0,0:0,1      84:6:69:0:7,21:71,192:0,0:0,1
-            #INDEL example
-            ##1     965051  .       ATGTGTG A       .       QSI_ref IC=5;IHP=2;NT=ref;QSI=1;QSI_NT=1;RC=8;RU=TG;SGT=het->het;SOMATIC;TQSI=1;TQSI_NT=1       DP:DP2:TAR:TIR:TOR:DP50:FDP50:SUBDP50   8:8:6,6:0,0:2,4:10.3:0.00:0.00  18:18:8,8:5,6:5,8:21:0.25:0.00
 
 arguments: [
     "/usr/bin/perl", "add_strelka_gt.pl",

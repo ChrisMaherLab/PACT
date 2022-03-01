@@ -11,7 +11,7 @@ requirements:
       ramMin: 32000
       tmpdirMin: 100000
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.8.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: 'Mutect2.sh'
@@ -24,8 +24,8 @@ requirements:
 
             TUMOR=`perl -e 'my $header_str = qx(samtools view -H $ENV{tumor_bam}); my ($sample_name) = $header_str =~ /SM:([ -~]+)/; print $sample_name'` #Extracting the sample name from the TUMOR bam.
             NORMAL=`perl -e 'my $header_str = qx(samtools view -H $ENV{normal_bam}); my ($sample_name) = $header_str =~ /SM:([ -~]+)/; print $sample_name'` #Extracting the sample name from the NORMAL bam.
-            /gatk/gatk Mutect2 --java-options "-Xmx20g" -O $1 -R $2 -I $3 -tumor "$TUMOR" -I $4 -normal "$NORMAL" -L $5 #Running Mutect2.
-            /gatk/gatk FilterMutectCalls -R $2 -V mutect.vcf.gz -O mutect.filtered.vcf.gz #Running FilterMutectCalls on the output vcf.
+            gatk Mutect2 --java-options "-Xmx20g" -O $1 -R $2 -I $3 -tumor "$TUMOR" -I $4 -normal "$NORMAL" -L $5 #Running Mutect2.
+            gatk FilterMutectCalls -R $2 -V mutect.vcf.gz -O mutect.filtered.vcf.gz #Running FilterMutectCalls on the output vcf.
 
 arguments:
     - position: 1

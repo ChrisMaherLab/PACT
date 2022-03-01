@@ -10,7 +10,7 @@ requirements:
       tmpdirMin: 200000
       coresMin: 4
     - class: DockerRequirement
-      dockerPull: "mgibio/cle:v1.4.2"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: 'pindel_helper.pl'

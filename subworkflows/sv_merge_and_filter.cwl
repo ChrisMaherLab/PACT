@@ -60,11 +60,6 @@ inputs:
   default: 2
  sv_whitelist:
   type: File?
- svtyper_helper:
-  type: File
-  default:
-   class: File
-   path: ../helper/svtyper_helper.sh
 
 outputs:
  somatic_svs_bedpe:
@@ -119,7 +114,6 @@ steps:
   scatter: [vcf, bam_one, bam_two]
   scatterMethod: "dotproduct"
   in:
-   helper: svtyper_helper
    vcf: correct_survivor/modified_vcf
    bam_one:
      source: matched_control_bams
@@ -174,7 +168,6 @@ steps:
   scatter: [bam_one, bam_two]
   scatterMethod: "dotproduct"
   in:
-   helper: svtyper_helper
    vcf: merge_vcf/merged_vcf
    bam_one:
      source: matched_control_bams
@@ -200,7 +193,6 @@ steps:
   run: ../tools/single_svtyper_genotyping.cwl
   scatter: bam
   in:
-   helper: svtyper_helper
    vcf: merge_vcf/merged_vcf
    bam:
      source: panel_of_normal_bams 

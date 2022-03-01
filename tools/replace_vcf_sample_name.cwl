@@ -9,7 +9,7 @@ requirements:
     - class: ResourceRequirement
       ramMin: 8000
     - class: DockerRequirement
-      dockerPull: "mgibio/bcftools-cwl:1.9"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: "rename_sample.sh"
@@ -25,7 +25,7 @@ requirements:
           new_name=`echo "$2" | sed 's/ /\\\ /g'`
 
           echo "$old_name $new_name" > sample_update.txt
-          /opt/bcftools/bin/bcftools reheader -s sample_update.txt -o "$basen" "$3"
+          /usr/bin/bcftools reheader -s sample_update.txt -o "$basen" "$3"
 
 inputs:
     input_vcf:

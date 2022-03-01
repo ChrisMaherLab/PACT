@@ -3,7 +3,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "remove END INFO tags"
-baseCommand: ["/opt/bcftools/bin/bcftools", "annotate"]
+baseCommand: ["/usr/bin/bcftools", "annotate"]
 arguments: [
     "-x", "INFO/END",
     "-Oz",
@@ -13,7 +13,8 @@ requirements:
     - class: ResourceRequirement
       ramMin: 4000
     - class: DockerRequirement
-      dockerPull: "mgibio/bcftools-cwl:1.3.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
+
 inputs:
     vcf:
         type: File

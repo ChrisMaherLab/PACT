@@ -3,7 +3,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "Ensembl Variant Effect Predictor"
-baseCommand: ["/usr/bin/perl", "-I", "/opt/lib/perl/VEP/Plugins", "/usr/bin/variant_effect_predictor.pl"]
+baseCommand: ["/usr/bin/perl", "-I", "/opt/VEP/Plugins", "/usr/local/bin/ensembl-vep/vep"]
 requirements:
     - class: InlineJavascriptRequirement
     - class: SchemaDefRequirement
@@ -14,7 +14,7 @@ requirements:
       ramMin: 64000
       tmpdirMin: 25000
     - class: DockerRequirement
-      dockerPull: "mgibio/vep_helper-cwl:vep_101.0_v1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
 arguments:
     ["--format", "vcf",
     "--vcf",

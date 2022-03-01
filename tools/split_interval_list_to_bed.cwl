@@ -7,7 +7,7 @@ requirements:
     - class: ResourceRequirement
       ramMin: 6000
     - class: DockerRequirement
-      dockerPull: mgibio/cle:v1.4.2
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: 'split_interval_list_to_bed_helper.pl'

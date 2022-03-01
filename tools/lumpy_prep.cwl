@@ -8,7 +8,7 @@ baseCommand: ["bash", "perform_prep.sh"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/samtools_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
       coresMin: 8
       ramMin: 15000
@@ -21,7 +21,7 @@ requirements:
             outdir=$3
 
             samtools view -b -F 1294 $sam | samtools sort > $outdir/sample.discordant.bam
-            samtools view -h $sam | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/sample.split.bam
+            samtools view -h $sam | python3 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/sample.split.bam
             samtools index $outdir/sample.discordant.bam
             samtools index $outdir/sample.split.bam
             samtools flagstat $outdir/sample.discordant.bam > $outdir/sample.discordant.bam.flagstat
@@ -29,7 +29,7 @@ requirements:
             
             
             samtools view -b -F 1294 $con | samtools sort > $outdir/normal.discordant.bam
-            samtools view -h $con | python3.5 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/normal.split.bam
+            samtools view -h $con | python3 /usr/local/bin/extractSplitReads_BwaMem -i stdin | samtools view -Sb | samtools sort > $outdir/normal.split.bam
             samtools index $outdir/normal.discordant.bam
             samtools index $outdir/normal.split.bam
             samtools flagstat $outdir/normal.discordant.bam > $outdir/normal.discordant.bam.flagstat

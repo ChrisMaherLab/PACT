@@ -8,7 +8,7 @@ baseCommand: ["java", "-Xmx4G", "-jar", "/snpEff/snpEff.jar"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/snpeff_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: InitialWorkDirRequirement
       listing:
        - $(inputs.genome)

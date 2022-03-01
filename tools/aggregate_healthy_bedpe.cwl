@@ -8,7 +8,7 @@ baseCommand: ["bash", "/usr/bin/aggregate_healthy_bedpe.sh"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/helper_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
       coresMin: 1

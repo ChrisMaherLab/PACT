@@ -4,12 +4,12 @@ cwlVersion: v1.0
 class: CommandLineTool
 description: "Run SURVIVOR to merge SV calls from a list of VCF files"
 
-baseCommand: ["/bin/bash", "/usr/bin/helper.sh"]
+baseCommand: ["/bin/bash", "/usr/bin/survivor_helper.sh"]
 
 requirements:
     - class: InlineJavascriptRequirement
     - class: DockerRequirement
-      dockerPull: "jbwebster/survivor_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
       ramMin: 2000
       coresMin: 1

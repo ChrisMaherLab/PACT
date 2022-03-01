@@ -3,13 +3,13 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "Picard MergeVcfs"
-baseCommand: ["/usr/bin/java", "-Xmx38g", "-jar", "/gatk/gatk.jar", "MergeVcfs"]
+baseCommand: ["gatk", "--java-options", "-Xmx38g", "MergeVcfs"]
 requirements:
     - class: ResourceRequirement
       ramMin: 40000
     - class: InlineJavascriptRequirement
     - class: DockerRequirement
-      dockerPull: "broadinstitute/gatk:4.1.8.1"
+      dockerPull: "jbwebster/snv_pipeline_docker"
 arguments:
     ["-O", "$(inputs.merged_vcf_basename).vcf.gz"]
 inputs:

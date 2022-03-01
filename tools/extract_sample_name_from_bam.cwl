@@ -7,7 +7,7 @@ baseCommand: ["bash", "helper_script.sh"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "biocontainers/samtools:v1.7.0_cv4"
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: InlineJavascriptRequirement
     - class: InitialWorkDirRequirement
       listing:

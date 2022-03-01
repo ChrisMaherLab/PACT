@@ -3,10 +3,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "Label whitelisted calls with WHITELISTED=TRUE in info column"
-baseCommand: ["/usr/bin/python3.5", "/usr/bin/labelWhitelistedSVs.py"]
+baseCommand: ["/usr/bin/python3", "/usr/bin/labelWhitelistedSVs.py"]
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/helper_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
     - class: StepInputExpressionRequirement

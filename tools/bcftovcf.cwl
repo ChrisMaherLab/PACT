@@ -8,7 +8,8 @@ baseCommand: ["bcftools", "view"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "biocontainers/bcftools:v1.9-1-deb_cv1"
+      dockerPull: "jbwebster/pipeline_docker"
+      #dockerPull: "biocontainers/bcftools:v1.9-1-deb_cv1"
     - class: ResourceRequirement
       ramMin: 6000
 

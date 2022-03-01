@@ -3,10 +3,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "vcf merge"
-baseCommand: ["/opt/bcftools/bin/bcftools", "concat"]
+baseCommand: ["/usr/bin/bcftools", "concat"]
 requirements:
     - class: DockerRequirement
-      dockerPull: mgibio/bcftools-cwl:1.3.1
+      dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
 arguments:

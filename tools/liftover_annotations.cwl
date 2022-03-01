@@ -4,11 +4,11 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: "Liftover annotations from a vcf file to a corresponding bedpe file"
 
-baseCommand: ["/usr/bin/python3.5", "/usr/bin/ann_liftover.py"]
+baseCommand: ["/usr/bin/python3", "/usr/bin/ann_liftover.py"]
 
 requirements:
     - class: DockerRequirement
-      dockerPull: "jbwebster/helper_docker"
+      dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
       ramMin: 12000
 
