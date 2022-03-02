@@ -1,18 +1,32 @@
-# Jacesbestrepoever
-(WIP)
 
-Standardized workflow, written in the Common Workflow Language (CWL), for the identification of somatic variants using cfDNA. Uses a variety of open-source tools to identify variants that are detected in cfDNA plasma samples. The workflow applies best-practice protocols for calling mutations of multiple classes across a cohort of samples (though it can be used on single samples as well).
+# cfDNA Analysis Workflows
+##
 
+Developed at [Christopher Maher Lab](http://www.maherlab.com) at [Washington University in St. Louis](http://www.wustl.edu)
 
-CWL is meant to be a language for creating standardized scientific workflows and can be run using a variety of methods. We have tested the workflows here using Cromwell's CWL interpreter, configured to work with the IBM's Load Sharing Facility (LSF) for high-performance computing environment, though other CWL interpreters exist. A non-exaustive list of other tools that can run CWL workflows is described [here](https://www.commonwl.org/).
+##
 
+## Overview
 
-If using Cromwell to run the CWL pipeline, the latest version of Cromwell from their [release page](https://github.com/broadinstitute/cromwell/releases). We would highly recommend following Cromwell's [Configuration file tutorial](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/) to further customize how Cromwell runs the workflow. 
+Standardized workflows for sensitive and reproducible detection of both small and large genomic alterations using targeted cfDNA sequencing, shared in a portable [Common Workflow Language](https://www.commonwl.org/) (CWL) pipeline. 
 
+## Quick Start
 
----
-Output
+Download the repository with `git clone https://github.com/ChrisMaherLab/Jacesbestrepoever.git`
 
-SV pipeline output includes a cohort-wide bedpe file that includes read support and annotation information. The format is compatible with SV-HotSpot for easy visualization, as well as other standard bedpe tools.
+A number of tools exist for running CWL pipelines. In our benchmarking analysis, all pipelines were run using the Cromwell CWL interpreter (v54), which can be downloaded [here](https://github.com/broadinstitute/cromwell/releases). For additional information about using Cromwell, we suggest their [user guide](https://www.commonwl.org/user_guide/) and their [configuration tutorials](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/).
 
-SNV pipeline output includes a tsv files for each sample that include read suppor and annotation information.
+After installation and configuration of Cromwell, the pipeline(s) can be run using:
+
+`java -Dconfig.file=<config.file> -jar <cromwell.jar> run -t cwl pipelines/<pipeline>.cwl`
+
+## Structure
+
+This repo is organized as follows:
+| Directory | Description |
+| --- | --- |
+| pipelines | Full workflows, which rely on subworkflows and tools |
+| subworkflows | Workflows called by pipelines that combine tools to form intermediate files |
+| tools | Individual steps in the workflow containing single commands or scripts |
+| types | Custom data types for wrapping certain inputs |
+| example_ymls | Example format for input YAML files using minimal inputs |
