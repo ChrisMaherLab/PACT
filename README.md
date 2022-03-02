@@ -18,7 +18,7 @@ A number of tools exist for running CWL pipelines. In our benchmarking analysis,
 
 After installation and configuration of Cromwell, the pipeline(s) can be run using:
 
-`java -Dconfig.file=<config.file> -jar <cromwell.jar> run -t cwl pipelines/<pipeline>.cwl`
+`java -Dconfig.file=<config.file> -jar <cromwell.jar> run -t cwl -i <input_yaml> pipelines/<pipeline>.cwl`
 
 ## Structure
 
