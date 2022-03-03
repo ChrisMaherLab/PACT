@@ -6,9 +6,6 @@ label: "Ensembl Variant Effect Predictor"
 baseCommand: ["/usr/bin/perl", "-I", "/opt/VEP/Plugins", "/usr/local/bin/ensembl-vep/vep"]
 requirements:
     - class: InlineJavascriptRequirement
-    - class: SchemaDefRequirement
-      types:
-          - $import: ../types/vep_custom_annotation.yml
     - class: ResourceRequirement
       coresMin: 4
       ramMin: 64000
@@ -58,28 +55,7 @@ inputs:
         inputBinding:
             prefix: '--'
             separate: false
-            position: 7
-    custom_annotations:
-        type:
-            - "null"
-            - type: array
-              items: ../types/vep_custom_annotation.yml#vep_custom_annotation
-              label: "custom type, check types directory for input format"
-              inputBinding:
-                  valueFrom: |
-                       ${
-                           return [self.annotation.check_existing ? '--check_existing' : '',
-                             '--custom',
-                             [self.annotation.file.path,
-                             self.annotation.name,
-                             self.annotation.data_format,
-                             self.method,
-                             self.force_report_coordinates ? 1 : 0,
-                             self.annotation.vcf_fields ? self.annotation.vcf_fields : ''
-                             ].filter(String).join(',')
-                           ].filter(String)
-                       }
-                  position: 6
+            position: 6
     reference:
         type:
             - "null"

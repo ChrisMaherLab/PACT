@@ -144,14 +144,9 @@ inputs:
         inputBinding:
             position: -6
     bam:
-        #type: File
-        type: 
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
         inputBinding:
             position: -5
-        #secondaryFiles: [.bai]
     prefix:
         type: string?
         default: 'NOPREFIX'

@@ -18,10 +18,7 @@ inputs:
         inputBinding:
             position: 1
     tumor_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai] 
+        type: string
         inputBinding:
             position: 2
     reference: 

@@ -9,18 +9,18 @@ snpEff_data:
  path: /path/to/snpEff/data/hg19
 # Paths to cfDNA samples
 sample_bams:
- - as_string: /path/to/patient1_cfDNA_sample.bam
- - as_string: /path/to/patient2_cfDNA_sample.bam
+ - /path/to/patient1_cfDNA_sample.bam
+ - /path/to/patient2_cfDNA_sample.bam
 # Paths to matched control samples (ex: plasma depleted whole blood)
 # Should be in same order as sample_bams
 matched_control_bams:
- - as_string: /path/to/patient1_matched_control.bam
- - as_string: /path/to/patient2_matched_control.bam
+ - /path/to/patient1_matched_control.bam
+ - /path/to/patient2_matched_control.bam
 # Paths to bams that make up the panel of normals.
 panel_of_normal_bams:
- - as_string: /path/to/healthy1_sample.bam
- - as_string: /path/to/healthy2_sample.bam
- - as_string: /path/to/healthy3_sample.bam
+ - /path/to/healthy1_sample.bam
+ - /path/to/healthy2_sample.bam
+ - /path/to/healthy3_sample.bam
 # Standard bed file of targeted regions during sequencing
 target_regions:
  class: File

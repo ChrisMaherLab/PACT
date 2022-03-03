@@ -15,23 +15,17 @@ arguments:
       { valueFrom: $(runtime.outdir), position: 2 }]
 inputs:
     tumor_bam:
-        type:
-            - string
-            - File
+        type: string
         inputBinding:
             prefix: '--tumorBam='
             separate: false
             position: 3
-        secondaryFiles: [.bai]
     normal_bam:
-        type:
-            - string
-            - File
+        type: string
         inputBinding:
             prefix: '--normalBam='
             separate: false
             position: 4
-        secondaryFiles: [.bai]
     reference:
         type:
             - string

@@ -109,15 +109,11 @@ inputs:
         inputBinding:
             position: -4
     normal_bam:
-        type: 
-            - string
-            - File
+        type: string
         inputBinding:
             position: -3
     tumor_bam:
-        type:
-            - string
-            - File
+        type: string
         inputBinding:
             position: -2
     filter_whitelist_variants:

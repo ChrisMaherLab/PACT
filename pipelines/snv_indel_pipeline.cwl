@@ -14,10 +14,6 @@ requirements:
  - class: SubworkflowFeatureRequirement
  - class: StepInputExpressionRequirement
  - class: InlineJavascriptRequirement
- - class: SchemaDefRequirement
-   types:
-       - $import: ../types/vep_custom_annotation.yml
-       - $import: ../types/bam_record.yml
 
 inputs:
  reference:
@@ -27,17 +23,14 @@ inputs:
   secondaryFiles: [.fai, ^.dict]
   doc: "Absolute path to reference.fa. Should have reference.dict and .fai files in the same directory"
  sample_bams:
-  type: ../types/bam_record.yml#bam_input[]
-  secondaryFiles: [.bai]
-  doc: "Array of custom types that allows bam files to be described either as strings or as files. Contains cfDNA/plasma samples."
+  type: string[]
+  doc: "Array of absolute paths to bam files. Contains cfDNA/plasma samples. Should have .bai files in same directory"
  matched_control_bams:
-  type: ../types/bam_record.yml#bam_input[]
-  secondaryFiles: [.bai]
-  doc: "Array of custom type string/file bams used as matched controls. Should be in same order as their corresponding matches in the sample_bams array. Each file should have an accompanying .bai file in the given directory"
+  type: string[]
+  doc: "Array of absolute paths to bam files. Should be in the same order as sample_bams (ie the nth sample in each array are matches). Should have .bai files in same directory"
  panel_of_normal_bams:
-  type: ../types/bam_record.yml#bam_input[]
-  secondaryFiles: [.bai]
-  doc: "Array of custom type string/file bams used as an unmatched, panel of normals.  Should have accompanying .bai files"
+  type: string[]
+  doc: "Array of absolute paths to bams used as an unmatched, panel of normals.  Should have accompanying .bai files"
  target_regions:
   type: File
   doc: "Bed file of target regions"
@@ -127,9 +120,6 @@ inputs:
  cle_vcf_filter:
   type: boolean
   default: false
- vep_custom_annotations:
-  type: ../types/vep_custom_annotation.yml#vep_custom_annotation[]
-  default: []
  known_variants:
   type: File?
   secondaryFiles: [.tbi]
@@ -157,13 +147,6 @@ steps:
   in:
    bam:
      source:  sample_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
   out: 
     [sample_name]
 
@@ -173,13 +156,6 @@ steps:
   in:
    bam:
      source: matched_control_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
   out:
    [sample_name]
 
@@ -199,22 +175,8 @@ steps:
     reference: reference
     sample_bam:
      source: sample_bams 
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
     matched_control_bam:
      source: matched_control_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
     sample_name: extract_sample_names/sample_name
     matched_control_name: extract_normal_names/sample_name
     panel_of_normal_bams: panel_of_normal_bams
@@ -246,7 +208,6 @@ steps:
     variants_to_table_fields: variants_to_table_fields
     variants_to_table_genotype_fields: variants_to_table_genotype_fields
     vep_to_table_fields: vep_to_table_fields
-    vep_custom_annotations: vep_custom_annotations
     known_variants: known_variants
   out: 
     [ mutect_filtered_vcf, strelka_filtered_vcf, varscan_filtered_vcf, pindel_filtered_vcf,final_filtered_vcf, final_tsv, vep_summary, tumor_snv_bam_readcount_tsv, tumor_indel_bam_readcount_tsv, normal_snv_bam_readcount_tsv, normal_indel_bam_readcount_tsv ]

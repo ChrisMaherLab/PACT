@@ -10,9 +10,6 @@ requirements:
  - class: StepInputExpressionRequirement
  - class: InlineJavascriptRequirement
  - class: MultipleInputFeatureRequirement
- - class: SchemaDefRequirement
-   types:
-       - $import: ../types/bam_record.yml
 
 inputs:
  sv_vcfs:
@@ -37,14 +34,11 @@ inputs:
   type: boolean?
   default: true
  sample_bams:
-   type: ../types/bam_record.yml#bam_input[]
-   secondaryFiles: [.bai]
+   type: string[]
  matched_control_bams:
-   type: ../types/bam_record.yml#bam_input[]
-   secondaryFiles: [.bai]
+   type: string[]
  panel_of_normal_bams:
-   type: ../types/bam_record.yml#bam_input[]
-   secondaryFiles: [.bai]
+   type: string[]
  target_regions:
   type: File
  neither_region:
@@ -117,22 +111,8 @@ steps:
    vcf: correct_survivor/modified_vcf
    bam_one:
      source: matched_control_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    bam_two:
      source: sample_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
   out: [genotyped] 
 
  modify_GT_in_vcf:
@@ -171,22 +151,8 @@ steps:
    vcf: merge_vcf/merged_vcf
    bam_one:
      source: matched_control_bams
-     valueFrom: |
-       ${ 
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    bam_two:
      source: sample_bams
-     valueFrom: |
-       ${ 
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
   out: [genotyped]
 
  healthy_genotyping:
@@ -196,13 +162,6 @@ steps:
    vcf: merge_vcf/merged_vcf
    bam:
      source: panel_of_normal_bams 
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
   out: [genotyped]
 
  annotate_samples:

@@ -1,8 +1,0 @@
-type: record
-name: bam_input
-label: Allow bams to be input as either a file or a string containing an absolute path. 
-fields:
- as_string:
-  type: string?
- as_file:
-  type: File?

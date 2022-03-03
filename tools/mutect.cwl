@@ -40,21 +40,13 @@ inputs:
         inputBinding:
             position: 2
     tumor_bam:
-        #type: File
-        type:
-            - string
-            - File
+        type: string
         inputBinding:
             position: 3
-        secondaryFiles: [.bai]
     normal_bam:
-        #type: File?
-        type:
-            - string
-            - File
+        type: string
         inputBinding:
             position: 4
-        secondaryFiles: [.bai]
     interval_list:
         type: File
         inputBinding:

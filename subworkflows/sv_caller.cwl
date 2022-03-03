@@ -8,9 +8,6 @@ requirements:
  - class: SubworkflowFeatureRequirement
  - class: StepInputExpressionRequirement
  - class: InlineJavascriptRequirement
- - class: SchemaDefRequirement
-   types:
-       - $import: ../types/bam_record.yml
 
 inputs:
  reference:
@@ -19,11 +16,9 @@ inputs:
       - File
   secondaryFiles: [.fai, ^.dict]
  sample_bams:
-  type: ../types/bam_record.yml#bam_input[]
-  secondaryFiles: [.bai]
+  type: string[]
  matched_control_bams:
-  type: ../types/bam_record.yml#bam_input[]
-  secondaryFiles: [.bai]
+  type: string[]
 
 outputs:
  vcf_files:
@@ -46,22 +41,8 @@ steps:
    ref: reference
    sample_bam:
      source: sample_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    normal_bam:
      source: matched_control_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
   out:
    [delly_output]
 
@@ -83,22 +64,8 @@ steps:
   in:
    sample_bam:
      source: sample_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    normal_bam:
      source: matched_control_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
   out:
    [sample_split, normal_split, sample_discordant, normal_discordant]
 
@@ -125,22 +92,8 @@ steps:
   in:
    sample_bam:
      source: sample_bams
-     valueFrom: |
-       ${ 
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    normal_bam:
      source: matched_control_bams
-     valueFrom: |
-       ${ 
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    splitters: merged_splitters/array_of_arrays
    discordants: merged_discordant/array_of_arrays
   out:
@@ -156,22 +109,8 @@ steps:
   in:
    sample_bam:
      source: sample_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    normal_bam:
      source: matched_control_bams
-     valueFrom: |
-       ${
-          if(self.as_string) {
-              return(self.as_string);
-          }
-          return(self.as_file)
-       }
    ref: reference
   out:
    [diploid_variants, somatic_variants, all_candidates, small_candidates, sample_only_variants]

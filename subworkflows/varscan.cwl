@@ -10,15 +10,9 @@ inputs:
             - File
         secondaryFiles: [.fai, ^.dict]
     tumor_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     normal_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     roi_bed:
         type: File?
     strand_filter:

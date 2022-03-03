@@ -20,18 +20,10 @@ inputs:
             position: 1
             prefix: "-R"
     bams:
-        type:
-            - type: array
-              items: string
-              inputBinding:
-                position: 2
-                prefix: "-I"
-            - type: array
-              items: string
-              inputBinding:
-                position: 2
-                prefix: "-I"
-        secondaryFiles: [.bai]
+        type: string[]
+        inputBinding:
+            position: 2
+            prefix: "-I"
     vcf:
         type: File
         secondaryFiles: [.idx]

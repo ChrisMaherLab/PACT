@@ -5,12 +5,9 @@ class: Workflow
 label: "Detect Variants workflow"
 requirements:
     - class: SubworkflowFeatureRequirement
-    - class: SchemaDefRequirement
-      types:
-          - $import: ../types/vep_custom_annotation.yml
-          - $import: ../types/bam_record.yml
     - class: StepInputExpressionRequirement
     - class: InlineJavascriptRequirement
+
 inputs:
     reference:
         type:
@@ -18,18 +15,11 @@ inputs:
             - File
         secondaryFiles: [.fai, ^.dict]
     sample_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     matched_control_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     panel_of_normal_bams:
-        type: ../types/bam_record.yml#bam_input[]
-        secondaryFiles: [.bai]
+        type: string[]
     roi_intervals: 
         type: File
         doc: "roi_intervals is a list of regions (in interval_list format) within which to call somatic variants"
@@ -122,9 +112,6 @@ inputs:
         type: string
     matched_control_name:
         type: string
-    vep_custom_annotations:
-        type: ../types/vep_custom_annotation.yml#vep_custom_annotation[]
-        doc: "custom type, check types directory for input format"
     known_variants:
         type: File?
         secondaryFiles: [.tbi]
@@ -317,7 +304,6 @@ steps:
             coding_only: annotate_coding_only
             reference: reference
             pick: vep_pick
-            custom_annotations: vep_custom_annotations
             plugins: vep_plugins
         out:
             [annotated_vcf, vep_summary]
@@ -390,18 +376,7 @@ steps:
             normal_sample_name: matched_control_name
             tumor_sample_name: sample_name
             gnomad_field_name:
-              source: vep_custom_annotations
-              valueFrom: |
-                ${
-                   if(self){
-                        for(var i=0; i<self.length; i++){
-                            if(self[i].annotation.gnomad_filter){
-                                return(self[i].annotation.name + '_AF');
-                            }
-                        }
-                    }
-                    return('gnomAD_AF');
-                }
+              default: 'gnomAD_AF'
             known_variants: known_variants
             min_var_freq: min_var_freq
         out: 

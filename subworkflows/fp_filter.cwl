@@ -8,10 +8,7 @@ requirements:
     - class: StepInputExpressionRequirement
 inputs:
     bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        string
     reference:
         type:
             - string
@@ -94,7 +91,7 @@ steps:
             [indexed_vcf]
 
     hard_filter:
-        run: ../tools/select_variants.cwl
+        run: ../tools/gatk_SelectVariants.cwl
         in:
             reference: reference
             vcf: fp_index/indexed_vcf

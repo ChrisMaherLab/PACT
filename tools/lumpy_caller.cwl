@@ -16,15 +16,9 @@ requirements:
 
 inputs:
   sample_bam:
-   type:
-       - string
-       - File
-   secondaryFiles: [".bai"]
+   type: string
   normal_bam:
-   type:
-       - string
-       - File
-   secondaryFiles: [".bai"]
+   type: string
   splitters:
    type: File[]
    secondaryFiles: [".bai"]
@@ -44,17 +38,8 @@ inputs:
 arguments:
  - valueFrom: |
     ${
-      var x = "";
-      if (inputs.sample_bam.path) {
-         x = x + String(inputs.sample_bam.path);
-      } else {
-         x = x + inputs.sample_bam;
-      }
-      if (inputs.normal_bam.path) {
-        x = x + "," + String(inputs.normal_bam.path);
-      } else {
-        x = x + "," + inputs.normal_bam;
-      }
+      var x = inputs.sample_bam;
+      x = x + "," + inputs.normal_bam
       return(x)
     }
    position: 2
@@ -64,12 +49,7 @@ arguments:
  - prefix: -o
    valueFrom: |
     ${
-      var x = "";
-      if (inputs.sample_bam.path) {
-         x = String(runtime.outdir) + "/" + String(inputs.sample_bam.path).split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ".vcf";
-      } else {
-         x = String(runtime.outdir) + "/" + String(inputs.sample_bam).split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ".vcf";
-      }
+      var x = String(runtime.outdir) + "/" + String(inputs.sample_bam).split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ".vcf";
       return(x)
     }
    position: 5

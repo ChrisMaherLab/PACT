@@ -7,9 +7,6 @@ requirements:
     - class: SubworkflowFeatureRequirement
     - class: StepInputExpressionRequirement
     - class: MultipleInputFeatureRequirement
-    - class: SchemaDefRequirement
-      types:
-          - $import: ../types/bam_record.yml
 
 inputs:
     vcf:
@@ -20,8 +17,7 @@ inputs:
             - File
         secondaryFiles: [.fai, ^.dict]
     panel_of_normal_bams:
-        type: ../types/bam_record.yml#bam_input[]
-        secondaryFiels: [.bai]
+        type: string[]
     roi_intervals:
         type: File
 
@@ -51,22 +47,7 @@ steps:
         in:
             vcf: index/indexed_vcf
             reference: reference
-            bams: 
-               source: panel_of_normal_bams
-               valueFrom: |
-                 ${
-                   let s = [];
-                   if(self[0].as_string) {
-                     self.forEach(function(value){
-                       s.push(value.as_string);
-                     });
-                     return s;
-                   }
-                   self.forEach(function(value){
-                     s.push(value.as_file);
-                   });
-                   return s;
-                 }
+            bams: panel_of_normal_bams
             intervals: prep/mod_interval_list
             output:
              default: "PoN.vcf"

@@ -13,15 +13,9 @@ inputs:
             - File
         secondaryFiles: [.fai, ^.dict]
     tumor_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     normal_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     region_file:
         type: File
     insert_size:

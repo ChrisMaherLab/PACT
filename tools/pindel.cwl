@@ -38,21 +38,11 @@ requirements:
 
 inputs:
     tumor_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
-        #type: File
-        #secondaryFiles: ["^.bai"]
+        type: string
         inputBinding:
             position: 1
     normal_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
-        #type: File
-        #secondaryFiles: ["^.bai"]
+        type: string
         inputBinding:
             position: 2
     insert_size:

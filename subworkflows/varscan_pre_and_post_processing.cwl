@@ -16,14 +16,9 @@ inputs:
             - File
         secondaryFiles: [.fai, ^.dict]
     tumor_bam:
-        type:
-            - string
-            - File
+        type: string
     normal_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     interval_list:
         type: File
     strand_filter:

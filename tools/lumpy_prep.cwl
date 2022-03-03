@@ -38,19 +38,13 @@ requirements:
 
 inputs:
  sample_bam:
-  type:
-      - string
-      - File
+  type: string
   inputBinding:
    position: 1
-  secondaryFiles: [.bai]
  normal_bam:
-  type:
-      - string
-      - File
+  type: string
   inputBinding:
    position: 2
-  secondaryFiles: [.bai]
 
 arguments:
  - valueFrom: $(runtime.outdir)

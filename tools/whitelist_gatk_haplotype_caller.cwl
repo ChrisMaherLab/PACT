@@ -48,17 +48,11 @@ inputs:
         inputBinding:
             position: 1
     normal_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
         inputBinding:
             position: 2
     bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
         inputBinding:
             position: 3
     whitelist_vcf:

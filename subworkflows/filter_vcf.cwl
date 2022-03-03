@@ -18,10 +18,7 @@ inputs:
     gnomad_field_name:
         type: string
     tumor_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     do_cle_vcf_filter:
         type: boolean
     reference:

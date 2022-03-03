@@ -18,9 +18,7 @@ requirements:
 
 inputs:
  bam:
-  type:
-      - string
-      - File
+  type: string
   inputBinding:
    position: 1
 

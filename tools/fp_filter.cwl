@@ -24,9 +24,7 @@ inputs:
             prefix: "--reference"
             position: 1
     bam:
-        type:
-            - string
-            - File
+        type: string
         inputBinding:
             prefix: "--bam-file"
             position: 2

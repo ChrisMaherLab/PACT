@@ -10,15 +10,9 @@ requirements:
     - class: StepInputExpressionRequirement
 inputs:
     tumor_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     normal_bam:
-        type:
-            - string
-            - File
-        secondaryFiles: [.bai]
+        type: string
     reference:
         type:
             - string
@@ -99,7 +93,7 @@ steps:
             [indexed_vcf]
 
     region_filter:
-        run: ../tools/select_variants.cwl
+        run: ../tools/gatk_SelectVariants.cwl
         in:
             reference: reference
             vcf: index_full/indexed_vcf

@@ -26,16 +26,11 @@ inputs:
    position: 1
   doc: "Reference genome .fa"
  sample_bam:
-  type:
-      - string
-      - File
+  type: string
   inputBinding:
    position: 3
-  secondaryFiles: [.bai]
  normal_bam:
-  type:
-      - string
-      - File
+  type: string
   inputBinding:
    position: 4
   secondaryFiles: [.bai]
