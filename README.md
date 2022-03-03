@@ -28,5 +28,4 @@ This repo is organized as follows:
 | pipelines | Full workflows, which rely on subworkflows and tools |
 | subworkflows | Workflows called by pipelines that combine tools to form intermediate files |
 | tools | Individual steps in the workflow containing single commands or scripts |
-| types | Custom data types for wrapping certain inputs |
 | example_ymls | Example format for input YAML files using minimal inputs |
