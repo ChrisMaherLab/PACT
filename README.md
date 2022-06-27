@@ -8,7 +8,7 @@ Developed at [Christopher Maher Lab](http://www.maherlab.com) at [Washington Uni
 
 ## Overview
 
-Standardized workflows for sensitive and reproducible detection of both small and large genomic alterations using targeted cfDNA sequencing, shared in a portable [Common Workflow Language](https://www.commonwl.org/) (CWL) pipeline. 
+Standardized workflows for sensitive and reproducible detection of both small and large genomic alterations using targeted cfDNA sequencing, shared in a [Common Workflow Language](https://www.commonwl.org/) (CWL) pipeline. 
 
 ## Quick Start
 
