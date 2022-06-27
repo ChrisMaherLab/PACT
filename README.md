@@ -32,9 +32,11 @@ This repository is organized as follows:
 | tools | Individual steps in the workflow containing single commands or scripts |
 | example_ymls | Example format for input YAML files using minimal inputs |
 
-## File Inputs
+## Inputs
 
-The provided workflows accept a variety of optional and/or required input files. Each input file is described below, including how to label the file in an input .yml, the workflows the file is used in, and a brief description.
+The provided workflows accept a variety of optional and/or required input files. Example '.yml' files have been provided in the example_ymls directory, which contain all required inputs. Additional inputs are available for additional customization of the pipeline(s), and can be seen in the inputs section of the corresponding CWL file in the pipelines directory.
+
+Common/required inputs are described below, including how to label the information in an input .yml, the workflows the file is used in, and a brief description.
 
 <details>
   <summary>Reference Genome Inputs</summary>
