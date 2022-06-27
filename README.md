@@ -40,7 +40,7 @@ The provided workflows accept a variety of optional and/or required input files.
   <summary>Reference fasta and associated files</summary>
   
   | Input label | Applicable workflow(s) | Description |
-  | --- | --- |
+  | --- | --- | --- |
   | reference | All workflows (required) | Absolute path to a reference genome fasta file. A <reference>.fai index file made using `samtools faidx` and a <reference>.dict file made using Picard's `CreateSequenceDictionary` command should be present in the directory. |
   | ref_genome | SV workflow (required) | Name of reference genome used. Should match the name used by any applicable annotation databases (eg. hg19) |
 </details>
