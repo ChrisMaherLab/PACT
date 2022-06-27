@@ -20,12 +20,27 @@ After installation and configuration of Cromwell, the pipeline(s) can be run usi
 
 `java -Dconfig.file=<config.file> -jar <cromwell.jar> run -t cwl -i <input_yaml> pipelines/<pipeline>.cwl`
 
+For additional information about writing, reading and using CWL files, see the [official CWL user guide](https://www.commonwl.org/user_guide/).
+
 ## Structure
 
-This repo is organized as follows:
+This repository is organized as follows:
 | Directory | Description |
 | --- | --- |
 | pipelines | Full workflows, which rely on subworkflows and tools |
 | subworkflows | Workflows called by pipelines that combine tools to form intermediate files |
 | tools | Individual steps in the workflow containing single commands or scripts |
 | example_ymls | Example format for input YAML files using minimal inputs |
+
+## File Inputs
+
+The provided workflows accept a variety of optional and/or required input files. Each input file is described below, including how to label the file in an input .yml, the workflows the file is used in, and a brief description.
+
+<details>
+  <summary>Reference fasta and associated files</summary>
+  
+  | Input label | Applicable workflow(s) | Description |
+  | --- | --- |
+  | reference | All workflows (required) | Absolute path to a reference genome fasta file. A <reference>.fai index file made using `samtools faidx` and a <reference>.dict file made using Picard's `CreateSequenceDictionary` command should be present in the directory. |
+  | ref_genome | SV workflow (required) | Name of reference genome used. Should match the name used by any applicable annotation databases (eg. hg19) |
+</details>
