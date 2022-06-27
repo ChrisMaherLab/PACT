@@ -64,7 +64,7 @@ The provided workflows accept a variety of optional and/or required input files.
   | notboth_region | SV workflow (required) | A bed file. SVs with >1 breakpoint within these regions will be discarded. We recommend Heng Li's low complexity regions (found here)[https://github.com/lh3/varcmp/raw/master/scripts] |
   | sv_whitelist | SV workflow (optional) | A bed file. Contains regions that include expected SV breakpoint sites. This will reduce the read support requirement for SVs from these regions, which will allow the user to manually review variants of interest. |
   | whitelist_vcf | SNV workflow (required) | VCF and accompanying .tbi file (using the `tabix -p`) command. VCF represents any whitelisted SNVs/Indels. VCF file may be empty (but still properly formatted) if desired |
-<details>
+</details>
 <details>
   <summary>Samples and Controls</summary>
 
