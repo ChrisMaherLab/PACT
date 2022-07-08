@@ -53,6 +53,8 @@ requirements:
                 elsif (/^#CHROM/) {
                     if ($set_filter_flag) {
                         say $whitelist_out_fh '##FILTER=<ID=WHITELIST_ONLY,Description="ignore whitelist variants">';
+                    } else {
+                        say $whitelist_out_fh '##FILTER=<ID=whitelist,Description="Found in provided whitelist">';
                     }
                     my @columns = split /\t/, $_;
                     my %index = (
@@ -86,7 +88,7 @@ requirements:
                                 $columns[6] = 'WHITELIST_ONLY';
                             }
                             else {
-                                $columns[6] = '.';
+                                $columns[6] = 'whitelist';
                             }
                             my $new_line = join "\t", @columns;
                             say $whitelist_out_fh $new_line;
