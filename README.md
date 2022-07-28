@@ -52,7 +52,7 @@ Common/required inputs are described below, including how to label the informati
   | Input label | Applicable workflow(s) | Description |
   | --- | --- | --- |
   | snpEff_data | SV workflow (required) | Absolute path to a snpEff annotation database directory. This can be downloaded using snpEff's download command: `java -jar snpEff.jar download <database>`. |
-  | vep_cache_dir | SNV workflow (required) | Absolute path to vep annotation cache information. See (the ensembl website)[https://useast.ensembl.org/info/docs/tools/vep/script/vep_cache.html] for information about downloading the cache. |
+  | vep_cache_dir | SNV workflow (required) | Absolute path to vep annotation cache information. See the ensembl website (https://useast.ensembl.org/info/docs/tools/vep/script/vep_cache.html) for information about downloading the cache. |
   | vep_ensembl_assembly | SNV workflow (required) | A string containing the name of the genome assembly associated with the provided vep cache (eg GRCh37) |
   | vep_ensembl_version | SNV workflow (required) | A string containing the version number of the provided cache (eg 106) |
 </details>
@@ -62,8 +62,8 @@ Common/required inputs are described below, including how to label the informati
   | Input label | Applicable workflow(s) | Description |
   | --- | --- | --- |
   | target_regions | All workflows (required) | A bed file containing the genomic regions covered by the targeted panel used for sequencing |
-  | neither_region | SV workflow (required) | A bed file. All SVs that contain a breakpoint within these regions will be discarded. We recommend the blacklist regions provided by 10xgenomics. Their (hg19 bed file can be found here)[http://cf.10xgenomics.com/supp/genome/hg19/sv_blacklist.bed]. |
-  | notboth_region | SV workflow (required) | A bed file. SVs with >1 breakpoint within these regions will be discarded. We recommend Heng Li's low complexity regions (found here)[https://github.com/lh3/varcmp/raw/master/scripts] |
+  | neither_region | SV workflow (required) | A bed file. All SVs that contain a breakpoint within these regions will be discarded. We recommend the blacklist regions provided by 10xgenomics. Their hg19 bed file can be found here: http://cf.10xgenomics.com/supp/genome/hg19/sv_blacklist.bed. |
+  | notboth_region | SV workflow (required) | A bed file. SVs with >1 breakpoint within these regions will be discarded. We recommend Heng Li's low complexity regions, found here: https://github.com/lh3/varcmp/raw/master/scripts |
   | sv_whitelist | SV workflow (optional) | A bed file. Contains regions that include expected SV breakpoint sites. This will reduce the read support requirement for SVs from these regions, which will allow the user to manually review variants of interest. |
   | whitelist_vcf | SNV workflow (required) | VCF and accompanying .tbi file (using the `tabix -p`) command. VCF represents any whitelisted SNVs/Indels. VCF file may be empty (but still properly formatted) if desired |
 </details>
