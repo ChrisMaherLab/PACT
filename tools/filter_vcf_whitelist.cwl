@@ -56,6 +56,7 @@ requirements:
                     } else {
                         say $whitelist_out_fh '##FILTER=<ID=whitelist,Description="Found in provided whitelist">';
                     }
+                    say $whitelist_out_fh '##FILTER<ID=.,Description="Other">';
                     my @columns = split /\t/, $_;
                     my %index = (
                         $columns[9]  => 9,
