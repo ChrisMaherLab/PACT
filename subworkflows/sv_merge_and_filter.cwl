@@ -62,19 +62,20 @@ outputs:
   doc: "SVs identified as somatic after applying all filters"
 
 steps:
- prepare_vcfs:
-  run: ../tools/prepare_vcfs.cwl
-  scatter: vcfs
-  in:
-   vcfs: sv_vcfs
-  out:
-   [modified_vcfs]
+# prepare_vcfs:
+#  run: ../tools/prepare_vcfs.cwl
+#  scatter: vcfs
+#  in:
+#   vcfs: sv_vcfs
+#  out:
+#   [modified_vcfs]
 
  survivor_merge:
   run: ../tools/survivor-merge.cwl
   scatter: vcfs
   in:
-   vcfs: prepare_vcfs/modified_vcfs
+   #vcfs: prepare_vcfs/modified_vcfs
+   vcfs: sv_vcfs
    max_distance_to_merge: max_distance_to_merge
    minimum_sv_calls: minimum_sv_calls
    same_type: same_type
@@ -87,19 +88,31 @@ steps:
   out:
    [merged_vcf] 
 
- correct_survivor:
-  run: ../tools/modify_survivor.cwl
+ region_filter:
+  run: ../tools/vcf-region-filter.cwl
   scatter: vcf
   in:
    vcf: survivor_merge/merged_vcf
+   target: target_regions
+   notboth_region: notboth_region
+   neith_region: neither_region
   out:
-   [modified_vcf]
+   [filtered_vcf]
+
+# correct_survivor:
+#  run: ../tools/modify_survivor.cwl
+#  scatter: vcf
+#  in:
+#   vcf: survivor_merge/merged_vcf
+#  out:
+#   [modified_vcf]
 
  extract_sample_names:
   run: ../tools/extract_sample_name_from_vcf.cwl
   scatter: vcf
   in:
-   vcf: correct_survivor/modified_vcf
+   #vcf: correct_survivor/modified_vcf
+   vcf: survivor_merge/merged_vcf
   out:
    [sample_name]
 
@@ -108,7 +121,9 @@ steps:
   scatter: [vcf, bam_one, bam_two]
   scatterMethod: "dotproduct"
   in:
-   vcf: correct_survivor/modified_vcf
+   #vcf: correct_survivor/modified_vcf
+   #vcf: survivor_merge/merged_vcf
+   vcf: region_filter/filtered_vcf
    bam_one:
      source: matched_control_bams
    bam_two:
@@ -226,49 +241,51 @@ steps:
    in_file: aggregate_samples/aggregate_bedpe
   out: [egrep_v_file]
 
- neither_filter:
-  run: ../tools/bedtools_pairToBed.cwl
-  in:
-   bedpe: remove_unknown_regions/egrep_v_file
-   command:
-    default: "neither"
-   bed: neither_region
-  out: [filtered_bedpe]
+# neither_filter:
+#  run: ../tools/bedtools_pairToBed.cwl
+#  in:
+#   bedpe: remove_unknown_regions/egrep_v_file
+#   command:
+#    default: "neither"
+#   bed: neither_region
+#  out: [filtered_bedpe]
 
- notboth_filter:
-  run: ../tools/bedtools_pairToBed.cwl
-  in:
-   bedpe: neither_filter/filtered_bedpe
-   command:
-    default: "notboth"
-   bed: notboth_region
-  out: [filtered_bedpe]
+# notboth_filter:
+#  run: ../tools/bedtools_pairToBed.cwl
+#  in:
+#   bedpe: neither_filter/filtered_bedpe
+#   command:
+#    default: "notboth"
+#   bed: notboth_region
+#  out: [filtered_bedpe]
 
  modify_intervals:
   run: ../tools/awk.cwl
   in:
    pattern:
     default: 'BEGIN{FS=OFS="\t"}{if($2==$3){$2=$2-1};if($5==$6){$5=$5-1};print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22}'
-   in_file: notboth_filter/filtered_bedpe
+   #in_file: notboth_filter/filtered_bedpe
+   in_file: remove_unknown_regions/egrep_v_file
    out_file:
     default: "modifiedIntervals"
   out: [awk_out]
    
- target_region_filter:
-  run: ../tools/bedtools_pairToBed.cwl
-  in:
-   bedpe: modify_intervals/awk_out
-   command:
-    default: "either"
-   bed: target_regions
-  out: [filtered_bedpe]
+# target_region_filter:
+#  run: ../tools/bedtools_pairToBed.cwl
+#  in:
+#   bedpe: modify_intervals/awk_out
+#   command:
+#    default: "either"
+#   bed: target_regions
+#  out: [filtered_bedpe]
 
  compare_to_healthy:
   run: ../tools/bedtools_pairToPair.cwl
   in:
    type_parameter:
     default: "notboth" 
-   in_file: target_region_filter/filtered_bedpe
+   #in_file: target_region_filter/filtered_bedpe
+   in_file: modify_intervals/awk_out
    comparison_file: remove_unsupported/awk_out
   out: [filtered_bedpe] 
 

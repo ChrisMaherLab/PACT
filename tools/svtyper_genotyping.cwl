@@ -10,7 +10,7 @@ requirements:
     - class: DockerRequirement
       dockerPull: "jbwebster/pipeline_docker"
     - class: ResourceRequirement
-      ramMin: 12000
+      ramMin: 16000
 
 inputs:
  vcf:

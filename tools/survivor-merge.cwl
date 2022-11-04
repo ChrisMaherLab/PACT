@@ -74,10 +74,14 @@ inputs:
         inputBinding:
             position: 8
 
+arguments:
+ - valueFrom: $(runtime.outdir)
+   position: 9    
+
 outputs:
   merged_vcf:
     type: File
     outputBinding:
-      glob: "$(inputs.cohort_name)"
+      glob: "mod.$(inputs.cohort_name)"
 
 
