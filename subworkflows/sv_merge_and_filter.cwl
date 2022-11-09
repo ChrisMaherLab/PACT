@@ -95,7 +95,7 @@ steps:
    vcf: survivor_merge/merged_vcf
    target: target_regions
    notboth_region: notboth_region
-   neith_region: neither_region
+   neither_region: neither_region
   out:
    [filtered_vcf]
 
