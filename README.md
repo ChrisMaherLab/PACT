@@ -1,14 +1,14 @@
 
-# cfDNA Analysis Workflows
+# PACT: A pipeline for analysis of circulating tumor DNA
 ##
 
-Developed at [Christopher Maher Lab](http://www.maherlab.com) at [Washington University in St. Louis](http://www.wustl.edu)
+Developed by the [Christopher Maher Lab](http://www.maherlab.com) at [Washington University in St. Louis](http://www.wustl.edu) in collaboration with the labs of Dr. Aadel Chaudhuri and Dr. Russell Pachynski.
 
 ##
 
 ## Overview
 
-Standardized workflows for sensitive and reproducible detection of both small and large genomic alterations using targeted cfDNA sequencing, shared in a [Common Workflow Language](https://www.commonwl.org/) (CWL) pipeline. 
+Standardized workflows for sensitive and reproducible detection of both small and large genomic alterations using targeted ctDNA sequencing, shared in a [Common Workflow Language](https://www.commonwl.org/) (CWL) pipeline. 
 
 ## Quick Start
 
