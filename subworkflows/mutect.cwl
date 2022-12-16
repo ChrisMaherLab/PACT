@@ -8,6 +8,7 @@ requirements:
     - class: MultipleInputFeatureRequirement
     - class: SubworkflowFeatureRequirement
     - class: StepInputExpressionRequirement
+
 inputs:
     reference:
         type:
@@ -24,6 +25,7 @@ inputs:
         type: int
     tumor_sample_name:
         type: string
+
 outputs:
     unfiltered_vcf:
         type: File
@@ -33,6 +35,7 @@ outputs:
         type: File
         outputSource: filter/filtered_vcf
         secondaryFiles: [.tbi]
+
 steps:
     split_interval_list:
         run: ../tools/split_interval_list.cwl

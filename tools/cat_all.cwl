@@ -12,7 +12,9 @@ arguments: [
     { shellQuote: false, valueFrom: "|" },
     "/bin/grep", "ChrID", "/dev/stdin"
 ]
+
 stdout: "all_region_pindel.head"
+
 inputs:
     region_pindel_outs:
         type: File[]

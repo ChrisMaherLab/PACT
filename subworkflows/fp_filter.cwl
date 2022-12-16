@@ -6,6 +6,7 @@ label: "fp_filter workflow"
 requirements:
     - class: SubworkflowFeatureRequirement
     - class: StepInputExpressionRequirement
+
 inputs:
     bam:
         string
@@ -23,6 +24,7 @@ inputs:
         string?
     min_var_freq:
         float?
+
 outputs:
     unfiltered_vcf:
         type: File
@@ -32,6 +34,7 @@ outputs:
         type: File
         outputSource: hard_filter/filtered_vcf
         secondaryFiles: [.tbi]
+
 steps:
     sanitize_vcf:
         run: ../tools/vcf_sanitize.cwl

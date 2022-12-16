@@ -9,6 +9,7 @@ requirements:
     - class: MultipleInputFeatureRequirement
     - class: StepInputExpressionRequirement
     - class: InlineJavascriptRequirement
+
 inputs:
     reference:
         type:
@@ -42,6 +43,7 @@ inputs:
     scatter_count:
         type: int
         default: 50
+
 outputs:
     unfiltered_vcf:
         type: File
@@ -51,6 +53,7 @@ outputs:
         type: File
         outputSource: filter/filtered_vcf
         secondaryFiles: [.tbi]
+
 steps:
     split_interval_list:
         run: ../tools/split_interval_list.cwl

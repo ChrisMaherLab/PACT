@@ -8,6 +8,7 @@ requirements:
     - class: MultipleInputFeatureRequirement
     - class: SubworkflowFeatureRequirement
     - class: StepInputExpressionRequirement
+
 inputs:
     reference:
         type:
@@ -42,6 +43,7 @@ outputs:
         type: File
         outputSource: filter/filtered_vcf
         secondaryFiles: [".tbi"]
+
 steps:
     split_interval_list_to_bed:
         run: ../tools/split_interval_list_to_bed.cwl

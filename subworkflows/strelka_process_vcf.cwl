@@ -3,14 +3,17 @@
 cwlVersion: v1.0
 class: Workflow
 label: "process VCF workflow"
+
 inputs:
     vcf:
         type: File
+
 outputs:
     processed_vcf:
         type: File
         outputSource: index/indexed_vcf
         secondaryFiles: [.tbi]
+
 steps:
     add_gt:
         run: ../tools/add_strelka_gt.cwl

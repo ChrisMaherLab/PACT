@@ -9,9 +9,11 @@ requirements:
     - class: ResourceRequirement
       ramMin: 8000
       tmpdirMin: 10000
+
 arguments: 
     ["/bin/bash", "/usr/bin/mapq0_vcf_filter.sh",
     {valueFrom: "$(runtime.outdir)/mapq_filtered.vcf.gz"}]
+
 inputs:
     vcf:
         type: File

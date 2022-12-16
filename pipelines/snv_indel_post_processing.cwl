@@ -1,5 +1,12 @@
 #!/usr/bin/env cwl-runner
 
+###########################
+# Workflow for identifying somatic SNV/Indel variants.
+# Called by pipelines/snv_indel_pipeline.cwl
+# See that file for docs
+###########################
+
+
 cwlVersion: v1.0
 class: Workflow
 label: "Detect Variants workflow"

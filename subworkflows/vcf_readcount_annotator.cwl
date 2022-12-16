@@ -5,6 +5,7 @@ class: Workflow
 label: "Add snv and indel bam-readcount files to a vcf"
 requirements:
     - class: SubworkflowFeatureRequirement
+
 inputs:
     vcf:
         type: File
@@ -16,13 +17,15 @@ inputs:
     data_type:
         type:
             - type: enum
-              symbols: ["DNA", "RNA"]
+              symbols: ["DNA"]
     sample_name:
         type: string
+
 outputs:
     annotated_bam_readcount_vcf:
         type: File
         outputSource: add_indel_bam_readcount_to_vcf/annotated_bam_readcount_vcf
+
 steps:
     add_snv_bam_readcount_to_vcf:
         run: ../tools/vcf_readcount_annotator.cwl

@@ -3,6 +3,7 @@
 cwlVersion: v1.0
 class: Workflow
 label: "varscan somatic workflow"
+
 inputs:
     reference:
         type:
@@ -25,6 +26,7 @@ inputs:
         type: float?
     max_normal_freq:
         type: float?
+
 outputs:
     snvs:
         type: File
@@ -68,6 +70,7 @@ outputs:
     loh_indels:
         type: File
         outputSource: process_somatic_indels/loh
+
 steps:
     somatic:
         run: ../tools/varscan_somatic.cwl

@@ -6,6 +6,7 @@ class: Workflow
 label: "Per-region pindel"
 requirements:
     - class: MultipleInputFeatureRequirement
+
 inputs:
     reference:
         type:
@@ -25,10 +26,12 @@ inputs:
         type: string
     normal_sample_name:
         type: string
+
 outputs:
     per_region_pindel_out:
         type: File
         outputSource: cat/pindel_out
+
 steps:
     pindel:
         run: ../tools/pindel.cwl

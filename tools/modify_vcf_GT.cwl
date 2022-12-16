@@ -14,7 +14,6 @@ requirements:
       - entryname: "mod_GT.sh"
         entry: |
             infile=$1
-            #cat $infile | perl -ane 'if ($F[0] =~ /^#/){print $_;} else {$F[$a-1] =~ s/(^\.\/\.|0\/0)/0\/1/; @tt=split(/:/, $F[9]); @nn=split(/:/, $F[-1]); $tpe=$tt[23]; $tsr=@tt[20]; $npe=@nn[23]; $nsr=@nn[20]; $tr=$tpe+$tsr; $nr=$npe+$nsr; if ($tr> 0 && $nr==0) {print join("\t", @F), "\n";}}'
             cat $infile | perl -ane 'if ($F[0] =~ /^#/){print $_;} else {$F[$a-1] =~ s/(^\.\/\.|0\/0)/0\/1/; @tt=split(/:/, $F[9]); @nn=split(/:/, $F[-1]); $npe=@nn[23]; $nsr=@nn[20]; $nr=$npe+$nsr; if ($nr==0) {print join("\t", @F), "\n";}}'
 
 inputs:

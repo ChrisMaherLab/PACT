@@ -9,8 +9,10 @@ requirements:
     - class: ResourceRequirement
       ramMin: 4000
 baseCommand: ["/usr/bin/python3", "/usr/bin/depth_filter.py"]
+
 arguments: 
     [{valueFrom: "$(runtime.outdir)/depth_filtered.vcf"}]
+
 inputs:
     vcf:
         type: File

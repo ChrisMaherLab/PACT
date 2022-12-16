@@ -8,6 +8,7 @@ requirements:
     - class: SubworkflowFeatureRequirement
     - class: MultipleInputFeatureRequirement
     - class: StepInputExpressionRequirement
+
 inputs:
     tumor_bam:
         type: string
@@ -29,6 +30,7 @@ inputs:
         type: string
     tumor_sample_name:
         type: string
+
 outputs:
     unfiltered_vcf:
         type: File
@@ -38,6 +40,7 @@ outputs:
         type: File
         outputSource: filter/filtered_vcf
         secondaryFiles: [.tbi]
+
 steps:
     strelka:
         run: ../tools/strelka.cwl

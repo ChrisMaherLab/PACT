@@ -9,7 +9,9 @@ requirements:
       dockerPull: "jbwebster/snv_pipeline_docker"
     - class: ResourceRequirement
       ramMin: 4000
+
 arguments: [$(inputs.vcf.path), $(runtime.outdir)]
+
 inputs:
     vcf:
         type: File

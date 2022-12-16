@@ -10,7 +10,9 @@ requirements:
       tmpdirMin: 25000
     - class: DockerRequirement
       dockerPull: "jbwebster/snv_pipeline_docker"
+
 arguments: ["-o", { valueFrom: $(runtime.outdir)/combined.vcf }]
+
 inputs:
     mutect_vcf:
         type: File

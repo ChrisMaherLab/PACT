@@ -5,6 +5,7 @@ class: Workflow
 label: "Detect whitelisted variants"
 requirements:
     - class: SubworkflowFeatureRequirement
+
 inputs:
     reference:
         type:
@@ -26,11 +27,13 @@ inputs:
         type: float
     min_coverage:
         type: int
+
 outputs:
     whitelist_variants_vcf:
         type: File
         outputSource: index2/indexed_vcf
         secondaryFiles: [.tbi]
+
 steps:
     GATK_haplotype_caller:
         run: ../tools/whitelist_gatk_haplotype_caller.cwl

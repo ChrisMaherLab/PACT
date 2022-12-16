@@ -7,6 +7,7 @@ requirements:
     - class: SubworkflowFeatureRequirement
     - class: StepInputExpressionRequirement
     - class: MultipleInputFeatureRequirement
+
 inputs:
     vcf:
         type: File
