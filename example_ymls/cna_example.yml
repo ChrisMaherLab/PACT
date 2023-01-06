@@ -1,0 +1,27 @@
+# Path to reference genome fasta
+reference: /path/to/genome/reference.fa
+# Path to capture targets used by the targeted panel
+capture_targets: /path/to/capture_targets.bed
+# Genome annotation file in refFlat format
+ref_flat: /path/to/genome/annotation/refFlat.txt
+# Name of genome (only hg19 and hg38 are supported)
+ref_genome: hg19
+# Path to bed file of genes targetd by the panel
+# Columns: 1=chromosome, 2=start, 3=end, 4=gene name, 5=description. Copy number control genes should be labeled 'CN-control'. A header line is expected
+target_genes: /path/to/file/of/targeted/genes.bed
+# Path to bed file of all annotated genes
+# Columns: 1=chromosome, 2=start, 3=end, 4=gene name, 5=score (arbitrary value, not used), 6= +/-
+all_genes: /path/to/list/of/all/annotated/genes.bed
+# Paths to cfDNA sample bam files
+sample_bams:
+ - /path/to/patient1_cfDNA_sample.bam
+ - /path/to/patient2_cfDNA_sample.bam
+# Paths to matched controls. Should be in same order as sample_bams
+matched_control_bams:
+ - /path/to/patient1_matched_control.bam
+ - /path/to/patient2_matched_control.bam
+# Paths to samples for the panel of healthy normals
+panel_of_normal_bams:
+ - /path/to/healthy1_sample.bam
+ - /path/to/healthy2_sample.bam
+ - /path/to/healthy3_sample.bam

@@ -12,7 +12,7 @@ Standardized workflows for sensitive and reproducible detection of both small an
 
 ## Quick Start
 
-Download the repository with `git clone https://github.com/ChrisMaherLab/LiquidScan.git`
+Download the repository with `git clone https://github.com/ChrisMaherLab/PACT.git`
 
 A number of tools exist for running CWL pipelines. In our benchmarking analysis, all pipelines were run using the Cromwell CWL interpreter (v54), which can be downloaded [here](https://github.com/broadinstitute/cromwell/releases). For additional information about using Cromwell, we suggest their [user guide](https://www.commonwl.org/user_guide/) and their [configuration tutorials](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/).
 
@@ -44,7 +44,8 @@ Common/required inputs are described below, including how to label the informati
   | Input label | Applicable workflow(s) | Description |
   | --- | --- | --- |
   | reference | All workflows (required) | Absolute path to a reference genome fasta file. A <reference>.fai index file made using `samtools faidx` and a <reference>.dict file made using Picard's `CreateSequenceDictionary` command should be present in the directory. |
-  | ref_genome | SV workflow (required) | Name of reference genome used. Should match the name used by any applicable annotation databases (eg. hg19) |
+  | ref_genome | SV and CNA workflows (required) | Name of reference genome used. Should match the name used by any applicable annotation databases (eg. hg19) |
+  | ref_flat | CNA workflow (required) | Genome annotation file in refFlat format |
 </details>
 <details>
   <summary>Annotation Information</summary>
@@ -55,6 +56,7 @@ Common/required inputs are described below, including how to label the informati
   | vep_cache_dir | SNV workflow (required) | Absolute path to vep annotation cache information. See the ensembl website (https://useast.ensembl.org/info/docs/tools/vep/script/vep_cache.html) for information about downloading the cache. |
   | vep_ensembl_assembly | SNV workflow (required) | A string containing the name of the genome assembly associated with the provided vep cache (eg GRCh37) |
   | vep_ensembl_version | SNV workflow (required) | A string containing the version number of the provided cache (eg 106) |
+  | all_genes | CNA workflow (required) | Bed file of all annotated genes. First three columns are standard bed format, 4th column has gene name, 5th column has score value (arbitrary number, is not used), 6th column has +/- strand. No headed is expcted. |
 </details>
 <details>
   <summary>Region and Variant Information</summary>
@@ -66,6 +68,7 @@ Common/required inputs are described below, including how to label the informati
   | notboth_region | SV workflow (required) | A bed file. SVs with >1 breakpoint within these regions will be discarded. We recommend Heng Li's low complexity regions, found here: https://github.com/lh3/varcmp/raw/master/scripts |
   | sv_whitelist | SV workflow (optional) | A bed file. Contains regions that include expected SV breakpoint sites. This will reduce the read support requirement for SVs from these regions, which will allow the user to manually review variants of interest. |
   | whitelist_vcf | SNV workflow (required) | VCF and accompanying .tbi file (using the `tabix -p`) command. VCF represents any whitelisted SNVs/Indels. VCF file may be empty (but still properly formatted) if desired |
+  | target_genes | CNA workflow (required) | Bed file describing all genes targeted by the target panel. First three columns are standard bed format, 4th column is gene name, 5th column is description. Copy number control genes should be labeled as 'CN-control' in the description, all others can use any desired description |
 </details>
 <details>
   <summary>Samples and Controls</summary>
