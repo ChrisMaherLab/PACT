@@ -14,7 +14,7 @@ Standardized workflows for sensitive and reproducible detection of both small an
 
 Download the repository with `git clone https://github.com/ChrisMaherLab/PACT.git`
 
-A number of tools exist for running CWL pipelines. In our benchmarking analysis, all pipelines were run using the Cromwell CWL interpreter (v54), which can be downloaded [here](https://github.com/broadinstitute/cromwell/releases). For additional information about using Cromwell, we suggest their [user guide](https://www.commonwl.org/user_guide/) and their [configuration tutorials](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/).
+A number of tools exist for running CWL pipelines. In our benchmarking analysis, all pipelines were run locally using the Cromwell CWL interpreter (v54), which can be downloaded [here](https://github.com/broadinstitute/cromwell/releases). For additional information about using Cromwell, we suggest their [user guide](https://www.commonwl.org/user_guide/) and their [configuration tutorials](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/).
 
 After installation and configuration of Cromwell, the pipeline(s) can be run using:
 
