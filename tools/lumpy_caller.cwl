@@ -33,6 +33,10 @@ inputs:
     prefix: -D
     position: 4
     itemSeparator: ","
+  minwt:
+   type: int
+   inputBinding:
+    prefix: -m
   
 
 arguments:

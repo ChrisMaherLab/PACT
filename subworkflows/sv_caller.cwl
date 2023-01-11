@@ -19,6 +19,8 @@ inputs:
   type: string[]
  matched_control_bams:
   type: string[]
+ minwt:
+  type: int
 
 outputs:
  vcf_files:
@@ -96,6 +98,7 @@ steps:
      source: matched_control_bams
    splitters: merged_splitters/array_of_arrays
    discordants: merged_discordant/array_of_arrays
+   minwt: minwt
   out:
    [vcf]
  ########

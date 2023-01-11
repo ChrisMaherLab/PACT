@@ -75,6 +75,10 @@ inputs:
  sv_whitelist:
   type: File?
   doc: "Tab-delimited bed file of SV hotspots. Each line in the bed file should describe a likely breakpoint region. For example, if one end of a suspect structural variant is expected to be around chr1:5000, the bed file might include 'chr1 4000 6000'."
+ minwt:
+  type: int
+  default: 3
+  doc: "Minimum weight parameter for lumpy."
 
 outputs: 
  somatic_svs_bedpe:
