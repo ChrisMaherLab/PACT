@@ -3,6 +3,7 @@
 ###########################
 # Workflow for identifying somatic SNV/Indel
 # variants from targeted sequencing of cfDNA.
+# This workflow is used to call the snv_indel post processing pipeline
 ###########################
 
 
