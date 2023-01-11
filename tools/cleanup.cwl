@@ -26,4 +26,4 @@ outputs:
  cleaned_out:
   type: stdout
 
-stdout: aggregate.final.sv.tsv
+stdout: aggregate.final.sv.bedpe
