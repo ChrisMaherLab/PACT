@@ -42,9 +42,9 @@ inputs:
  target_regions:
   type: File
  neither_region:
-  type: File?
+  type: File
  notboth_region:
-  type: File?
+  type: File
  ref_genome:
   type: string
  snpEff_data:

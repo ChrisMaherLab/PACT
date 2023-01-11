@@ -63,10 +63,10 @@ inputs:
   type: File
   doc: "Bed file of target regions from targeted sequencing"
  neither_region:
-  type: File?
+  type: File
   doc: "Bed file. Neither end of SV should fall in these regions"
  notboth_region:
-  type: File?
+  type: File
   doc: "Bed file. Max of one end of SV is allowed to be in these regions"
  read_support:
   type: int

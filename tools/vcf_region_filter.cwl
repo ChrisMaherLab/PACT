@@ -26,12 +26,12 @@ inputs:
            position: 3
            prefix: "-t"
     notboth_region:
-       type: File?
+       type: File
        inputBinding:
            position: 4
            prefix: "-l"
     neither_region:
-       type: File?
+       type: File
        inputBinding:
            position: 5
            prefix: "-b"
