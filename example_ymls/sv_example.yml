@@ -37,7 +37,7 @@ neither_region:
 notboth_region:
  class: File
  path: /path/to/LCR-hg19.cleaned.bed
-# SVs that have a breakend in the regions described by this bed file will
+# [Optional] SVs that have a breakend in the regions described by this bed file will
 # have relaxed read support filters applied to them
 sv_whitelist:
  class: File
