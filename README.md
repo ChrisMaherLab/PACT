@@ -77,7 +77,7 @@ Common/required inputs are described below, including how to label the informati
   | --- | --- | --- |
   | sample_bams | All workflows (required) | An array of paths to bam files that contain reads generated from targeted sequencing of cfDNA. Arrays can be provided in the input .yaml file as described by the (CWL user guide) or as shown in our example input .yamls |
   | matched_control_bams | All workflows (required) | An array of paths to matched control bam files. The order of the array should be the same order as the sample_bams array (eg the `nth` entry in both arrays should correspond to the `nth` patient) |
-  | panel_of_normal_bams | All workflows (required) | An array of paths to bam files containing reads from healthy, normal samples. If such a panel is unavailable, this panel can instead be composed of all availabled matched control samples. |
+  | panel_of_normal_bams | All workflows (required) | An array of paths to bam files containing reads from healthy, normal samples sequenced using the same targeted panel used on the samples/matched controls. If such a panel is unavailable, this panel can instead be composed of all availabled matched control samples. |
 </details>
   
   
