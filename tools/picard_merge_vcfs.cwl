@@ -3,7 +3,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: "Picard MergeVcfs"
-baseCommand: ["gatk", "--java-options", "-Xmx38g", "MergeVcfs"]
+#baseCommand: ["gatk", "--java-options", "-Xmx38g", "MergeVcfs"]
+baseCommand: ["gatk", "--java-options", "-Xmx38g", "SortVcf"]
 requirements:
     - class: ResourceRequirement
       ramMin: 40000
@@ -23,7 +24,8 @@ inputs:
             - 'null'
         inputBinding:
             position: 1
-            prefix: "-D"
+            prefix: "-SD"
+            #prefix: "-D"
     vcfs:
         type:
             type: array
