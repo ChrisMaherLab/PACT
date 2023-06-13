@@ -16,11 +16,15 @@ Download the repository with `git clone https://github.com/ChrisMaherLab/PACT.gi
 
 A number of tools exist for running CWL pipelines. In our benchmarking analysis, all pipelines were run locally using the Cromwell CWL interpreter (v54), which can be downloaded [here](https://github.com/broadinstitute/cromwell/releases). For additional information about using Cromwell, we suggest their [user guide](https://www.commonwl.org/user_guide/) and their [configuration tutorials](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/).
 
-After installation and configuration of Cromwell, the pipeline(s) can be run using:
+As PACT is designed for use in high performance computing environments (HPCs) and HPCs can be highly customizable and variable between different institutions, a comprehensive guide on how to configure different CWL interpreters for specific HPCs is not possible here. We highly recommend reviewing the above documentation (or the documentation for your preferred CWL interpreter) to ensure correct integration with your HPC.
+
+After installation and configuration of Cromwell (if that is your preferred interpreter), the pipeline(s) can be run using:
 
 `java -Dconfig.file=<config.file> -jar <cromwell.jar> run -t cwl -i <input_yaml> pipelines/<pipeline>.cwl`
 
 For additional information about writing, reading and using CWL files, see the [official CWL user guide](https://www.commonwl.org/user_guide/).
+
+To help ensure proper installation and setup, example files (sample bam, matched control bam, healthy bam, targeted regions bed, blacklist bed, low complexity regions bed) are located in the `example_data` folder. In order to run these files with the SV pipeline, the hg19 reference genome and annotation is also needed (see instructions at the bottom of this page for installation). If run correctly, the output from the SV pipeline should be consistent with the output file at `example_data/example.out.bedpe` which describes a single translocation between chromosomes 10 and 13. The `example_ymls/sv_example.yml` can be used to run this analysis, but filepaths in the yml will need to be updated to reflect your PACT installation and the locations of your genome reference and annotation data.
 
 ## Structure
 
