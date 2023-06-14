@@ -14,7 +14,7 @@ Standardized workflows for sensitive and reproducible detection of both small an
 
 Download the repository with `git clone https://github.com/ChrisMaherLab/PACT.git`
 
-A number of tools exist for running CWL pipelines. In our benchmarking analysis, all pipelines were run locally using the Cromwell CWL interpreter (v54), which can be downloaded [here](https://github.com/broadinstitute/cromwell/releases). For additional information about using Cromwell, we suggest their [user guide](https://www.commonwl.org/user_guide/) and their [configuration tutorials](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/).
+A number of tools exist for running CWL pipelines. In our benchmarking analysis, all pipelines were run using the Cromwell CWL interpreter (v54), which can be downloaded [here](https://github.com/broadinstitute/cromwell/releases). For additional information about using Cromwell, we suggest their [user guide](https://www.commonwl.org/user_guide/) and their [configuration tutorials](https://cromwell.readthedocs.io/en/stable/tutorials/ConfigurationFiles/).
 
 As PACT is designed for use in high performance computing environments (HPCs) and HPCs can be highly customizable and variable between different institutions, a comprehensive guide on how to configure different CWL interpreters for specific HPCs is not possible here. We highly recommend reviewing the above documentation (or the documentation for your preferred CWL interpreter) to ensure correct integration with your HPC.
 
@@ -34,7 +34,8 @@ This repository is organized as follows:
 | pipelines | Full workflows, which rely on subworkflows and tools |
 | subworkflows | Workflows called by pipelines that combine tools to form intermediate files |
 | tools | Individual steps in the workflow containing single commands or scripts |
-| example_ymls | Example format for input YAML files using minimal inputs |
+| example_ymls | Example format for input yml files using minimal inputs |
+| example_data | Example input and output data for setup and testing purposes |
 
 ## Inputs
 
@@ -81,7 +82,7 @@ Common/required inputs are described below, including how to label the informati
   | --- | --- | --- |
   | sample_bams | All workflows (required) | An array of paths to bam files that contain reads generated from targeted sequencing of cfDNA. Arrays can be provided in the input .yaml file as described by the (CWL user guide) or as shown in our example input .yamls |
   | matched_control_bams | All workflows (required) | An array of paths to matched control bam files. The order of the array should be the same order as the sample_bams array (eg the `nth` entry in both arrays should correspond to the `nth` patient) |
-  | panel_of_normal_bams | All workflows (required) | An array of paths to bam files containing reads from healthy, normal samples sequenced using the same targeted panel used on the samples/matched controls. If such a panel is unavailable, this panel can instead be composed of all availabled matched control samples. |
+  | panel_of_normal_bams | All workflows (required) | An array of paths to bam files containing reads from healthy, normal samples sequenced using the same targeted panel used on the samples/matched controls. If such a panel is unavailable, this panel can instead be composed of any available matched control samples. |
 </details>
   
   
