@@ -7,6 +7,7 @@ requirements:
     - class: SubworkflowFeatureRequirement
     - class: StepInputExpressionRequirement
     - class: MultipleInputFeatureRequirement
+    - class: ScatterFeatureRequirement
 
 inputs:
  target_coverage:
