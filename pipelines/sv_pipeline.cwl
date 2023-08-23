@@ -93,6 +93,7 @@ steps:
    reference: reference
    sample_bams: sample_bams
    matched_control_bams: matched_control_bams
+   minwt: minwt
   out:
    [vcf_files]
 
