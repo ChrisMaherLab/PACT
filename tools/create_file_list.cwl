@@ -6,7 +6,7 @@ label: "Create a file with paths to the input files when given an array of files
 
 baseCommand: ["echo"]
 
-requirement:
+requirements:
     - class: DockerRequirement
       dockerPull: "ubuntu:xenial"
 
