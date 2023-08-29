@@ -28,7 +28,7 @@ inputs:
         inputBinding:
             prefix: '--filter'
             position: 3
-        defaut: true
+        default: true
     keep:
         type: boolean
         inputBinding:
