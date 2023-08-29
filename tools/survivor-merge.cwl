@@ -2,7 +2,7 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-description: "Run SURVIVOR to merge SV calls from a list of VCF files"
+doc: "Run SURVIVOR to merge SV calls from a list of VCF files"
 
 baseCommand: ["/bin/bash", "/usr/bin/survivor_helper.sh"]
 
