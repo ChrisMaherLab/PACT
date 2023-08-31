@@ -10,6 +10,8 @@ Developed by the [Christopher Maher Lab](http://www.maherlab.com) at [Washington
 
 Standardized workflows for sensitive and reproducible detection of both small and large genomic alterations using targeted ctDNA sequencing, shared in a [Common Workflow Language](https://www.commonwl.org/) (CWL) pipeline. 
 
+For additional details and benchmarking, see: Jace Webster, Ha X Dang, Pradeep S Chauhan, Wenjia Feng, Alex Shiang, Peter K Harris, Russell K Pachynski, Aadel A Chaudhuri, Christopher A Maher. 2023. PACT: A pipeline for analysis of circulating tumor DNA. *Bioinformatics.* 39(8). doi:[10.1093/bioinformatics/btad489](https://academic.oup.com/bioinformatics/article/39/8/btad489/7238210)
+
 ## Quick Start
 
 Download the repository with `git clone https://github.com/ChrisMaherLab/PACT.git`
