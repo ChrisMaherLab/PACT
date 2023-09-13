@@ -11,14 +11,15 @@ requirements:
 
 inputs:
  reference:
-  type:
-      - string
-      - File
+  type: File
   secondaryFiles: [.fai, ^.dict]
  sample_bams:
-  type: string[]
+  type: File[]
+  secondaryFiles: [.bai]
  matched_control_bams:
-  type: string[]
+  type:
+      - File[]
+  secondaryFiles: [.bai]
  minwt:
   type: int
 

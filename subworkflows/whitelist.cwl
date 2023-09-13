@@ -8,14 +8,14 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     whitelist_vcf:
         type: File
         secondaryFiles: [.tbi]

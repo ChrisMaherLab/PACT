@@ -11,13 +11,13 @@ requirements:
 
 inputs:
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     interval_list:
         type: File

@@ -9,14 +9,14 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     region_file:
         type: File
     insert_size:

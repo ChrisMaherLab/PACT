@@ -20,9 +20,7 @@ inputs:
    prefix: "I="
    separate: false
  sd:
-  type:
-      - string
-      - File
+  type: File
   secondaryFiles: [^.dict, .fai]
   inputBinding:
    position: 3

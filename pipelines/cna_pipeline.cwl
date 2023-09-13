@@ -15,41 +15,35 @@ requirements:
 
 inputs:
  reference:
-  type:
-      - string
-      - File
+  type: File
+  secondaryFiles: [.fai]
   doc: "Reference genome fasta."
  capture_targets:
-  type:
-      - string
-      - File
+  type: File
   doc: "Bed file of probes used to target desired target regions. Can be supplied as file path or File"
  ref_flat:
-  type:
-      - string
-      - File
+  type: File
   doc: "refFlat file for reference genome"
  sample_bams:
-  type: string[]
-  doc: "Array of absolute paths to bam files. Contains cfDNA/plasma samples. Should have .bai files in same directory"
+  type: File[]
+  secondaryFiles: [.bai]
+  doc: "Array of bam files. Contains cfDNA/plasma samples. Should have .bai files in same directory"
  matched_control_bams:
-  type: string[]
-  doc: "Array of absolute paths to bam files. Should be in the same order as sample_bams (ie the nth sample in each array are matched)."
+  type: File[]
+  secondaryFiles: [.bai]
+  doc: "Array of bam files. Should be in the same order as sample_bams (ie the nth sample in each array are matched)."
  panel_of_normal_bams:
-  type: string[]
-  doc: "Array of absolute paths to bams used as unmatched, panel of normals. Should have .bai files in same directory"
+  type: File[]
+  secondaryFiles: [.bai]
+  doc: "Array of bams used as unmatched, panel of normals. Should have .bai files in same directory"
  ref_genome:
   type: string
   doc: "hg19 or hg38. Other genomes not supported"
  target_genes:
-  type:
-      - string
-      - File
+  type: File
   doc: "Tab delimited bed file describing genes included in the targeted panel, including controls. Columns should contain: chromosome, start position, end position, gene name, description (can be anything, unless it is a control gene, in which case it should be labeled CN-control)"
  all_genes:
-  type:
-      - string
-      - File
+  type: File
   doc: "Bed file of all genes. Columns: chrom, start, stop, gene name, value (arbitrary), strand (+/-)"
  nsd:
   type: int?

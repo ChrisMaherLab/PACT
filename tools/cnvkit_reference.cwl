@@ -50,9 +50,7 @@ requirements:
 
 inputs:
  reference:
-  type:
-   - string
-   - File
+  type: File
   inputBinding:
    position: 3
  target_cnn:

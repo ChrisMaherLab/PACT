@@ -34,9 +34,7 @@ inputs:
   inputBinding:
    position: 2
  target_genes:
-  type:
-      - string
-      - File
+  type: File
   inputBinding:
    position: 3
  nsd:

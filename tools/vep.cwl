@@ -29,9 +29,7 @@ inputs:
             prefix: "-i"
             position: 1
     cache_dir:
-        type:
-            - string
-            - Directory
+        type: Directory
         inputBinding:
             prefix: "--dir"
             position: 4
@@ -57,10 +55,7 @@ inputs:
             separate: false
             position: 6
     reference:
-        type:
-            - "null"
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             prefix: "--fasta" 

@@ -18,8 +18,7 @@ inputs:
         type: string?
         default: "merged"
     sequence_dictionary:
-        type:
-            - string
+        type: 
             - File
             - 'null'
         inputBinding:

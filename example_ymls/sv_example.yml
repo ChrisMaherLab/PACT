@@ -1,6 +1,8 @@
 # For use with pipelines/sv_pipeline.cwl
 # Reference should have .dict and .fai files in same directory
-reference: /path/to/hg19.fa
+reference:
+ class: File
+ path: /path/to/hg19.fa
 ref_genome: hg19
 # snpEff database. These can be downloaded using java -jar snpEff.jar download <database>.
 # Should correspond to reference genome
@@ -9,14 +11,14 @@ snpEff_data:
  path: /path/to/snpEff/data/hg19
 # Paths to cfDNA samples
 sample_bams:
- - /path/to/PACT/example_data/example.sample.bam
+ - {class: File, path: /path/to/PACT/example_data/example.sample.bam}
 # Paths to matched control samples (ex: plasma depleted whole blood)
 # Should be in same order as sample_bams
 matched_control_bams:
- - /path/to/PACT/example_data/example.matchedControl.bam
+ - {class: File, path: /path/to/PACT/example_data/example.matchedControl.bam}
 # Paths to bams that make up the panel of normals.
 panel_of_normal_bams:
- - /path/to/PACT/example_data/example.healthy.bam
+ - {class: File, path: /path/to/PACT/example_data/example.healthy.bam}
 # Standard bed file of targeted regions during sequencing
 target_regions:
  class: File

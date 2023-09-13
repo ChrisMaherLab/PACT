@@ -1,30 +1,34 @@
 # For use with snv_indel_pipeline.cwl
 # Reference should have .dict and .fai files in same directory
-reference: /path/to/hg19.fa
+reference:
+ class: File
+ path: /path/to/hg19.fa
 # Standard bed file of targeted regions during sequencing
 target_regions:
  class: File
  path: /path/to/targets.bed
 # Paths to cfDNA samples
 sample_bams:
- - /path/to/patient1_cfDNA_sample.bam
- - /path/to/patient2_cfDNA_sample.bam
+ - {class: File, path: /path/to/patient1_cfDNA_sample.bam}
+ - {class: File, path: /path/to/patient2_cfDNA_sample.bam}
 # Paths to matched control samples (ex: plasma depleted whole blood)
 # Should be in same order as sample bams
 matched_control_bams:
- - /path/to/patient1_matched_control.bam
- - /path/to/patient2_matched_control.bam
+ - {class: File, path: /path/to/patient1_matched_control.bam}
+ - {class: File, path: /path/to/patient2_matched_control.bam}
 # Paths to bams that make up the panel of normals
 panel_of_normal_bams:
- - /path/to/healthy1_sample.bam
- - /path/to/healthy2_sample.bam
- - /path/to/healthy3_sample.bam
+ - {class: File, path: /path/to/healthy1_sample.bam}
+ - {class: File, path: /path/to/healthy2_sample.bam}
+ - {class: File, path: /path/to/healthy3_sample.bam}
 # VCF of whitelisted SNV variants
 whitelist_vcf:
  class: File
  path: /path/to/whitelist.sort.vcf.gz
 # A local copy of a downloaded VEP cache is required for annotation
 # This can be passed as a "class: Directory" or simply as a string (recommended if saved locally)
-vep_cache_dir: /path/to/vep_cache
+vep_cache_dir: 
+ class: Directory
+ path: /path/to/vep_cache
 vep_ensembl_assembly: GRCh37
 vep_ensembl_version: 100

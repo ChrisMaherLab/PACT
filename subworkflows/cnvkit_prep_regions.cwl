@@ -10,18 +10,12 @@ requirements:
 
 inputs:
  reference:
-  type:
-      - string
-      - File
-#  secondaryFiles: [.fai, ^.dict]
+  type: File
+  secondaryFiles: [.fai]
  ref_flat:
-  type:
-      - string
-      - File
+  type: File
  capture_targets:
-  type:
-      - string
-      - File
+  type: File
 
 outputs:
  targets:

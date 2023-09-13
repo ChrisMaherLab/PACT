@@ -10,26 +10,28 @@ requirements:
         ramMin: 4000
     DockerRequirement:
       dockerPull: "jbwebster/snv_pipeline_docker"
+
 arguments:
     [ { valueFrom: $(inputs.cpu_reserved), position: 1 },
       { valueFrom: $(runtime.outdir), position: 2 }]
+
 inputs:
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             prefix: '--tumorBam='
             separate: false
             position: 3
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             prefix: '--normalBam='
             separate: false
             position: 4
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             prefix: '--referenceFasta='

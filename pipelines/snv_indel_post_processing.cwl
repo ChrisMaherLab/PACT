@@ -17,16 +17,17 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     sample_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     matched_control_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     panel_of_normal_bams:
-        type: string[]
+        type: File[]
+        secondaryFiles: [.bai]
     roi_intervals: 
         type: File
         doc: "roi_intervals is a list of regions (in interval_list format) within which to call somatic variants"
@@ -70,9 +71,7 @@ inputs:
         default: false
         doc: "Determines whether variants found only via genotyping of whitelist sites will be filtered (as WHITELIST_ONLY) or passed through as variant calls"
     vep_cache_dir:
-        type:
-            - string
-            - Directory
+        type: Directory
     vep_ensembl_assembly:
         type: string
         doc: "genome assembly to use in vep. Examples: GRCh38 or GRCm38"

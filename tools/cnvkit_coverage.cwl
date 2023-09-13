@@ -15,13 +15,12 @@ requirements:
 
 inputs:
     bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: 1
     bed:
-        type:
-            - string
-            - File
+        type: File
         inputBinding:
             position: 2
     istarget:
@@ -30,7 +29,7 @@ inputs:
 arguments:
  - valueFrom: |
     ${
-      var x = String(inputs.bam).split('/').slice(-1)[0].split('.')[0]
+      var x = String(inputs.bam.nameroot)
       var suffix = "";
       if (inputs.istarget) {
         suffix = ".targetcoverage.cnn";

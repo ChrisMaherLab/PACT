@@ -137,14 +137,13 @@ inputs:
         inputBinding:
             position: -7
     reference_fasta:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             position: -6
     bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: -5
     prefix:

@@ -23,13 +23,9 @@ inputs:
  genome:
   type: string
  target_genes:
-  type:
-      - string
-      - File
+  type: File
  all_genes:
-  type:
-      - string
-      - File
+  type: File
 
 outputs:
  segmented_beds:

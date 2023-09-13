@@ -41,18 +41,18 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             position: 1
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: 2
     bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: 3
     whitelist_vcf:

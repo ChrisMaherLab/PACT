@@ -25,9 +25,7 @@ requirements:
 
 inputs:
  all_genes:
-  type:
-      - string
-      - File
+  type: File
   inputBinding:
    position: 1
  segmented_bed:

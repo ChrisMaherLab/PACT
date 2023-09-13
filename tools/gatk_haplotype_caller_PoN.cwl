@@ -12,20 +12,16 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             position: 1
             prefix: "-R"
     bams:
-        type:
-            type: array
-            items: string
-            inputBinding:
-                prefix: "-I"
+        type: File[]
+        secondaryFiles: [.bai]
         inputBinding:
+            prefix: "-I"
             position: 2
     vcf:
         type: File

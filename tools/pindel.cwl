@@ -38,11 +38,13 @@ requirements:
 
 inputs:
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: 1
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: 2
     insert_size:
@@ -59,9 +61,7 @@ inputs:
         inputBinding:
             position: 5
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             prefix: "-f"

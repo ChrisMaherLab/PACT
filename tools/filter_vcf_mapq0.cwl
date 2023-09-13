@@ -20,13 +20,12 @@ inputs:
         inputBinding:
             position: 1
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: 2
     reference: 
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             position: 3

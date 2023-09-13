@@ -17,27 +17,26 @@ requirements:
 
 inputs:
  ref:
-  type: 
-      - string
-      - File
+  type: File
   secondaryFiles: [.fai]
   inputBinding:
    prefix: -g
    position: 1
   doc: "Reference genome .fa"
  sample_bam:
-  type: string
+  type: File
+  secondaryFiles: [.bai]
   inputBinding:
    position: 3
  normal_bam:
-  type: string
+  type: File
+  secondaryFiles: [.bai]
   inputBinding:
    position: 4
-  secondaryFiles: [.bai]
 
 arguments:
  - prefix: -o
-   valueFrom: $(runtime.outdir)/$(inputs.sample_bam.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).bcf
+   valueFrom: $(runtime.outdir)/$(inputs.sample_bam.nameroot).bcf
    position: 2
 
 outputs:
@@ -45,6 +44,6 @@ outputs:
   type: File
   secondaryFiles: .csi
   outputBinding:
-   glob: $(inputs.sample_bam.split('/').slice(-1)[0].split('.').slice(0,-1).join('.')).bcf
+   glob: $(inputs.sample_bam.nameroot).bcf
 
 

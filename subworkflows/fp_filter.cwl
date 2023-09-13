@@ -9,21 +9,20 @@ requirements:
 
 inputs:
     bam:
-        string
+        type: File
+        secondaryFiles: [.bai]
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     vcf:
         type: File
         secondaryFiles: [.tbi]
     variant_caller:
-        string
-    sample_name:
-        string?
-    min_var_freq:
-        float?
+        type: string
+    sample_name: 
+        type: string?
+    min_var_freq: 
+        type: float?
 
 outputs:
     unfiltered_vcf:

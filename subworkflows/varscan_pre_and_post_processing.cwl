@@ -12,14 +12,14 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     interval_list:
         type: File
     strand_filter:

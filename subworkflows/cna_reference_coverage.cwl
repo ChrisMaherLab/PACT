@@ -10,15 +10,14 @@ requirements:
 
 inputs:
  panel_of_normal_bams:
-  type: string[]
+  type: File[]
+  secondaryFiles: [.bai]
  targets:
   type: File
  anti_targets:
   type: File
  reference:
-  type:
-      - string
-      - File
+  type: File
 
 outputs:
   reference_coverage:

@@ -10,13 +10,13 @@ requirements:
       tmpdirMin: 25000
     - class: DockerRequirement
       dockerPull: "jbwebster/snv_pipeline_docker"
+
 arguments:
     ["-O", { valueFrom: $(runtime.outdir)/$(inputs.output_vcf_basename).vcf.gz }]
+
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
         inputBinding:
             prefix: "-R"

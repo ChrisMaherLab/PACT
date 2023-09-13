@@ -18,19 +18,19 @@ baseCommand: ["/usr/bin/python", "/usr/bin/manta/bin/configManta.py"]
 
 inputs:
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: -2
             prefix: "--normalBam"
     sample_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: -3
             prefix: "--tumorBam"
     ref:
-        type: 
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai]
         inputBinding:
             position: -4
