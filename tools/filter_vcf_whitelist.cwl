@@ -112,11 +112,13 @@ inputs:
         inputBinding:
             position: -4
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: -3
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
         inputBinding:
             position: -2
     filter_whitelist_variants:

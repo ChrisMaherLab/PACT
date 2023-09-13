@@ -13,9 +13,8 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
+        secondaryFiles: [.fai]
         inputBinding:
             position: 1
             prefix: "-R"

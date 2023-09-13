@@ -18,20 +18,20 @@ requirements:
 
 inputs:
  reference:
-  type: 
-      - string
-      - File
+  type: File
   secondaryFiles: [.fai, ^.dict]
-  doc: "Absolute path to reference.fa. Should have reference.dict and .fai files in the same directory"
+  doc: "reference.fa. Should have reference.dict and .fai files in the same directory"
  sample_bams:
-  type: string[]
-  doc: "Array of absolute paths to bam files. Contains cfDNA/plasma samples. Should have .bai files in same directory"
+  type: File[]
+  secondaryFiles: [.bai]
+  doc: "Contains cfDNA/plasma samples. Should have .bai files in same directory"
  matched_control_bams:
-  type: string[]
-  doc: "Array of absolute paths to bam files. Should be in the same order as sample_bams (ie the nth sample in each array are matches). Should have .bai files in same directory"
+  type: File[]
+  secondaryFiles: [.bai]
+  doc: "Should be in the same order as sample_bams (ie the nth sample in each array are matches). Should have .bai files in same directory"
  panel_of_normal_bams:
-  type: string[]
-  doc: "Array of absolute paths to bams used as an unmatched, panel of normals.  Should have accompanying .bai files"
+  type: File[]
+  doc: "unmatched, panel of normals.  Should have accompanying .bai files"
  target_regions:
   type: File
   doc: "Bed file of target regions"
@@ -80,9 +80,7 @@ inputs:
   default: false
   doc: "Determines whether variants found only via genotyping of whitelist sites will be filtered (as WHITELIST_ONLY) or passed through as variant calls."
  vep_cache_dir:
-  type:
-         - string
-         - Directory
+  type: Directory
   doc: "Cache directory downloaded for use with Vep annotation tool"
  vep_ensembl_assembly:
   type: string

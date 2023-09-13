@@ -12,12 +12,11 @@ inputs:
     vcf:
         type: File
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     panel_of_normal_bams:
-        type: string[]
+        type: File[]
+        secondaryFiles: [.bai]
     roi_intervals:
         type: File
 

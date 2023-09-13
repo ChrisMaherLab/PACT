@@ -19,15 +19,17 @@ inputs:
    position: 2
   doc: "VCF file of SVs to genotype"
  bam_one:
-  type: string
+  type: File
+  secondaryFiles: [.bai]
  bam_two:
-  type: string
+  type: File
+  secondaryFiles: [.bai]
 
 arguments:
  - valueFrom: |
     ${
-      var x = inputs.bam_one;
-      x = x + "," + inputs.bam_two;
+      var x = inputs.bam_one.path;
+      x = x + "," + inputs.bam_two.path;
       return(x)
     }
    position: 3

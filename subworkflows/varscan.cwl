@@ -6,14 +6,14 @@ label: "varscan somatic workflow"
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     normal_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     roi_bed:
         type: File?
     strand_filter:

@@ -19,7 +19,8 @@ inputs:
    position: 2
   doc: "VCF file of SVs to genotype"
  bam:
-  type: string
+  type: File
+  secondaryFiles: [.bai]
   inputBinding:
    position: 3
   doc: "Bam to use for genotyping"

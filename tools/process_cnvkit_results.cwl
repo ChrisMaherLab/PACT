@@ -48,9 +48,7 @@ inputs:
   inputBinding:
    position: 7
  target_genes:
-  type:
-      - string
-      - File
+  type: File
   inputBinding:
    position: 8
 

@@ -11,15 +11,12 @@ requirements:
 
 inputs:
  bams:
-  type: string[]
+  type: File[]
+  secondaryFiles: [.bai]
  targets: 
-   type: 
-       - string
-       - File
+   type:  File
  anti_targets:
-   type:
-       - string
-       - File
+   type: File
  reference_coverage:
    type: File
 

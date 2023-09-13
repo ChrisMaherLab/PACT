@@ -18,10 +18,8 @@ arguments:
 
 inputs:
  reference:
-  type:
-      - string
-      - File
-#  secondaryFiles: [.fai, ^.dict]
+  type: File
+  secondaryFiles: [.fai, ^.dict]
   inputBinding:
       position: 2
 

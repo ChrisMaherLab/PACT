@@ -26,7 +26,7 @@ After installation and configuration of Cromwell (if that is your preferred inte
 
 For additional information about writing, reading and using CWL files, see the [official CWL user guide](https://www.commonwl.org/user_guide/).
 
-To help ensure proper installation and setup, example files (sample bam, matched control bam, healthy bam, targeted regions bed, blacklist bed, low complexity regions bed) are located in the `example_data` folder. In order to run these files with the SV pipeline, the hg19 reference genome and annotation is also needed (see instructions at the bottom of this page for installation). If run correctly, the output from the SV pipeline should be consistent with the output file at `example_data/example.out.bedpe` which describes a single translocation between chromosomes 10 and 13. The `example_ymls/sv_example.yml` can be used to run this analysis, but filepaths in the yml will need to be updated to reflect your PACT installation and the locations of your genome reference and annotation data.
+To help ensure proper installation and setup, example files (sample bam, matched control bam, healthy bam, targeted regions bed, blacklist bed, low complexity regions bed) are located in the `example_data` folder. Note that due to file size, `git lfs` may be required for download. In order to run these files with the SV pipeline, the hg19 reference genome and annotation is also needed (see instructions at the bottom of this page for installation). If run correctly, the output from the SV pipeline should be consistent with the output file at `example_data/example.out.bedpe` which describes a single translocation between chromosomes 10 and 13. The `example_ymls/sv_example.yml` can be used to run this analysis, but filepaths in the yml will need to be updated to reflect your PACT installation and the locations of your genome reference and annotation data.
 
 ## Structure
 
@@ -50,7 +50,7 @@ Common/required inputs are described below, including how to label the informati
   
   | Input label | Applicable workflow(s) | Description |
   | --- | --- | --- |
-  | reference | All workflows (required) | Absolute path to a reference genome fasta file. A <reference>.fai index file made using `samtools faidx` and a <reference>.dict file made using Picard's `CreateSequenceDictionary` command should be present in the directory. |
+  | reference | All workflows (required) | Reference genome fasta file. A <reference>.fai index file made using `samtools faidx` and a <reference>.dict file made using Picard's `CreateSequenceDictionary` command should be present in the directory. |
   | ref_genome | SV and CNA workflows (required) | Name of reference genome used. Should match the name used by any applicable annotation databases (eg. hg19) |
   | ref_flat | CNA workflow (required) | Genome annotation file in refFlat format |
 </details>
@@ -59,8 +59,8 @@ Common/required inputs are described below, including how to label the informati
 
   | Input label | Applicable workflow(s) | Description |
   | --- | --- | --- |
-  | snpEff_data | SV workflow (required) | Absolute path to a snpEff annotation database directory. This can be downloaded using snpEff's download command: `java -jar snpEff.jar download <database>`. |
-  | vep_cache_dir | SNV workflow (required) | Absolute path to vep annotation cache information. See the ensembl website (https://useast.ensembl.org/info/docs/tools/vep/script/vep_cache.html) for information about downloading the cache. |
+  | snpEff_data | SV workflow (required) | snpEff annotation database directory. This can be downloaded using snpEff's download command: `java -jar snpEff.jar download <database>`. |
+  | vep_cache_dir | SNV workflow (required) | vep annotation cache information. See the ensembl website (https://useast.ensembl.org/info/docs/tools/vep/script/vep_cache.html) for information about downloading the cache. |
   | vep_ensembl_assembly | SNV workflow (required) | A string containing the name of the genome assembly associated with the provided vep cache (eg GRCh37) |
   | vep_ensembl_version | SNV workflow (required) | A string containing the version number of the provided cache (eg 106) |
   | all_genes | CNA workflow (required) | Bed file of all annotated genes. First three columns are standard bed format, 4th column has gene name, 5th column has score value (arbitrary number, is not used), 6th column has +/- strand. No headed is expcted. |
@@ -82,9 +82,9 @@ Common/required inputs are described below, including how to label the informati
 
   | Input label | Applicable workflow(s) | Description |
   | --- | --- | --- |
-  | sample_bams | All workflows (required) | An array of paths to bam files that contain reads generated from targeted sequencing of cfDNA. Arrays can be provided in the input .yaml file as described by the (CWL user guide) or as shown in our example input .yamls |
-  | matched_control_bams | All workflows (required) | An array of paths to matched control bam files. The order of the array should be the same order as the sample_bams array (eg the `nth` entry in both arrays should correspond to the `nth` patient) |
-  | panel_of_normal_bams | All workflows (required) | An array of paths to bam files containing reads from healthy, normal samples sequenced using the same targeted panel used on the samples/matched controls. If such a panel is unavailable, this panel can instead be composed of any available matched control samples. |
+  | sample_bams | All workflows (required) | An array of bam files that contain reads generated from targeted sequencing of cfDNA. Arrays can be provided in the input .yaml file as described by the (CWL user guide) or as shown in our example input .yamls |
+  | matched_control_bams | All workflows (required) | An array of matched control bam files. The order of the array should be the same order as the sample_bams array (eg the `nth` entry in both arrays should correspond to the `nth` patient) |
+  | panel_of_normal_bams | All workflows (required) | An array of bam files containing reads from healthy, normal samples sequenced using the same targeted panel used on the samples/matched controls. If such a panel is unavailable, this panel can instead be composed of any available matched control samples. |
 </details>
   
   

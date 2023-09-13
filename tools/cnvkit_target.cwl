@@ -15,16 +15,12 @@ requirements:
 
 inputs:
  capture_targets:
-  type:
-   - string
-   - File
+  type: File
   inputBinding:
    position: 1
 
  ref_flat:
-  type:
-   - string
-   - File
+  type: File
   inputBinding:
    position: 2
    prefix: "--annotate" 

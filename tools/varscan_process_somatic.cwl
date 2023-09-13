@@ -8,6 +8,7 @@ arguments: [
     { valueFrom: " && ", shellQuote: false },
     "java", "-jar", "/usr/local/bin/Varscan.jar", "processSomatic"
 ]
+
 requirements:
     - class: ShellCommandRequirement
     - class: DockerRequirement
@@ -15,6 +16,7 @@ requirements:
     - class: ResourceRequirement
       ramMin: 4000
     - class: StepInputExpressionRequirement
+
 inputs:
     variants:
         type: File

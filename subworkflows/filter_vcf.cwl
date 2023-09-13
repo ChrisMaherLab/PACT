@@ -19,13 +19,12 @@ inputs:
     gnomad_field_name:
         type: string
     tumor_bam:
-        type: string
+        type: File
+        secondaryFiles: [.bai]
     do_cle_vcf_filter:
         type: boolean
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     filter_minimum_depth:
         type: int

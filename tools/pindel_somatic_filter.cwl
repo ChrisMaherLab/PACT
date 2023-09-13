@@ -17,9 +17,7 @@ requirements:
 
 inputs:
     reference:
-        type:
-            - string
-            - File
+        type: File
         secondaryFiles: [.fai, ^.dict]
     pindel_output_summary:
         type: File

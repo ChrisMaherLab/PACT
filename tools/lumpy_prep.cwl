@@ -38,11 +38,13 @@ requirements:
 
 inputs:
  sample_bam:
-  type: string
+  type: File
+  secondaryFiles: [.bai]
   inputBinding:
    position: 1
  normal_bam:
-  type: string
+  type: File
+  secondaryFiles: [.bai]
   inputBinding:
    position: 2
 

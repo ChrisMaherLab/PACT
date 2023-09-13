@@ -15,9 +15,7 @@ requirements:
 
 inputs:
  capture_targets:
-  type:
-   - string
-   - File
+  type: File
   inputBinding:
    position: 1
 

@@ -34,11 +34,14 @@ inputs:
   type: boolean?
   default: true
  sample_bams:
-   type: string[]
+   type: File[]
+   secondaryFiles: [.bai]
  matched_control_bams:
-   type: string[]
+   type: File[]
+   secondaryFiles: [.bai]
  panel_of_normal_bams:
-   type: string[]
+   type: File[]
+   secondaryFiles: [.bai]
  target_regions:
   type: File
  neither_region:

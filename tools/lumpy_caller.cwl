@@ -16,9 +16,11 @@ requirements:
 
 inputs:
   sample_bam:
-   type: string
+   type: File
+   secondaryFiles: [".bai"]
   normal_bam:
-   type: string
+   type: File
+   secondaryFiles: [".bai"]
   splitters:
    type: File[]
    secondaryFiles: [".bai"]
@@ -42,8 +44,8 @@ inputs:
 arguments:
  - valueFrom: |
     ${
-      var x = inputs.sample_bam;
-      x = x + "," + inputs.normal_bam
+      var x = inputs.sample_bam.path;
+      x = x + "," + inputs.normal_bam.path;
       return(x)
     }
    position: 2
@@ -53,8 +55,8 @@ arguments:
  - prefix: -o
    valueFrom: |
     ${
-      var x = String(runtime.outdir) + "/" + String(inputs.sample_bam).split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ".vcf";
-      return(x)
+        var x = String(runtime.outdir) + "/" + inputs.sample_bam.nameroot + ".vcf";
+        return(x);
     }
    position: 5
      
