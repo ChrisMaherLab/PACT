@@ -19,7 +19,7 @@ requirements:
 inputs:
  reference:
   type: File
-  secondaryFiles: [.fai, ^.dict]
+  secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
   doc: "reference.fa. Should have reference.dict and .fai files in the same directory"
  sample_bams:
   type: File[]

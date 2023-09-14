@@ -13,7 +13,7 @@ inputs:
         type: File
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
     panel_of_normal_bams:
         type: File[]
         secondaryFiles: [.bai]

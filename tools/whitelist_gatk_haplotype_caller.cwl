@@ -42,7 +42,7 @@ requirements:
 inputs:
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
         inputBinding:
             position: 1
     normal_bam:

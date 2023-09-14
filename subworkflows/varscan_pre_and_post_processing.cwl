@@ -13,7 +13,7 @@ requirements:
 inputs:
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
     tumor_bam:
         type: File
         secondaryFiles: [.bai]

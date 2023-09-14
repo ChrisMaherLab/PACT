@@ -34,7 +34,7 @@ arguments:
 inputs:
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
         inputBinding:
             position: 2
     tumor_bam:

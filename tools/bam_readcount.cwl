@@ -138,7 +138,7 @@ inputs:
             position: -7
     reference_fasta:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
         inputBinding:
             position: -6
     bam:
