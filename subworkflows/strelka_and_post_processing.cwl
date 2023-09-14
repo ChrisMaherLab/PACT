@@ -18,7 +18,7 @@ inputs:
         secondaryFiles: [.bai]
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
     interval_list:
         type: File
     exome_mode:

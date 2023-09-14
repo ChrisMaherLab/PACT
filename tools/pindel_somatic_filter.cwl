@@ -18,7 +18,7 @@ requirements:
 inputs:
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
     pindel_output_summary:
         type: File
     min_var_freq:

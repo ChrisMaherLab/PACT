@@ -62,7 +62,7 @@ inputs:
             position: 5
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
         inputBinding:
             prefix: "-f"
             position: 6

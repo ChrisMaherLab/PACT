@@ -56,7 +56,7 @@ inputs:
             position: 6
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
         inputBinding:
             prefix: "--fasta" 
             position: 7

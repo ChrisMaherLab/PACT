@@ -25,7 +25,7 @@ inputs:
         type: boolean
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
     filter_minimum_depth:
         type: int
     tumor_sample_name:

@@ -72,7 +72,7 @@ inputs:
             position: 2
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
         inputBinding:
             position: 3
     strand_filter:

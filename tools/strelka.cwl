@@ -32,7 +32,7 @@ inputs:
             position: 4
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
         inputBinding:
             prefix: '--referenceFasta='
             separate: false

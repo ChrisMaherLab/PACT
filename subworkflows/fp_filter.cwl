@@ -13,7 +13,7 @@ inputs:
         secondaryFiles: [.bai]
     reference:
         type: File
-        secondaryFiles: [.fai, ^.dict]
+        secondaryFiles: [.fai, ^.dict, .amb, .ann, .bwt, .pac, .sa]
     vcf:
         type: File
         secondaryFiles: [.tbi]
